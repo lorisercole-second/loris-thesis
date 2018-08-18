@@ -1,5 +1,6 @@
 \documentclass[krantz1,a4paper,11pt,ChapterTOCs,twoside,openright]{krantz}
 %\usepackage{fixltx2e,fix-cm}   
+\usepackage{natbib} 
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -49,7 +50,25 @@
 \def\rDelta{{\mathrm\Delta}}
 \def\rLambda{{\mathrm\Lambda}}
 \def\rOmega{{\mathrm\Omega}}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% EDITOR COMMANDS
+\usepackage[usenames,dvipsnames]{color}
+\newcommand{\editor}[2]{%
+  \expandafter\newcommand\csname #1note\endcsname[1]{%
+    \textcolor{#2}{(\textbf{#1:} ##1)}}%
+  \expandafter\newcommand\csname #1\endcsname[1]{%
+    \textcolor{#2}{##1}}%
+  \expandafter\newcommand\csname #1cancel\endcsname[1]{%
+    \textcolor{#2}{\sout{##1}}}%
+  \expandafter\newcommand\csname #1change\endcsname[2]{%
+    \textcolor{#2}{\sout{##1} ##2}}%
+  \newenvironment{#1text}{\color{#2}}{\color{black}}
+}
+\definecolor{blue}{rgb}{0,0,0.8}
+\definecolor{tangerine}{rgb}{0.944,0.522,0}
+\definecolor{verde}{rgb}{0,0.6,0}
+\editor{LE}{blue}
+\editor{SB}{tangerine}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,11 +76,10 @@
 
 \frontmatter
 
-\title{ PROVAAAAA Ruantitative Approaches to Evaluating Climate Change Impacts... 
-in Socio-Environmental Systems, Public Health, and Insurance\\
-{\Large(Applied Environmental Statistics Series)}
+\title{THESIS\\
+%{\Large(Sottotitolo)}
 }
-\author{Yours Truly}
+\author{Loris Ercole}
 
 \maketitle
 
@@ -81,9 +99,9 @@ in Socio-Environmental Systems, Public Health, and Insurance\\
 %\part{Ecosystem-base Impacts of Climate Change}
 
 \include{chapters/chapter1/ch1}
-\include{chapters/chapter1/ch1}
+\include{chapters/chapter2/ch2}
 
-\include{chapters/chapterex/chex}
+%\include{chapters/chapterex/chex}
 
 
 %\part{Climate Risks in Public Health and Epidemiology}
@@ -91,7 +109,8 @@ in Socio-Environmental Systems, Public Health, and Insurance\\
 
 
 \bibliographystyle{plain}
-\bibliography{bibtex_example}
+%\bibliography{bibtex_example}
+\bibliography{bibliography}
 
 \printindex
 
