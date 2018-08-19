@@ -1,4 +1,4 @@
-\chapter{Green-Kubo theory of heat transport}
+\chapter{Green-Kubo theory of heat transport}  \label{ch:green-kubo}
 
 Our microscopic understanding of heat and mass transport in extended systems is rooted in the Green-Kubo (GK) theory of linear response,\cite{Green1954,Kubo1957a} as applied to the Navier-Stokes equations for the densities of the conserved extensive variables,\cite{Kadanoff1963,Forster1975} which include energy, momentum, and the particle numbers for each molecular species. 
 \begin{LEtext}
@@ -6,6 +6,7 @@ The fluctuation-dissipation theorem establishes a relation between the (non-equi
 
 In this chapter we briefly walk through the theory that allows the derivation of the Green-Kubo equations for transport coefficients, starting from the definition of the hydrodynamic variables of a system, and the use of the linear response theory to connect equilibrium properties to non-equilibrium ones. We then specialize to the case of heat transport in solids and one component fluids, and the particular case of multi-component fluids, and we derivee the expression of the energy flux for systems described by classical force fields.
 \end{LEtext}
+
 
 \section{Hydrodynamic variables} \label{sec:hydrodyn_var}
 The macroscopic processes occurring in condensed matter are often described in terms of \emph{extensive variables}. By definition, the value that such a variable assumes for a system is the sum of the values it has for each of its subsystems. This property allows one to express an extensive variable, $A$, as the integral of a suitably defined density, $a(\mathbf{r})$, as:
@@ -46,7 +47,7 @@ By inserting this relation into Eq.~\eqref{eq:constitutive}, one gets:
 \mathbf{J}^i=\sum_j L^{ij} \mathbf{F}^j, \label{eq:onsager}
 \end{equation}
 where $L^{ij}=\sum_k\lambda^{ik}\chi^{kj}$. Eq.~\eqref{eq:onsager} expresses the linear relation between fluxes, the $\mathbf{J}$'s, and thermodynamic affinities, the $\mathbf{F}$'s, for which Onsager derived his celebrated reciprocity relations ($L^{ji}=L^{ij}$) from microscopic reversibility \citep{Onsager1931a,Onsager1931b,Casimir1945}. Note that, according to our definition, both the $\mathbf{J}$'s and the $\mathbf{F}$'s in Eq.~\eqref{eq:onsager} do not depend on the size of the system.
-\citep{Carbogno:2017gc}
+
 
 \section{Linear-response theory}
 In order to evaluate the $L^{ij}$ phenomenological coefficients appearing in Eq.~\eqref{eq:onsager}, we consider a classical system of $N$ interacting atoms described by the Hamiltonian
@@ -181,10 +182,18 @@ By inserting Eq.~\eqref{eq:epsilon-classical} into Eq.~\eqref{eq:JE}, the energy
         \left( \mathbf{F}_n \cdot \mathbf{V}_n  + \sum_m \mathbf{V}_m \cdot {\frac{\partial v_n}{\partial \mathbf{R}_m}} \right) \right] \nonumber \\
        &= \frac{1}{\rOmega} \left[ \sum_n \mathbf{V}_n e_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-classical}
 \end{align}
-where $\mathbf{F}_{n m} = - \frac{\partial v_m}{\partial \mathbf{R}_n}$ is the contribution of the $m$-th atom to the force acting on the $n$-th atom, $\sum_m \mathbf{F}_{n m} = \mathbf{F}_{n}$, and $\mathbf{F}_{n m} = -\mathbf{F}_{m n}$. When the interaction amongst atoms can be expressed in terms of two-body potentials, one has: $v_m=\frac{1}{2}\sum_n v(\mathbf{R}_n- \mathbf{R}_m)$ and $\mathbf{F}_{n m} = - \frac{1}{2} \nabla_{\mathbf{R}_n} v(\mathbf{R}_n- \mathbf{R}_m)$. Here we implicitly assumed that the interaction energy is equally partitioned between atoms $m$ and $n$. In Sec.~\ref{sec:gauge-invariance} we shall see this is not the only possible choice, with far-reaching consequences on the theory of heat transport.
+where $\mathbf{F}_{n m} = - \frac{\partial v_m}{\partial \mathbf{R}_n}$ is the contribution of the $m$-th atom to the force acting on the $n$-th atom, $\sum_m \mathbf{F}_{n m} = \mathbf{F}_{n}$, and $\mathbf{F}_{n m} = -\mathbf{F}_{m n}$. 
+
+\paragraph{Two-body poentials}
+When the interaction among atoms can be expressed in terms of two-body potentials, one has: $v_m=\frac{1}{2}\sum_n v(\mathbf{R}_n- \mathbf{R}_m)$ and $\mathbf{F}_{n m} = - \frac{1}{2} \nabla_{\mathbf{R}_n} v(\mathbf{R}_n- \mathbf{R}_m)$. Here we implicitly assumed that the interaction energy is equally partitioned between atoms $m$ and $n$. In Sec.~\ref{sec:gauge-invariance} we shall see this is not the only possible choice, with far-reaching consequences on the theory of heat transport.
 
 The first term on the right-hand side of Eq.~\eqref{eq:J-classical} is often called \emph{convective} and the second \emph{virial}. We feel that the wording ``convective'' is somewhat misleading in this context, as the convective current, as well as its contribution to heat conductivity, may not vanish even in the absence of convection.
 
+\begin{LEtext}
+**In the literature the nomenclature is confusing (\emph{inserisci riferimenti ad articoli...donadio, ciccotti..})
+\paragraph{Many-body potentials}
+In the case of a many-body potential interaction, ... (\emph{riferimento breve a formula Donadio, importante especially in systems with lower dimensions, e.g. graphene, silicon 2D, con Tersoff o SW})
+\end{LEtext}
 
 \subsection{Multi-component fluids} \label{sec:multi-component}
 In a multi-component fluid there is one conserved quantity (the particle number) per atomic species, plus the total energy and the three Cartesian components of the total momentum. The momentum densities are mass currents: the mass flux is therefore the total momentum, which vanishes in the center of mass reference frame. The transverse components of the momentum densities are decoupled from the other conserved densities \citep{Foster1975}, while the longitudinal one can be assumed to coincide with the total momentum in the long-wavelength limit. Momentum conservation thus constrains the number of fluxes interacting with the energy flux in Eq.~\eqref{eq:onsager} to $Q-1$, $Q$ being the number of atomic species, so that the resulting dimension of the matrix of Onsager coefficients, $L$, is $Q\times Q$. The heat flux is defined as the non-convective component of the energy flux, \emph{i.e.} the value of the latter in the absence of mass transport, that is to say when all the particle fluxes vanish.\footnote{It is unfortunate, but inevitable due to common usage, that this definition of non-convective flux clashes with a different definition given above while commenting Eq.~\eqref{eq:J-classical}.} By imposing this condition in Eq.~\eqref{eq:onsager}, with $\mathbf J^\smallone \equiv \mathbf{J}^\smallE$, and $\mathbf{J}^{q}$ ($q =2,\dots Q$) being independent particle fluxes, the thermal conductivity, defined as the ratio of the heat flux over the temperature gradient, is given by:
