@@ -2,7 +2,12 @@
 
 Our microscopic understanding of heat and mass transport in extended systems is rooted in the Green-Kubo (GK) theory of linear response,\cite{Green1954,Kubo1957a} as applied to the Navier-Stokes equations for the densities of the conserved extensive variables,\cite{Kadanoff1963,Forster1975} which include energy, momentum, and the particle numbers for each molecular species. 
 \begin{LEtext}
-The fluctuation-dissipation theorem establishes a relation between the (non-equilibrium) transport coefficients and the spontaneous fluctuations of the relevant currents at equilibrium. Transport coefficients are in fact proportional their the autocorrelation times.
+
+This work was initiated by Onsager in the thirties \cite{Onsager1931a,Onsager1931b} and carried on by Green and Kubo in the fifties with the theory of linear response \cite{Green1952,Green1954,Kubo1957a,Kubo1957b}. The theory is built on the concept of adiabatic decoupling of the slow long-wavelength components of the densities of conserved extensive quantities (which include energy, momentum, and particle number), \cite{Kadanoff1963} the so-called \emph{hydrodynamic variables}, from the other atomically fast degrees of freedom. Their work resulted in the celebrated \emph{Green-Kubo equations}, a consequence of the fluctuation-dissipation theorem, that establish a relation between a (non-equilibrium) transport coefficient and the spontaneous fluctuations of the relevant currents at equilibrium. Transport coefficients are in fact proportional their autocorrelation times:
+\begin{equation}
+\kappa\propto\int_{0}^{\infty}\!\langle{J}(t){J}(0)\rangle\, dt, \label{eq:GK}
+\end{equation}
+where the brackets indicate ensemble averages over trajectories, and are accessible to equilibrium MD simulations.
 
 In this chapter we briefly walk through the theory that allows the derivation of the Green-Kubo equations for transport coefficients, starting from the definition of the hydrodynamic variables of a system, and the use of the linear response theory to connect equilibrium properties to non-equilibrium ones. We then specialize to the case of heat transport in solids and one component fluids, and the particular case of multi-component fluids, and we derivee the expression of the energy flux for systems described by classical force fields.
 \end{LEtext}
@@ -176,24 +181,74 @@ When atoms interact through a classical force field, $V(\mathbf{R}_1,\mathbf{R}_
 \end{align}
 where the $v_n$'s are a set of atomic potential energies whose sum is the total potential energy of the system, $\sum_n v_n=V$, with a short-range dependence on the coordinates of the other atoms. In the presence of long-range forces, this condition is effectively guaranteed by local charge neutrality, which we will assume throughout.
 By inserting Eq.~\eqref{eq:epsilon-classical} into Eq.~\eqref{eq:JE}, the energy flux can be cast into the form:
-\begin{align}
-  \mathbf{J}^\smallE(\rGamma) &=
-  \frac{1}{\rOmega} \left[ \sum_n \mathbf{V}_n e_n + \sum_n \mathbf{R}_n
-        \left( \mathbf{F}_n \cdot \mathbf{V}_n  + \sum_m \mathbf{V}_m \cdot {\frac{\partial v_n}{\partial \mathbf{R}_m}} \right) \right] \nonumber \\
-       &= \frac{1}{\rOmega} \left[ \sum_n \mathbf{V}_n e_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-classical}
-\end{align}
-where $\mathbf{F}_{n m} = - \frac{\partial v_m}{\partial \mathbf{R}_n}$ is the contribution of the $m$-th atom to the force acting on the $n$-th atom, $\sum_m \mathbf{F}_{n m} = \mathbf{F}_{n}$, and $\mathbf{F}_{n m} = -\mathbf{F}_{m n}$. 
-
-\paragraph{Two-body poentials}
-When the interaction among atoms can be expressed in terms of two-body potentials, one has: $v_m=\frac{1}{2}\sum_n v(\mathbf{R}_n- \mathbf{R}_m)$ and $\mathbf{F}_{n m} = - \frac{1}{2} \nabla_{\mathbf{R}_n} v(\mathbf{R}_n- \mathbf{R}_m)$. Here we implicitly assumed that the interaction energy is equally partitioned between atoms $m$ and $n$. In Sec.~\ref{sec:gauge-invariance} we shall see this is not the only possible choice, with far-reaching consequences on the theory of heat transport.
-
-The first term on the right-hand side of Eq.~\eqref{eq:J-classical} is often called \emph{convective} and the second \emph{virial}. We feel that the wording ``convective'' is somewhat misleading in this context, as the convective current, as well as its contribution to heat conductivity, may not vanish even in the absence of convection.
+\begin{equation}
+  \mathbf{J}^\smallE(\rGamma) =
+        \frac{1}{\rOmega} \left[ \sum_n \mathbf{V}_n e_n + \sum_n \mathbf{R}_n
+        \left( \mathbf{F}_n \cdot \mathbf{V}_n  + \sum_m \mathbf{V}_m \cdot {\frac{\partial v_n}{\partial \mathbf{R}_m}} \right) \right] \label{eq:J-classical}
+\end{equation}
 
 \begin{LEtext}
-**In the literature the nomenclature is confusing (\emph{inserisci riferimenti ad articoli...donadio, ciccotti..})
+\paragraph{Two-body poentials}
+When the interaction among atoms can be expressed in terms of two-body potentials, one has: $v_m=\frac{1}{2}\sum_n v(\mathbf{R}_n- \mathbf{R}_m)$ and $\mathbf{F}_{n m} = - \frac{1}{2} \nabla_{\mathbf{R}_n} v(\mathbf{R}_n- \mathbf{R}_m)$, where $\mathbf{F}_{n m} = - \frac{\partial v_m}{\partial \mathbf{R}_n}$ is the contribution of the $m$-th atom to the force acting on the $n$-th atom, $\sum_m \mathbf{F}_{n m} = \mathbf{F}_{n}$, and $\mathbf{F}_{n m} = -\mathbf{F}_{m n}$. 
+Here we implicitly assumed that the interaction energy is equally partitioned between atoms $m$ and $n$. In Sec.~\ref{sec:gauge-invariance} we shall see this is not the only possible choice, with far-reaching consequences on the theory of heat transport.
+The energy flux becomes
+\begin{equation}
+    \mathbf{J}^\smallE(\rGamma) =
+       \frac{1}{\rOmega} \left[ \sum_n \mathbf{V}_n e_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right]. \label{eq:J-classical-2body}
+\end{equation}
+
+The first term on the right-hand side of Eq.~\eqref{eq:J-classical},
+\begin{equation}
+    \mathbf{J}_c = \frac{1}{\rOmega} \sum_n \mathbf{V}_n e_n , \label{eq:J-convective}
+\end{equation}
+is often called \emph{convective} (or \emph{kinetic}) and the second term,
+\begin{equation}
+    \mathbf{J}_v = \frac{1}{\rOmega} \left[ \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-virial}
+\end{equation}
+is often called \emph{virial} (or \emph{potential}).
+\citeauthor{Fan2015} and \citeauthor{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}_c$ ``does not contribute to thermal conductivity'' in solids. 
+We feel that the wording ``convective'' is somewhat misleading in this context, as the convective current, as well as its contribution to heat conductivity, may not vanish even in the absence of convection.
+
+In the literature the nomenclature is often confusing, and this aspect not so well investigated. \citeauthor{Vogelsang1987} (**CHECK AUTHOR**) divide the energy currents in two terms \cite{McQuarrie2000}:
+\begin{equation}
+    \mathbf{J}^\smallE(\rGamma) = \mathbf{J}'_k + \mathbf{J}'_p ,
+\end{equation}
+where $\mathbf{J}'_k$ denotes the \emph{kinetic} part
+\begin{equation}
+    \mathbf{J}'_k = \frac{1}{\rOmega} \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n ,
+\end{equation}
+and $\mathbf{J}'_p$ denotes the \emph{potential} part
+\begin{equation}
+    \mathbf{J}'_p = \frac{1}{\rOmega} \left[ \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right] .
+\end{equation}
+They find that the kinetic term is negligible in solids, where atomic diffusion does not occour.
+
+\citeauthor{Kinaci2012}, instead, use the Einstein formulation and define a \emph{kinetic} term
+\begin{equation}
+    \mathbf{J}''_k = \frac{1}{\rOmega} \left[ \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right],
+\end{equation}
+and a \emph{potential} term
+\begin{equation}
+    \mathbf{J}''_p = \frac{1}{\rOmega} \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n ,
+\end{equation}
+and conclude that in perfect solid systems, where diffusion is highly improbable, $\mathbf{J}''_p$ contribution to thermal conductivity is negligible.
+
+
 \paragraph{Many-body potentials}
-In the case of a many-body potential interaction, ... (\emph{riferimento breve a formula Donadio, importante especially in systems with lower dimensions, e.g. graphene, silicon 2D, con Tersoff o SW})
+In the case of a many-body potential interaction, if the atomic potential energy can be written as a function of the distance vectors $\mathbf{R_nm}=\mathbf{R}_n-\mathbf{R}_m$, as $v_n = v_n(\mathbf{R}_{1n},\mathbf{R}_{2n},\cdots,\mathbf{R}_{Nn})$, the force acting on atom $n$ can be written as: \cite{Fan2015,Hardy2016}
+\begin{align}
+    \mathbf{F}_n &= -\sum_m \frac{\partial v_m}{\partial \mathbf{R}_n} \\
+        &= -\sum_{m\neq n} \frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{pn}} \\
+        &= \sum_{m\neq n} \left(\frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{mn}} \right).
+\end{align}
+For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \citeauthor{Fan2015} obtain the following definition for the virial energy flux:
+\begin{equation}
+    \mathbf{J}_v = \sum_n \sum_{n\neq m} \mathbf{R}_{ij} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \cdot \mathbf{V}_n \right) ,
+\end{equation}
+equivalent to the one obtained by \citet{Hardy1963}, and they show that some other, two-body like, formulations find in the literature give wrong results, especially in low-dimensional systems.
+
 \end{LEtext}
+
 
 \subsection{Multi-component fluids} \label{sec:multi-component}
 In a multi-component fluid there is one conserved quantity (the particle number) per atomic species, plus the total energy and the three Cartesian components of the total momentum. The momentum densities are mass currents: the mass flux is therefore the total momentum, which vanishes in the center of mass reference frame. The transverse components of the momentum densities are decoupled from the other conserved densities \citep{Foster1975}, while the longitudinal one can be assumed to coincide with the total momentum in the long-wavelength limit. Momentum conservation thus constrains the number of fluxes interacting with the energy flux in Eq.~\eqref{eq:onsager} to $Q-1$, $Q$ being the number of atomic species, so that the resulting dimension of the matrix of Onsager coefficients, $L$, is $Q\times Q$. The heat flux is defined as the non-convective component of the energy flux, \emph{i.e.} the value of the latter in the absence of mass transport, that is to say when all the particle fluxes vanish.\footnote{It is unfortunate, but inevitable due to common usage, that this definition of non-convective flux clashes with a different definition given above while commenting Eq.~\eqref{eq:J-classical}.} By imposing this condition in Eq.~\eqref{eq:onsager}, with $\mathbf J^\smallone \equiv \mathbf{J}^\smallE$, and $\mathbf{J}^{q}$ ($q =2,\dots Q$) being independent particle fluxes, the thermal conductivity, defined as the ratio of the heat flux over the temperature gradient, is given by:
