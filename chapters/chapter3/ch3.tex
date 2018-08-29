@@ -4,14 +4,21 @@
 It has long been thought that the inherent indeterminacy of any quantum mechanical expression for the energy density would hinder the evaluation of thermal transport coefficients from equilibrium \emph{ab-initio} molecular dynamics (AIMD), using the Green-Kubo formalism.  
 In classical molecular dynamics this goal is achieved by decomposing the total energy of an extended system into \emph{localized} atomic contributions and by deriving from this decomposition an explicit, and allegedly unique, expression for the energy flux. \cite{Irving1950}
 
-In DFT, as well as in any other quantum mechanical approach, this definition is not possible, and it has therefore long been thought that \emph{the Green-Kubo relation does not serve our purposes} (of computing the thermal conductivity) \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom.}\cite{Stackhouse2010b}
+In DFT, as well as in any other quantum mechanical approach, this definition is not possible, and it has therefore long been thought that ``\emph{the Green-Kubo relation does not serve our purposes} (of computing the thermal conductivity) \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom.}'' \cite{Stackhouse2010b}
 
-In this chapter, we show to confute this prejudice thanks to the existence of a \emph{gauge invariance} principle, that ensures that once an expression for the energy density has been chosen, and an energy flux derived from it, the thermal conductivity resulting from the Green-Kubo formula is well-defined, as any measurable quantity should be. Energy densities and fluxes are indeed ill-defined, in classical no less than in quantum mechanics, however the transport coefficients derived from them do not depend on their definition. (***RIVEDI***)
-We first show the origin of this ill-definiteness and we demonstrate it in the case of classical MD simulations, providing a numerical example. We then introduce the concept of gauge invariance of thermal transport coefficients and prove it theoretically and numerically.
+In this chapter, we confute this prejudice thanks to the discovery of a \emph{gauge invariance} principle, that ensures that once an expression for the energy density has been chosen, and an energy flux derived from it, the thermal conductivity resulting from the Green-Kubo formula is well-defined, as any measurable quantity should be. 
 
-******QUI*******
+Energy densities and fluxes are indeed ill-defined, in classical no less than in quantum mechanics, however the transport coefficients derived from them do not depend on their microscopic definition, as long as it satisfies energy \emph{extensivity} and \emph{conservation}. 
+We first show the nature of this ill-definiteness and we demonstrate it in the case of classical MD simulations, providing a numerical example. We then introduce the concept of gauge invariance of thermal transport coefficients and prove it both theoretically and numerically.
+We then treat the specific case of molecular fluids and give a perspective on how the gauge invariance property may be exploited, especially in the case of the \emph{ab initio} calculation of thermal conductivity.
+\end{LEtext}
 
-While the calculation of thermal transport coefficients from equilibrium AIMD has been successfully addressed by some of us in a recent work \cite{Marcolongo:2015}, the question still remains as to whether the expression for the energy flux currently used in CMD is uniquely defined and, in the negative, how is it that different definitions of the energy flux would lead to the same value for the thermal conductivity. In this paper we show that different equivalent definitions for the atomic energies in a classical system lead to different expressions for the macroscopic energy flux, and demonstrate numerically in the case of a Lennard-Jones fluid that these expressions result in the same value for the thermal conductivity, as evaluated from equilibrium CMD through the GK formula.  This finding is then rationalized in terms of a kind of \emph{gauge invariance} of heat transport coefficients, resulting from energy conservation and extensivity.
+
+\section{Microscopic ill-defineteness}
+
+\begin{LEtext}
+
+%While the calculation of thermal transport coefficients from equilibrium AIMD has been successfully addressed by some of us in a recent work \cite{Marcolongo:2015}, the question still remains as to whether the expression for the energy flux currently used in CMD is uniquely defined and, in the negative, how is it that different definitions of the energy flux would lead to the same value for the thermal conductivity. In this paper we show that different equivalent definitions for the atomic energies in a classical system lead to different expressions for the macroscopic energy flux, and demonstrate numerically in the case of a Lennard-Jones fluid that these expressions result in the same value for the thermal conductivity, as evaluated from equilibrium CMD through the GK formula.  This finding is then rationalized in terms of a kind of \emph{gauge invariance} of heat transport coefficients, resulting from energy conservation and extensivity.
 
 \end{LEtext}
 
@@ -37,13 +44,13 @@ Let us consider a mono-atomic fluid interacting through pair potentials, $v(|\ma
   e_{\smallgamma,n}(\rGamma) =
   \frac{1}{2M_n}(\mathbf{P}_{n})^{2} + \frac{1}{2}\sum_{m\ne n}
   v(|\mathbf{R}_{n}-\mathbf{R}_{m}|)
-  (1+\gamma_{nm}), \label{eq:Lambda-atomic-energies}
+  (1+\gamma_{nm}), \label{eq:gamma-atomic-energies}
 \end{equation}
 where $\gamma_{nm}=-\gamma_{mn}$ is \emph{any} antisymmetric matrix.
-As the inter-atomic potential appearing in Eq.~\eqref{eq:Lambda-atomic-energies} is symmetric with respect to the atomic indices, it is clear that the sum of all the atomic energies does not depend on $\gamma$, thus making any choice of $\gamma$ equally permissible. This trivial observation has deep consequences on the theory of thermal fluctuations and transport, because the value of the macroscopic energy flux, instead, depends explicitly on $\gamma$, thus making one fear that the resulting transport coefficients would depend on $\gamma$ as well. Using the same manipulations that lead from Eqs.~\eqref{eq:epsilon-classical} and \eqref{eq:atomic-energies} to Eq.~\eqref{eq:J-classical}, for any choice of the $\gamma$ matrix in Eq.~\eqref{eq:Lambda-atomic-energies}, a corresponding expression for the macroscopic energy flux can be found, reading \citep{Marcolongo2014,Ercole2016}:
+As the inter-atomic potential appearing in Eq.~\eqref{eq:gamma-atomic-energies} is symmetric with respect to the atomic indices, it is clear that the sum of all the atomic energies does not depend on $\gamma$, thus making any choice of $\gamma$ equally permissible. This trivial observation has deep consequences on the theory of thermal fluctuations and transport, because the value of the macroscopic energy flux, instead, depends explicitly on $\gamma$, thus making one fear that the resulting transport coefficients would depend on $\gamma$ as well. Using the same manipulations that lead from Eqs.~\eqref{eq:epsilon-classical} and \eqref{eq:atomic-energies} to Eq.~\eqref{eq:J-classical}, for any choice of the $\gamma$ matrix in Eq.~\eqref{eq:gamma-atomic-energies}, a corresponding expression for the macroscopic energy flux can be found, reading \citep{Marcolongo2014,Ercole2016}:
 \begin{equation}
   \mathbf{J}_{\smallgamma}^\smallE=\mathbf{J}^\smallE+
-  \frac{1}{2 \rOmega}\sum_{n,m\ne n}\gamma_{nm} \Bigl ( v_{nm} \mathbf{V}_{n} + \bigl (\mathbf{V}_{n}\cdot \nabla_{\mathbf{R}_n} v_{nm} \bigr )  (\mathbf{R}_{n}-\mathbf{R}_{m}) \Bigr ), \label{eq:Lambda-classical-current}
+  \frac{1}{2 \rOmega}\sum_{n,m\ne n}\gamma_{nm} \Bigl ( v_{nm} \mathbf{V}_{n} + \bigl (\mathbf{V}_{n}\cdot \nabla_{\mathbf{R}_n} v_{nm} \bigr )  (\mathbf{R}_{n}-\mathbf{R}_{m}) \Bigr ), \label{eq:gamma-classical-current}
 \end{equation}
 where $v_{nm}= v(|\mathbf{R}_{n} - \mathbf{R}_{m}|)$.
 
@@ -52,19 +59,41 @@ where $v_{nm}= v(|\mathbf{R}_{n} - \mathbf{R}_{m}|)$.
         \subfigure[\label{fig:argon-gauge-acf}]{\includegraphics[width=10cm]{chapters/chapter3/figures/handbook_argon_egauge_acf.pdf}}
         \subfigure[\label{fig:argon-gauge-kappa}]{\includegraphics[width=10cm]{chapters/chapter3/figures/handbook_argon_egauge_kappa.pdf}}
     \end{center}
-	\caption{(a) Time correlation functions of the modified macroscopic energy flux of a Lennard-Jones fluid, at the conditions described in the text, as defined in Eq.~\eqref{eq:Lambda-classical-current}, for different definitions of the $\gamma$ matrix. The ``0'' line refers to the standard definition ($\gamma = 0$), whereas the labels ``1'' and ``2'' correspond to two other (arbitrary) definitions of $\gamma$ as described in \cite{Ercole2016}.
-    (b) Integral of the time correlation functions displayed in Fig.~\ref{fig:argon-gauge-acf}, multiplied by the prefactor appearing in the GK relation, Eq.~\eqref{eq:GK-complete}, as a function of the upper limit of integration. The barely visible shaded area surrounding each line is an indication of the error bars, as estimated by standard block analysis. Units are Lennard-Jones units ($M=\sigma=\varepsilon=1$). \label{fig:argon-gauge}}
+	\caption{(a) Time correlation functions of the modified macroscopic energy flux of a Lennard-Jones fluid, at the conditions described in the text, as defined in Eq.~\eqref{eq:gamma-classical-current}, for different definitions of the $\gamma$ matrix (see text). The ``0'' line refers to the standard definition ($\gamma = 0$), whereas the labels ``1'' and ``2'' correspond to the two (arbitrary) definitions of $\gamma$ given in Eq.~\eqref{eq:gamma-definitions}.
+    (b) Integral of the time correlation functions displayed in Fig.~\ref{fig:argon-gauge-acf}, multiplied by the prefactor appearing in the GK relation, Eq.~\eqref{eq:GK-complete}, as a function of the upper limit of integration. 
+    The parameterss used are $\lambda_1=10$ and $\lambda_2=2.5$. The barely visible shaded area surrounding each line is an indication of the error bars, as estimated by standard block analysis. Units are Lennard-Jones units ($M=\sigma=\varepsilon=1$). \label{fig:argon-gauge}}
 \end{figure}
 
-As a specific example, \cite{Ercole2016} ran MD simulations for a Lennard-Jones monoatomic fluid described by the inter-atomic potential $v(r)=\epsilon \left [ \left ( \frac{\sigma}{r}\right )^{12} - \left ( \frac{\sigma}{r}\right )^{6}\right ] $ at temperature $T=1.86 \frac{\epsilon}{k_B}$ and density $\rho=0.925 \sigma^{-3}$. In Fig.~\ref{fig:argon-gauge-acf} we display the resulting macroscopic energy-flux autocorrelation function corresponding to different choices of the $\gamma$ matrix in Eqs.~\eqref{eq:Lambda-atomic-energies} and \eqref{eq:Lambda-classical-current}. Fig.~\ref{fig:argon-gauge-acf} clearly shows that the $\langle \mathbf{J}^\smallE_{\gamma}(t) \cdot\mathbf{J}^\smallE_{\gamma}(0) \rangle$ correlation functions dramatically depend on the $\gamma$ matrices in Eqs.~\eqref{eq:Lambda-atomic-energies} and \eqref{eq:Lambda-classical-current}.  Notwithstanding, the integrals of all these time correlation functions tend to the same limit at large integration times, as shown in Fig.~\ref{fig:argon-gauge-kappa}.
+In order to illustrate this state of affairs, we have performed classical MD simulations for a Lennard-Jones monotaomic fluid described by the inter-atomic potential $v(R) = 4\varepsilon \left[ \left( \frac{\sigma}{R}\right)^{12} - \left(\frac{\sigma}{R} \right)^{6} \right]$ at temperature $T=1.86 \frac{\epsilon}{k_B}$ and density $\rho=0.925 \sigma^{-3}$, using cubic simulation cells containing 256 atoms in the iso-choric microcanonical ensemble, with the LAMMPS package \cite{LAMMPS:1995}. 
+In Fig.~\ref{fig:argon-gauge-acf} we display the resulting macroscopic energy-flux autocorrelation function corresponding to different choices of the $\gamma$ matrix in Eqs.~\eqref{eq:gamma-atomic-energies} and \eqref{eq:gamma-classical-current}. The $\Gamma$ matrices have been constructed in two different ways,
+according to the (arbitrary) prescriptions:
+\begin{equation}
+\setbox0=\vbox{\hsize=50mm \small\noindent where the matrix
+      elements of $A$ are drawn from a uniform deviate  in the
+      $[0,\lambda]$ interval.}
+\setbox1 \vbox{\hsize=50mm \small\noindent according to whether $I=J$,
+  $I>J$, or $I<J$.}
+\Gamma_{IJ}= \left \{
+  \begin{alignedat}{2}
+    \frac{1}{2} \left(A_{IJ}-A_{JI}\right ) & \quad\raise -.5\ht0
+    \box0 && \qquad (1) \\
+\\
+    0, +\lambda, -\lambda & \quad\raise -0.5\ht1 \box1 && \qquad (2) \\
+  \end{alignedat} \right .
+\label{eq:gamma-definitions}
+\end{equation}
+In Fig.~\ref{fig:argon-gauge-acf} we display the resulting macroscopic energy-flux autocorrelation functions, $\langle \mathbf{J}_{\gamma}^{\smallE}(t) \cdot\mathbf{J}_{\gamma}^{\smallE}(0)\rangle$, that dramatically depend on the $\gamma$ matrices in Eqs.~\eqref{eq:gamma-atomic-energies} and \eqref{eq:gamma-classical-current}.  Notwithstanding, the integrals of all these time correlation functions tend to the same limit at large integration times, as shown in Fig.~\ref{fig:argon-gauge-kappa}.
 
-In order to get insight into this remarkable invariance property, let us inspect the difference between the generalized flux in Eq.~\eqref{eq:Lambda-classical-current} and the standard expression of Eq.~\eqref{eq:J-classical}:
+
+\section{Gauge invariance}
+
+In order to get insight into this remarkable invariance property, let us inspect the difference between the generalized flux in Eq.~\eqref{eq:gamma-classical-current} and the standard expression of Eq.~\eqref{eq:J-classical}:
 \begin{equation}
   \rDelta\mathbf{J}^\smallE_{\smallgamma} =\mathbf{J}^\smallE_{\smallgamma}-\mathbf{J}^\smallE  =\frac{\mathrm{d}}{\mathrm{dt}}\frac{1}{4 \rOmega} \sum_{n,m\ne n}  \gamma_{nm} \, v(|\mathbf{R}_{n}-\mathbf{R}_{m}|)  (\mathbf{R}_{n}-\mathbf{R}_{m}). \label{eq:DeltaJ}
 \end{equation}
 We see that the two different expressions for the macroscopic energy flux differ by a total time derivative of a bounded phase-space vector function. In the following, we show that this is a consequence of energy conservation and extensivity and a sufficient condition for the corresponding thermal conductivities to coincide.
 
-The very possibility of defining an energy current density, from which the energy fluxes of Eq.~\eqref{eq:J-classical} and \eqref{eq:Lambda-classical-current} ultimately depend, stems from energy extensivity. The considerations illustrated in Fig.~\ref{fig:energy-partition} indicate that any two densities, $e'(\mathbf{r},t)$ and $e(\mathbf{r},t)$, whose integrals over a macroscopic volume differ by a quantity that scales as the volume boundary, should be considered as equivalent. This equivalence can be expressed by the condition that two equivalent densities differ by the divergence of a (bounded) vector field:
+The very possibility of defining an energy current density, from which the energy fluxes of Eq.~\eqref{eq:J-classical} and \eqref{eq:gamma-classical-current} ultimately depend, stems from energy extensivity. The considerations illustrated in Fig.~\ref{fig:energy-partition} indicate that any two densities, $e'(\mathbf{r},t)$ and $e(\mathbf{r},t)$, whose integrals over a macroscopic volume differ by a quantity that scales as the volume boundary, should be considered as equivalent. This equivalence can be expressed by the condition that two equivalent densities differ by the divergence of a (bounded) vector field:
 \begin{equation}
   e'(\mathbf{r},t)=e(\mathbf{r},t) - \nabla\cdot \bm{p}(\mathbf{r},t). \label{eq:gauge_transformation}
 \end{equation}
