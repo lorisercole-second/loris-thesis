@@ -193,3 +193,13 @@ Let us consider a molecule of chemical formula $A_{N_A} B_{N_B}\cdots$, where $A
 \end{equation}
 If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation requires that $\sum_X M_X N_X \mathbf{J}^X = 0$ in the center-of-mass reference frame. The flux $\mathbf{J}^{XY} = \mathbf{J}^{X}-\mathbf{J}^{Y}$ is the total time derivative of a bounded vector, because its integral is the sum over all the molecules of the difference between the average atomic positions of either species within a same molecule, which is obviously bounded if molecules do not dissociate. As any number flux $\mathbf{J}^X$ can be expressed as a linear combination of the total momentum and of several $\mathbf{J}^{XY}$ fluxes, each of them is the total time derivative of a bounded vector. Therefore, the Onsager coefficient coupling any of these atomic fluxes with any other, or with the energy flux, vanishes. We conclude that energy is the only conserved quantity relevant for heat transport in a molecular fluid, and that the energy-flux autocorrelation function directly yields the thermal conductivity, as in Eq.~\eqref{eq:GK}.
 
+
+\section{Perspectives}
+
+\begin{LEtext}
+The discovery of the gauge invariance principle provides the theoretical foundation for the formulation of a theory of adiabatic heat transport within density functional theory (DFT). The first such formulation is presented in Chapter~\ref{ch:dft-heat}. 
+
+Furthermore, this principle opens the possibility of designing the definition of the local energy (both in terms of atomic energies or energy densities), so as to optimize the convergence of the thermal conductivity estimator.
+Aris-Schwartz theorem, Eq.~\eqref{eq:aris-theorem}, ensures that if a flux $\mathbf{J}_B$ does not contribute to the conductivity (\emph{i.e.} it has a vanishing GK integral, $L^B=0$), it is possible to the define a new flux $\mathbf{J}_C=\mathbf{J}_A+\mathbf{J}_B$ that will yield the same conductivity of $\mathbf{J}_A$. Even though $L^C=L^A$, the statistical properties of two such equivalent currents need not to be the same, in that the fluctuations of their correlation functions will be different, and the resulting GK integral of Eq.~\eqref{eq:GK-complete} will depend differently on the upper limit of integration, as it was the case in the example shown in Fig.~\ref{fig:argon-gauge}.
+We shall see that in the particular case of DFT thermal transport, for some peculiar systems, the definition of energy density and flux may make the estimate of the thermal conductivity very difficult, due to the large statistical fluctuations of the correlation functions. In this case, the gauge invariance principle can come to the rescue.
+\end{LEtext}
