@@ -126,7 +126,7 @@ aka the \emph{power spectrum}. In the following the suffix $\mathcal{T}$ will be
     &= \frac{1}{\mathcal{T}} \mathfrak{Re} \left\langle \int_0^\mathcal{T} X^k_t \mathrm{e}^{-i\omega t}dt \times \int_0^\mathcal{T} X^l_t \mathrm{e}^{i\omega t}dt \right\rangle + \mathcal{O}(\mathcal{T}^{-1}).
   \end{aligned} \label{eq:Sij(omega)}
 \end{equation}
-Eqs.~\eqref{eq:Einstein-Helfand} and \eqref{eq:Wiener-Khintchine} indicate that the transport coefficients we are after essentially are the zero-frequency value of the (cross-) power spectrum of the corresponding current(s), a fact that will be instrumental in our approach to data analysis, as explained in Sec.~\ref{sec:data-analysis}. Therefore, Eq.~\eqref{eq:L_def} can be cast into the form:
+Eqs.~\eqref{eq:Einstein-Helfand} and \eqref{eq:Wiener-Khintchine} indicate that the transport coefficients we are after essentially are the zero-frequency value of the (cross-) power spectrum of the corresponding current(s), a fact that will be instrumental in our approach to data analysis, as explained in Chapter~\ref{ch:data-analysis}. Therefore, Eq.~\eqref{eq:L_def} can be cast into the form:
 \begin{equation}
     L^{kl} =\frac{\rOmega}{2 k_B} S^{kl}(\omega=0), \label{eq:GK-S0}
 \end{equation}
@@ -233,6 +233,8 @@ and a \emph{potential} term
     \mathbf{J}''_p = \frac{1}{\rOmega} \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n ,
 \end{equation}
 and conclude that in perfect solid systems, where diffusion is highly improbable, $\mathbf{J}''_p$ contribution to thermal conductivity is negligible.
+
+Recently, \citet{Carbogno:2017gc} formulated an \emph{ab initio} Green-Kubo approach for the thermal conductivity of solids. They build their method on the prejudice that the convective term of the heat flux, Eq.~\eqref{eq:J-convective}, ``\emph{gives no contributions to the conductivity tensor in solids, as mass transport is negligible}''. We believe that this assumption is in principle incorrect, and, in general, may lead to wrong results in systems were cross-correlation terms $\langle \mathbf{J}_c(t) \mathbf{J}_v(0) \rangle$, in addition to self-correlations $\langle \mathbf{J}_c(t) \mathbf{J}_c(0) \rangle$, give a not negligible contributions to the lattice thermal conductivity, \emph{e.g.} in softer solid materials, even in the absence of atomic diffusion. Some further comments on this in Sec.~\ref{sec:carbogno}.
 
 
 \paragraph{Many-body potentials}
