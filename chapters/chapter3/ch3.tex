@@ -2,9 +2,9 @@
 
 \begin{LEtext}
 It has long been thought that the inherent indeterminacy of any quantum mechanical expression for the energy density would hinder the evaluation of thermal transport coefficients from equilibrium \emph{ab-initio} molecular dynamics (AIMD), using the Green-Kubo formalism.  
-In classical molecular dynamics this goal is achieved by decomposing the total energy of an extended system into \emph{localized} atomic contributions and by deriving from this decomposition an explicit, and allegedly unique, expression for the energy flux. \cite{Irving1950}
+In classical molecular dynamics this goal is achieved by decomposing the total energy of an extended system into \emph{localized} atomic contributions and by deriving from this decomposition an explicit, and allegedly unique, expression for the energy flux \cite{Irving1950}.
 
-In DFT, as well as in any other quantum mechanical approach, this definition is not possible, and it has therefore long been thought that ``\emph{the Green-Kubo relation does not serve our purposes} (of computing the thermal conductivity) \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom.}'' \cite{Stackhouse2010b}
+In DFT, as well as in any other quantum mechanical approach, this definition is not possible, and it has therefore long been thought that ``\emph{the Green-Kubo relation does not serve our purposes} (of computing the thermal conductivity) \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}'' \cite{Stackhouse2010b}. 
 
 In this chapter, we confute this prejudice thanks to the discovery of a \emph{gauge invariance} principle, that ensures that once an expression for the energy density has been chosen, and an energy flux derived from it, the thermal conductivity resulting from the Green-Kubo formula is well-defined, as any measurable quantity should be. 
 
@@ -39,7 +39,7 @@ It is often implicitly assumed that the well-definiteness of thermal transport c
 	The energy of an isolated system is the sum of the energies of its subsystems (as defined when they are isolated as well) plus the interaction among them, $W_{12}$, whose magnitude scales as the area of the interface, depicted in red. When defining the energies of individual subsystems, $\mathcal{E}$, $W_{12}$ has to be arbitrarily partitioned among them. \label{fig:energy-partition}}
 \end{figure}
 
-Let us consider a mono-atomic fluid interacting through pair potentials, $v(|\mathbf{R}_n-\mathbf{R}_m|)$, and define the atomic energies as \citep{Marcolongo2014,Ercole2016}:
+Let us consider a mono-atomic fluid interacting through pair potentials, $v(|\mathbf{R}_n-\mathbf{R}_m|)$, and define the atomic energies as \cite{Marcolongo2014,Ercole2016}:
 \begin{equation}
   e_{\smallgamma,n}(\rGamma) =
   \frac{1}{2M_n}(\mathbf{P}_{n})^{2} + \frac{1}{2}\sum_{m\ne n}
@@ -47,7 +47,7 @@ Let us consider a mono-atomic fluid interacting through pair potentials, $v(|\ma
   (1+\gamma_{nm}), \label{eq:gamma-atomic-energies}
 \end{equation}
 where $\gamma_{nm}=-\gamma_{mn}$ is \emph{any} antisymmetric matrix.
-As the inter-atomic potential appearing in Eq.~\eqref{eq:gamma-atomic-energies} is symmetric with respect to the atomic indices, it is clear that the sum of all the atomic energies does not depend on $\gamma$, thus making any choice of $\gamma$ equally permissible. This trivial observation has deep consequences on the theory of thermal fluctuations and transport, because the value of the macroscopic energy flux, instead, depends explicitly on $\gamma$, thus making one fear that the resulting transport coefficients would depend on $\gamma$ as well. Using the same manipulations that lead from Eqs.~\eqref{eq:epsilon-classical} and \eqref{eq:atomic-energies} to Eq.~\eqref{eq:J-classical}, for any choice of the $\gamma$ matrix in Eq.~\eqref{eq:gamma-atomic-energies}, a corresponding expression for the macroscopic energy flux can be found, reading \citep{Marcolongo2014,Ercole2016}:
+As the inter-atomic potential appearing in Eq.~\eqref{eq:gamma-atomic-energies} is symmetric with respect to the atomic indices, it is clear that the sum of all the atomic energies does not depend on $\gamma$, thus making any choice of $\gamma$ equally permissible. This trivial observation has deep consequences on the theory of thermal fluctuations and transport, because the value of the macroscopic energy flux, instead, depends explicitly on $\gamma$, thus making one fear that the resulting transport coefficients would depend on $\gamma$ as well. Using the same manipulations that lead from Eqs.~\eqref{eq:epsilon-classical} and \eqref{eq:atomic-energies} to Eq.~\eqref{eq:J-classical}, for any choice of the $\gamma$ matrix in Eq.~\eqref{eq:gamma-atomic-energies}, a corresponding expression for the macroscopic energy flux can be found, reading \cite{Marcolongo2014,Ercole2016}:
 \begin{equation}
   \mathbf{J}_{\smallgamma}^\smallE=\mathbf{J}^\smallE+
   \frac{1}{2 \rOmega}\sum_{n,m\ne n}\gamma_{nm} \Bigl ( v_{nm} \mathbf{V}_{n} + \bigl (\mathbf{V}_{n}\cdot \nabla_{\mathbf{R}_n} v_{nm} \bigr )  (\mathbf{R}_{n}-\mathbf{R}_{m}) \Bigr ), \label{eq:gamma-classical-current}
@@ -134,7 +134,7 @@ We now show that the energy fluxes of the same system in two different energy ga
 \end{equation}
 where we used the property that classical auto-correlation functions are even in time.
 
-The expectation of the time-lagged products in Eq.~\eqref{eq:L=L'} factorizes into the products of two independent expectations at large time lag. As the equilibrium expectations of both a total time derivative and a current vanish, we conclude that $\left (L^{11}\right )'=L^{11}$. Heat conductivities computed in different energy gauges coincide, as they must on physical grounds. A slight generalization of this argument, also using microscopic reversibility as in \cite{Onsager1931a,Onsager1931b}, allows us to conclude that $\left (L^{12} \right )'=L^{12}$ and that, in general, $\kappa'=\kappa$.
+The expectation of the time-lagged products in Eq.~\eqref{eq:L=L'} factorizes into the products of two independent expectations at large time lag. As the equilibrium expectations of both a total time derivative and a current vanish, we conclude that $\left (L^{11}\right )'=L^{11}$. Heat conductivities computed in different energy gauges coincide, as they must on physical grounds. A slight generalization of this argument, also using microscopic reversibility as in Ref.~\cite{Onsager1931a,Onsager1931b}, allows us to conclude that $\left (L^{12} \right )'=L^{12}$ and that, in general, $\kappa'=\kappa$.
 
 \subsection{Alternative proof}
 \begin{LEtext}
@@ -199,7 +199,7 @@ If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation re
 
 ...
 
-\section{Perspectives}  \label{sec:gauge-perspectives}
+\section{Outlook}  \label{sec:gauge-outlook}
 
 \begin{LEtext}
 The discovery of the gauge invariance principle provides the theoretical foundation for the formulation of a theory of adiabatic heat transport within density functional theory (DFT). The first such formulation is presented in Chapter~\ref{ch:dft-heat}. 

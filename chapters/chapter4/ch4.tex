@@ -4,7 +4,7 @@
 The advent of density-functional theory (DFT) \cite{Hohenberg1964,Kohn1965} has marked the start of a new era for the quantum modeling of materials. DFT allows computing interatomic forces entirely from first principles using the chemical composition and the fundamental laws of nature as the sole ingredients, without any need to leverage experimental knowledge of these interactions.
 Its combination with classical molecular dynamics, both in the Born-Oppenheimer of Car-Parrinello flavours \cite{Car1985,Marx2009}, had a groundbreaking impact in a wide number of physical problems.
 
-Nevertheless, quantum simulation methods based on DFT have long been thought to be incompatible with the GK theory of thermal transport \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}. \citep{Stackhouse2010b} For this reason, \emph{ab initio} simulations of heat transport have often been performed using non-equilibrium approaches.
+Nevertheless, quantum simulation methods based on DFT have long been thought to be incompatible with the GK theory of thermal transport \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom} \cite{Stackhouse2010b}. For this reason, \emph{ab initio} simulations of heat transport have often been performed using non-equilibrium approaches.
 
 The recently discovered gauge invariance principle that was introduced in Chapter~\ref{ch:gauge-invariance} not only explains why an arbitrary defintion of the heat flux results in a well-defined value for the thermal conductivity, but it also gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients.
 
@@ -13,46 +13,44 @@ In this chapter we first summarize the most recent \emph{ab initio} methods for 
 
 
 \section{First-principles simulation methods}
-
+\begin{LEtext}
 In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE), \emph{non-equilibrium Green's functions} (NEGF), and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
 
 \emph{Non-equilibrium Green's functions} (NEGF) \cite{Wang2008} are designed to compute the conductance of open systems, such as nanoscale devices and interfaces, but they do not apply to bulk conduction. 
 
-The \emph{Boltzmann's transport equation} (BTE) \cite{Peierls1929,Zhou2016} is the method of choice for crystals well below melting, where long-lived phonons are clearly identified as the heat carriers. In this case density-functional perturbation theory \cite{Baroni1987a,Gonze1989,Baroni2001} allows one to compute accurate phonon frequencies \cite{Giannozzi1991} and lifetimes, \cite{Debernardi1995,Paulatto2013} and thus implement the BTE entirely from first principles. \cite{Broido:2007iu} 
-The flexibility and accuracy of \abinitio BTE are such that this approach is being successfully used to screen new materials for custom-designed properties, such as high thermal conductivity for passive cooling \cite{Lindsay:2013fw,Lindsay:2013db} or low thermal conductivity for thermoelectric energy conversion. \cite{PhysRevX.4.011019,Schwingen2014} 
-Recent self-consistent and variational approaches to solve the BTE beyond the relaxation-time approximation \cite{Fugallo2013} are also providing fresh and deep insight into the collective character of heat transport.\cite{Fugallo2013,Lee:2015ex,Cepellotti2015,Cepellotti:2016bk} 
-Yet, the applicability of \emph{ab initio} BTE is restricted to periodic systems consisting of a small number of atoms per unit cell, and is severely limited by its own inherent approximations: as the temperature increases, anharmonic effects become so important as to eventually make it break down well below melting, \cite{Turney:2009bb} while the BTE simply does not apply to glasses and liquids, where phonons are not even defined. \cite{Allen1989} 
+The \emph{Boltzmann's transport equation} (BTE) \cite{Peierls1929,Zhou2016} is the method of choice for crystals well below melting, where long-lived phonons are clearly identified as the heat carriers. In this case density-functional perturbation theory \cite{Baroni1987a,Gonze1989,Baroni2001} allows one to compute accurate phonon frequencies \cite{Giannozzi1991} and lifetimes, \cite{Debernardi1995,Paulatto2013} and thus implement the BTE entirely from first principles \cite{Broido:2007iu}. 
+The flexibility and accuracy of \abinitio BTE are such that this approach is being successfully used to screen new materials for custom-designed properties, such as high thermal conductivity for passive cooling \cite{Lindsay:2013fw,Lindsay:2013db} or low thermal conductivity for thermoelectric energy conversion \cite{PhysRevX.4.011019,Schwingen2014}. 
+Recent self-consistent and variational approaches to solve the BTE beyond the relaxation-time approximation \cite{Fugallo2013} are also providing fresh and deep insight into the collective character of heat transport \cite{Fugallo2013,Lee:2015ex,Cepellotti2015,Cepellotti:2016bk}. 
+Yet, the applicability of \emph{ab initio} BTE is restricted to periodic systems consisting of a small number of atoms per unit cell, and is severely limited by its own inherent approximations: as the temperature increases, anharmonic effects become so important as to eventually make it break down well below melting \cite{Turney:2009bb}, while the BTE simply does not apply to glasses and liquids, where phonons are not even defined \cite{Allen1989} .
 
 \emph{Molecular dynamics} (MD) \cite{Allen1989,Frenkel2001} is set to overcome these limitations. 
-In non-equilibrium MD (NEMD), \cite{Evans1990,Muller-Plathe1997} temperature gradients or heat fluxes are explicitly imposed on the virtual sample, and the thermal conductivity is estimated from the resulting value of the conjugate variable (flux or gradient). 
+In non-equilibrium MD (NEMD) \cite{Evans1990,Muller-Plathe1997}, temperature gradients or heat fluxes are explicitly imposed on the virtual sample, and the thermal conductivity is estimated from the resulting value of the conjugate variable (flux or gradient). 
 In the so-called \emph{approach to equilibrium} (AEMD) methodology of \citet{Lampin2013} the system is first prepared in an out-of-equilibrium state, characterized by an inhomogeneous temperature distribution, and the thermal conductivity is evaluated from the time it takes for the system to equilibrate. 
-NEMD and AEMD lend themselves to a straightforward quantum-mechanical implementation \cite{Stackhouse2010b,Bouzid2017} using \emph{ab initio} molecular dynamics (AIMD). For example, \citet{Stackhouse2010b} computed the thermal conductivity of periclase MgO using a method devised by \citet{Müller-Plathe1997}, \emph{i.e.} by imposing a temperature gradient to the system, and evaluating the ratio between the heat flux and the resulting temperature gradient.
+NEMD and AEMD lend themselves to a straightforward quantum-mechanical implementation \cite{Stackhouse2010b,Bouzid2017} using \emph{ab initio} molecular dynamics (AIMD). For example, \citet{Stackhouse2010b} computed the thermal conductivity of periclase MgO using a method devised by \citet{Muller-Plathe1997}, \emph{i.e.} by imposing a temperature gradient to the system, and evaluating the ratio between the heat flux and the resulting temperature gradient.
 \citet{Bouzid2017} combined AEMD with AIMD to simulate thermal transport in a GeTe$_4$ glass, while \citet{Puligheddu2017} further generalized and applied it to crystalline and nano-structured MgO.
-However, but methods may be both affected by non-linear effects, due to the strength of the temperature gradient to be imposed \cite{Schelling2002,He2012} and by finite-size/finite-time effects that require long simulation times and difficult extrapolations to approach the thermodynamic limit. \cite{sellan2010,He2011,He2012,Zaoui2016,Wang2017}
+However, but methods may be both affected by non-linear effects, due to the strength of the temperature gradient to be imposed \cite{Schelling2002,He2012} and by finite-size/finite-time effects that require long simulation times and difficult extrapolations to approach the thermodynamic limit \cite{sellan2010,He2011,He2012,Zaoui2016,Wang2017}. 
 
-The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \citep{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Sec.~\ref{sec:dft-heat-theory} and we will use it in the rest of this work. (***RIFERIMENTI***)
+The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \cite{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Sec.~\ref{sec:dft-heat-theory} and we will use it in the rest of this work. (***RIFERIMENTI***)
 
 More recently, several works attempted to combine the GK approach to heat transport with first-principles techniques based on electronic-structure theory, by adopting some \emph{ad hoc} definitions for the energy flux. \citet{Kang2017}, for instance, derived an expression for the energy flux from a (rather arbitrary) quantum-mechanical definition of the atomic energies and used a modified MD integration algorithm to cope with the difficulties ensuing from the implementation of their expression in PBC. 
 \citet{Carbogno:2017gc} gave a different expression for the energy flux, that neglects the convective term (**EQ.**) and is based on a normal-mode decomposition of the atomic coordinates and forces, which, while allowing to reduce the effects of thermal fluctuations, can only be applied to crystalline solids.
 
 \citet{English2017}, instead, used the classical Einstein relation for the energy displacement, $\mathcal{D}(\tau) = \sum_n \mathbf{R}_n \int_0^\tau \mathbf{F}_n \cdot \mathbf{V}_n \, dt$, computed from a BO-AIMD trajectory, where the forces are computed from the Hellmann-Feynman theorem. They applied this methodology to the computation of thermal conductivity of periclase MgO \cite{Tse2018} and other solids. Their approach also neglects the convective term and is only applicable to solids.
+\end{LEtext}
 
 
-\section{DFT heat flux}  \label{sec:dft-heat-theory}
+\section{DFT energy flux}  \label{sec:dft-heat-theory}
 The gauge invariance principle presented in Chapter~\ref{ch:gauge-invariance} provides a rigorous way to derive an expression for the adiabatic energy flux from DFT.
-In order to derive such an expression, we start with the standard DFT expression of the total energy in terms of the Kohn-Sham (KS) eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, and density $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$ \citep{Martin2008}:
+In order to derive such an expression, we start with the standard DFT expression of the total energy in terms of the Kohn-Sham (KS) eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, and density $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$ \cite{Martin2008}:\footnote{For simplicity, here and in the following we imply the dependence on time $t$ of atomic positions, velocities and KS orbitals.}
 \begin{multline}
   E_{\smallDFT} = \frac{1}{2}\sum_{n}M_{n}V_{n}^{2} + \frac{\mathtt{e}^2}{2}\sum_{n,m\ne n}\frac{ Z_{n}Z_{m}}{|\mathbf{R}_{n}-\mathbf{R}_{m}|} \\
   + \sum_{v}\varepsilon_{v}-\frac{\mathtt{e}^2}{2}\int\frac{n(\mathbf{r})n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r}'|}d\mathbf{r}d\mathbf{r}'+\int\left(\epsilon_{\smallXC}[n](\mathbf{r})-\mu_{\smallXC}[n](\mathbf{r})\right)n(\mathbf{r})d\mathbf{r},
 \end{multline}
-where $\mathtt{e}$ is the electron charge, $\epsilon_\smallXC[n](\mathbf{r})$ is a local exchange-correlation (XC) energy per particle defined by the relation $ \int \epsilon_\smallXC[n](\mathbf{r})n(\mathbf{r}) d\mathbf{r}=E_\smallXC [n]$, the latter being the total XC energy of the system, and $ \mu_\smallXC (\mathbf{r}) = \frac{\delta E_\smallXC }{\delta n(\mathbf{r})}$ is the XC potential. The DFT total energy can be readily written as the integral of a DFT energy density \citep{Chetty1992}:
-\begin{equation}
-  \begin{aligned}
-    E_{\smallDFT} & =  \int e_{\smallDFT}(\mathbf{r})d\mathbf{r},\\
-    e_{\smallDFT}(\mathbf{r}) & = e_{el}(\mathbf{r})+e_{\smallZ}(\mathbf{r}),
-  \end{aligned}
-  \label{eq:DFT-Edensity}
-\end{equation}
+where $\{\mathbf{R}\}$ and $\{\mathbf{r}\}$ indicate ionic and electronic positions, respectively, $\mathtt{e}$ is the electron charge, $\epsilon_\smallXC[n](\mathbf{r})$ is a local exchange-correlation (XC) energy per particle defined by the relation $ \int \epsilon_\smallXC[n](\mathbf{r})n(\mathbf{r}) d\mathbf{r}=E_\smallXC [n]$, the latter being the total XC energy of the system, and $ \mu_\smallXC (\mathbf{r}) = \frac{\delta E_\smallXC }{\delta n(\mathbf{r})}$ is the XC potential. The DFT total energy can be readily written as the integral of a DFT energy density (not uniquely defined) \cite{Chetty1992}:
+\begin{align}
+    E_{\smallDFT} & =  \int e_{\smallDFT}(\mathbf{r})d\mathbf{r}, \nonumber\\
+    e_{\smallDFT}(\mathbf{r}) & = e_{el}(\mathbf{r})+e_{\smallZ}(\mathbf{r}), \label{eq:DFT-Edensity}
+\end{align}
 where:
 \begin{align}
   e_{el}(\mathbf{r}) & =\mathfrak{Re} \sum_{v}\phi_{v}^{*}(\mathbf{r})\bigl(H_{\smallKS}\phi_{n}(\mathbf{r})\bigr) \nonumber \\
@@ -60,27 +58,67 @@ where:
   e_{\smallZ}(\mathbf{r}) & = \sum_{n}\delta(\mathbf{r}-\mathbf{R}_{n}) \left(\frac{1}{2}M_{n}V_{n}^{2}+w_{n}\right), \\
   w_{n} & =\frac{\mathtt{e}^2}{2}\sum_{m\ne n}\frac{ Z_{n}Z_{m}}{|\mathbf{R}_{n}-\mathbf{R}_{m}|}, \label{eq:DFT-Edensity-breakup}
 \end{align}
-$H_\smallKS$ is the instantaneous self-consistent Kohn-Sham Hamiltonian, and $v_\smallH = \mathtt{e}^2 \int d\mathbf{r}' \frac{n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r}'|}$ is the Hartree potential. An explicit expression for the DFT energy flux is obtained by computing the first moment of the time derivative of the energy density, Eqs.~(\ref{eq:DFT-Edensity}-\ref{eq:DFT-Edensity-breakup}), as indicated in Eq.~\eqref{eq:JE=rdote}, resulting in a number of terms, some of which are either infinite or ill-defined in PBC. Casting the result in a regular, boundary-insensitive, expression requires a careful breakup and refactoring of the various harmful terms, as explained by \cite{Marcolongo2014} and in the online version of \cite{Marcolongo2016}. The final result reads:
+$H_\smallKS$ is the instantaneous self-consistent Kohn-Sham Hamiltonian, and $v_\smallH = \mathtt{e}^2 \int d\mathbf{r}' \frac{n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r}'|}$ is the Hartree potential. 
+
+An explicit expression for the DFT energy flux is obtained by computing the first moment of the time derivative of the energy density, Eqs.~(\ref{eq:DFT-Edensity}-\ref{eq:DFT-Edensity-breakup}), as indicated in Eq.~\eqref{eq:JE=rdote}, 
+\begin{equation}
+    \mathbf{J}^\smallE = \frac{1}{\rOmega} \int \dot e_{\smallDFT}(\mathbf{r}) \,\mathbf{r}\, d\mathbf{r} ,
+\end{equation}
+and considering the Born-Oppenheimer (BO) equations of motion for the nuclei:
+\begin{equation}
+    M_n \dot{\mathbf{V}}_n = -\frac{\partial E_{\smallDFT}}{\partial \mathbf{R}_n} .
+\end{equation}
+This results in a number of terms, some of which are either infinite or ill-defined in PBC. Casting the result in a regular, boundary-insensitive, expression requires a careful breakup and refactoring of the various harmful terms \cite{Marcolongo2014,Marcolongo2016}. The final result reads:
 \begin{align}
   \allowdisplaybreaks
-  \mathbf{J}^\smallE_{\smallDFT} &=\mathbf{J}^{\smallH} + \mathbf{J}^{\smallZ} + \mathbf{J}^{0} + \mathbf{J}^{\smallKS} +  \mathbf{J}^{\smallXC}, \\
-  \mathbf{J}^{\smallH} &=
-  \frac{1}{4\pi \rOmega \mathtt{e}^2}\int \nabla v_{\smallH}(\mathbf r) \dot v_{\smallH}(\mathbf  r) d\mathbf{r}, \\
-  \mathbf{J}^{\smallZ} \label{eq:DFT-ionic} &=
-  \frac{1}{\rOmega} \sum_{n}  \left[\mathbf{V}_{n}\left(\frac{1}{2}M_{n}V_{n}^{2} + w_{n}\right) + \sum_{m\ne n}(\mathbf{R}_{n} - \mathbf{R}_{m}) \left(\mathbf{V}_{m} \cdot \frac {\partial w_{n}}{\partial \mathbf{R}_{m}} \right) \right], \\
-  \mathbf{J}^{0}  &=
-  \frac{1}{\rOmega}  \sum_{n} \sum_{v}\left\langle \phi_{v} \left|(\mathbf{r}-\mathbf{R}_{n})\left(\mathbf{V}_{n}\cdot\frac{\partial\hat{v}_{0}}{\partial\mathbf{R}_{n}}\right)\right| \phi_{v}\right\rangle, \\
-  \mathbf{J}^{\smallKS} &= \label{eq:DFT-KS}
-  \frac{1}{\rOmega}  \mathfrak{Re} \sum_{v} \langle \bm{\bar \phi}_v^c | H_{\smallKS}+\varepsilon_v | \dot \phi_v^c \rangle, \\
-  J_\alpha^{\smallXC} &=
-  \begin{cases}
-    0 & \mathrm{(LDA)} \\
-      -\frac{1}{\rOmega} \int n(\mathbf{r}) \dot{n}(\mathbf{r}) \frac{\partial\epsilon^{\smallGGA} (\mathbf{r})}{\partial(\partial_\alpha n)} d\mathbf{r} & \mathrm{(GGA)},
-  \end{cases}
+  \mathbf{J}^\smallE_{\smallDFT}  &=  \mathbf{J}^{\smallH} + \mathbf{J}^{\smallZ} + \mathbf{J}^{0} + \mathbf{J}^{\smallKS} +  \mathbf{J}^{\smallXC}, \label{eq:DFT-Eflux}\\
+  \mathbf{J}^{\smallH}  &=  \frac{1}{4\pi \rOmega \mathtt{e}^2}\int \nabla v_{\smallH}(\mathbf r) \dot v_{\smallH}(\mathbf  r) d\mathbf{r}, \\
+  \mathbf{J}^{\smallZ}  &=  \frac{1}{\rOmega} \sum_{n}  \left[\mathbf{V}_{n}\left(\frac{1}{2}M_{n}V_{n}^{2} + w_{n}\right) + \sum_{m\ne n}(\mathbf{R}_{n} - \mathbf{R}_{m}) \left(\mathbf{V}_{m} \cdot \frac {\partial w_{n}}{\partial \mathbf{R}_{m}} \right) \right], \label{eq:DFT-ionic}\\
+  \mathbf{J}^{0}  &=  \frac{1}{\rOmega}  \sum_{n} \sum_{v}\left\langle \phi_{v} \middle| (\mathbf{r}-\mathbf{R}_{n})\left(\mathbf{V}_{n}\cdot\frac{\partial\hat{v}_{0}}{\partial\mathbf{R}_{n}}\right)\middle| \phi_{v}\right\rangle, \\
+  \mathbf{J}^{\smallKS}  &=  \frac{1}{\rOmega} \sum_{v} \left( \langle \phi_v | \mathbf{r} H_{\smallKS} | \dot\phi_v \rangle + \varepsilon_v \langle \phi_v | \mathbf{r} | \dot\phi_v \rangle \right)  =  \frac{1}{\rOmega}  \mathfrak{Re} \sum_{v} \left\langle \bm{\bar \phi}_v^c \middle| H_{\smallKS}+\varepsilon_v \middle| \dot \phi_v^c \right\rangle, \label{eq:DFT-KS}\\
+  J_\alpha^{\smallXC}  &=
+    \begin{cases}
+        0 & \mathrm{(LDA)} \\
+        -\frac{1}{\rOmega} \int n(\mathbf{r}) \dot{n}(\mathbf{r}) \frac{\partial\epsilon^{\smallGGA} (\mathbf{r})}{\partial(\partial_\alpha n)} d\mathbf{r} & \mathrm{(GGA)},
+    \end{cases}
 \end{align}
 where  $\hat v_0$ is the bare, possibly non-local, (pseudo-) potential acting on the electrons and
 \begin{align}
   |\bm{\bar \phi}_v^c\rangle &= \hat P_c \,\mathbf{r}  \,|\phi_v \rangle, \label{eq:r-times-phi} \\
-  |\dot \phi_v^c\rangle &= \dot{\hat P}_v \,|\phi_v\rangle, \label{eq:phi-dot}
+  |\dot \phi_v^c\rangle &= \hat P_c |\dot\phi_v\rangle = \dot{\hat P}_v \,|\phi_v\rangle, \label{eq:phi-dot}
 \end{align}
-are the projections over the empty-state manifold of the action of the position operator over the $v$-th occupied orbital, Eq.~\eqref{eq:r-times-phi}, and of its adiabatic time derivative \citep{Giannozzi2017}, Eq.~ \eqref{eq:phi-dot}, $\hat P_v$ and $\hat P_c = 1 - \hat P_v$ being the projector operators over the occupied- and empty-states manifolds, respectively. Both these functions are well defined in PBC and can be computed, explicitly or implicitly, using standard density-functional perturbation theory \citep{Baroni2001}.
+are the projections over the empty-state manifold of the action of the position operator over the $v$-th occupied orbital, Eq.~\eqref{eq:r-times-phi}, and of its adiabatic time derivative \cite{Giannozzi2017}, Eq.~ \eqref{eq:phi-dot}; $\hat P_v$ and $\hat P_c = 1 - \hat P_v$ being the projector operators over the occupied- and empty-states manifolds, respectively. Both these functions are well defined in PBC and can be computed, explicitly or implicitly, using standard density-functional perturbation theory \cite{Baroni2001}.
+
+
+\subsection{Electronic current}
+\begin{LEtext}
+The current $\mathbf{J}^\smallKS$, Eq.\eqref{eq:DFT-KS}, is not manifestly invariant with rspect to the arbitrary choice of the zero of the one-electron energy levels: a shift of this zero by a quantity $\Delta\epsilon$ results in a shift of the energy flux by $\Delta \mathbf{J}^{el}$, where $\mathbf{J}^{el}$ is the adiabatic electronic current \cite{Thouless1983},
+\begin{equation}
+ \mathbf J^{el} = \frac{2}{\rOmega}\mathfrak{Re} \sum_{v} \langle\bm{\bar \phi}_v^c |\dot \phi_v^c \rangle, \label{eq:DFT-electronic}
+\end{equation}
+that can be derived from the continuity equation for the electronic density:
+\begin{equation}
+\nabla\cdot \bm j^{el}(\bm r,t) =- \dot{n}^{el}(\bm r,t).    
+\end{equation}
+The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-electronic}.
+\end{LEtext}
+
+
+\subsection{Multi-component heat flux}
+*********
+
+
+\subsection{Numerical computation}
+The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-ionic}, at time $t$ requires the atomic positions $\{\mathbf{R}\}$ and velocities $\{\mathbf{R}\}$, along with the Kohn-Sham eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, the ground-state electron density distributions $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$ and their time-derivatives. 
+
+The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code (not yet publicly available). In order to compute the energy flux $\mathbf{J}^\smallE$, one should first extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). For each of these time steps, two self-consistent KS calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
+Therefore, the cost of one energy flux calculation is about equal to the cost of two self-consistent calculations plus one linear response calculation. *******
+In the current implementation, each time step costs almost 4 times the cost of a self-consistent calculation.
+The atomic coordinates at time $t+\Delta t$ are extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand, as shown in Fig.~***** for the case of liquid water.******
+
+*******FIGURA CONVERGENZA TIMESTEP*********
+
+
+
+\section{Outlook}  \label{sec:dft-outlook}
+As it was already mentioned in Sec.~\ref{sec:gauge-outlook}, the gauge invariance of transport coefficients not only provides a solid foundation to the quantum theory of adiabatic heat transport, by also allows tuning this definition so as to achieve optimal statistical properties to reduce its computational cost. This freedom can in principle be exploited to design new expressions for the heat flux. One possibility may be devising a formulation base on a local representation of the electronic structure \cite{Marzari2012,Damle2015}, \emph{e.g.} maximally localized Wannier functions, that would avoid the use of density-functional perturbation theory for the computation of $\mathbf{J}^{\smallKS}$. In the case of solids, another promising expression may be obtained from a normal-mode expansion \cite{Ladd1986} and interpolation, to cope with noise and finite-size effects, in a similar way to the one proposed by \citet{Carbogno:2017gc}. 

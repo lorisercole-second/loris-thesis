@@ -1,9 +1,9 @@
 \chapter{Green-Kubo theory of heat transport}  \label{ch:green-kubo}
 
-Our microscopic understanding of heat and mass transport in extended systems is rooted in the Green-Kubo (GK) theory of linear response,\cite{Green1954,Kubo1957a} as applied to the Navier-Stokes equations for the densities of the conserved extensive variables,\cite{Kadanoff1963,Forster1975} which include energy, momentum, and the particle numbers for each molecular species. 
+Our microscopic understanding of heat and mass transport in extended systems is rooted in the Green-Kubo (GK) theory of linear response \cite{Green1954,Kubo1957a}, as applied to the Navier-Stokes equations for the densities of the conserved extensive variables \cite{Kadanoff1963,Forster1975}, which include energy, momentum, and the particle numbers for each molecular species. 
 \begin{LEtext}
 
-This work was initiated by Onsager in the thirties \cite{Onsager1931a,Onsager1931b} and carried on by Green and Kubo in the fifties with the theory of linear response \cite{Green1952,Green1954,Kubo1957a,Kubo1957b}. The theory is built on the concept of adiabatic decoupling of the slow long-wavelength components of the densities of conserved extensive quantities (which include energy, momentum, and particle number), \cite{Kadanoff1963} the so-called \emph{hydrodynamic variables}, from the other atomically fast degrees of freedom. Their work resulted in the celebrated \emph{Green-Kubo equations}, a consequence of the fluctuation-dissipation theorem, that establish a relation between a (non-equilibrium) transport coefficient and the spontaneous fluctuations of the relevant currents at equilibrium. Transport coefficients are in fact proportional their autocorrelation times:
+This work was initiated by Onsager in the thirties \cite{Onsager1931a,Onsager1931b} and carried on by Green and Kubo in the fifties with the theory of linear response \cite{Green1952,Green1954,Kubo1957a,Kubo1957b}. The theory is built on the concept of adiabatic decoupling of the slow long-wavelength components of the densities of conserved extensive quantities (which include energy, momentum, and particle number) \cite{Kadanoff1963}, the so-called \emph{hydrodynamic variables}, from the other atomically fast degrees of freedom. Their work resulted in the celebrated \emph{Green-Kubo equations}, a consequence of the fluctuation-dissipation theorem, that establish a relation between a (non-equilibrium) transport coefficient and the spontaneous fluctuations of the relevant currents at equilibrium. Transport coefficients are in fact proportional their autocorrelation times:
 \begin{equation}
 \kappa\propto\int_{0}^{\infty}\!\langle{J}(t){J}(0)\rangle\, dt, \label{eq:GK}
 \end{equation}
@@ -51,7 +51,7 @@ By inserting this relation into Eq.~\eqref{eq:constitutive}, one gets:
 \begin{equation}
 \mathbf{J}^i=\sum_j L^{ij} \mathbf{F}^j, \label{eq:onsager}
 \end{equation}
-where $L^{ij}=\sum_k\lambda^{ik}\chi^{kj}$. Eq.~\eqref{eq:onsager} expresses the linear relation between fluxes, the $\mathbf{J}$'s, and thermodynamic affinities, the $\mathbf{F}$'s, for which Onsager derived his celebrated reciprocity relations ($L^{ji}=L^{ij}$) from microscopic reversibility \citep{Onsager1931a,Onsager1931b,Casimir1945}. Note that, according to our definition, both the $\mathbf{J}$'s and the $\mathbf{F}$'s in Eq.~\eqref{eq:onsager} do not depend on the size of the system.
+where $L^{ij}=\sum_k\lambda^{ik}\chi^{kj}$. Eq.~\eqref{eq:onsager} expresses the linear relation between fluxes, the $\mathbf{J}$'s, and thermodynamic affinities, the $\mathbf{F}$'s, for which Onsager derived his celebrated reciprocity relations ($L^{ji}=L^{ij}$) from microscopic reversibility \cite{Onsager1931a,Onsager1931b,Casimir1945}. Note that, according to our definition, both the $\mathbf{J}$'s and the $\mathbf{F}$'s in Eq.~\eqref{eq:onsager} do not depend on the size of the system.
 
 
 \section{Linear-response theory}
@@ -79,7 +79,7 @@ $\mathcal{P}^\circ(\rGamma) \propto \mathrm{e}^{-\frac{H^\circ(\rGamma)}{k_BT}}$
 \end{equation}
 In Eq.~\eqref{eq:a(r,t)} the notation $\rGamma'_t$ denotes somewhat pedantically that the time evolution in phase space is driven by the perturbed Hamiltonian, $H^\circ+V'$. If it were driven by $H^\circ$, evidently the value of $a$ would be time-independent. In the following, the notation $\rGamma_t$ will indicate an unperturbed time evolution. As an example, the phase-space sample of the particle density can be assumed to be $n(\mathbf{r};\rGamma) = \sum_n \delta (\mathbf{r}-\mathbf{R}_n)$, the corresponding current is $\bm{j} (\mathbf{r}, \rGamma) = \sum_n \delta(\mathbf{r}-\mathbf{R}_n) \mathbf{P}_n / M_n $, and a local external potential is described by: $V'(\rGamma,t)=\sum_n v(\mathbf{R}_n,t)=\int v'(\mathbf{r},t) n(\mathbf{r};\rGamma) d \mathbf{r}$. Note that sample functions are not necessarily univocally defined. Different functions whose phase-space averages coincide in the long-wavelength limit sample the same hydrodynamical variable. More on this in Chapter~\ref{ch:gauge-invariance}.
 
-According to \cite{Green1954}, \cite{Kubo1957a}, and \cite{Kubo1957b}, the linear response of the $i$-th conserved current to the perturbation is:
+According to Ref.~\citenum{Green1954}, \citenum{Kubo1957a}, and \citenum{Kubo1957b}, the linear response of the $i$-th conserved current to the perturbation is:
 \begin{align}
   j_\alpha^i(\mathbf{r},t) & = \frac{1}{k_B T} \sum_j \int_{-\infty}^t dt' \int d\mathbf{r}' \Bigl \langle j_\alpha^i(\mathbf{r},\rGamma_t)\dot a^j(\mathbf{r}',\rGamma_{t'})\Bigr \rangle_0 v^j(\mathbf{r}',t') \\
   &= \frac{-1}{k_B T} \sum_{j,\beta} \int_{-\infty}^t dt' \int d\mathbf{r}' \Bigl \langle j_\alpha^i(\mathbf{r},\rGamma_t) \partial'_\beta j_\beta^j(\mathbf{r}',\rGamma_{t'})\Bigr \rangle_0 v^j(\mathbf{r}',t') \\
@@ -93,11 +93,11 @@ J^i_\alpha(\rGamma) &= \frac{1}{\rOmega} \int j^i_\alpha(\mathbf{r},\rGamma) d\m
 F^i_\alpha(\rGamma) &= \frac{1}{\rOmega T} \int \partial_\alpha v^i(\mathbf{r},\rGamma) d\mathbf{r}, \label{eq:F_def}\\
 L^{ij}_{\alpha\beta} &= \frac{\rOmega}{k_B} \int_0^\infty \left\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0)\right\rangle_0 dt. \label{eq:L_def}
 \end{align}
-This completes the derivation of the Green-Kubo formula for transport coefficients, Eq.~\eqref{eq:GK}, from classical linear-response theory. Onsager's reciprocity relations, $L^{ij}=L^{ji}$ \citep{Onsager1931a,Onsager1931b}, follow from Eq.~\eqref{eq:L_def} leveraging time-translational invariance, $\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0) \rangle = \langle J^i_\alpha(\rGamma_0) J^j_\beta(\rGamma_{-t}) \rangle$, and micro-reversibility, $\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0) \rangle = \langle J^i_\alpha(\rGamma_{-t}) J^j_\beta(\rGamma_0) \rangle$.
+This completes the derivation of the Green-Kubo formula for transport coefficients, Eq.~\eqref{eq:GK}, from classical linear-response theory. Onsager's reciprocity relations, $L^{ij}=L^{ji}$ \cite{Onsager1931a,Onsager1931b}, follow from Eq.~\eqref{eq:L_def} leveraging time-translational invariance, $\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0) \rangle = \langle J^i_\alpha(\rGamma_0) J^j_\beta(\rGamma_{-t}) \rangle$, and micro-reversibility, $\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0) \rangle = \langle J^i_\alpha(\rGamma_{-t}) J^j_\beta(\rGamma_0) \rangle$.
 
 
 \subsection{Einstein-Helfand expression for transport coefficients and the Wiener-Khintchine theorem}  \label{sec:Einstein}
-The celebrated Einstein's relation between the mean-square displacement of a diffusing particle and its velocity auto-correlation function is easily generalized to an arbitrary stochastic process and has in fact been utilized by \cite{Helfand1960} to provide an ``Einstein-like'' expression for transport coefficients.
+The celebrated Einstein's relation between the mean-square displacement of a diffusing particle and its velocity auto-correlation function is easily generalized to an arbitrary stochastic process and has in fact been utilized by \citet{Helfand1960} to provide an ``Einstein-like'' expression for transport coefficients.
 
 Let $X_t$ be a stationary stochastic process. One has:
 \begin{equation}
@@ -115,7 +115,7 @@ Eq.~\eqref{eq:Einstein-Helfand} can be easily generalized to the finite-frequenc
   \end{aligned}
   \label{eq:Wiener-Khintchine}
 \end{equation}
-This equation expresses the Wiener-Khintchine theorem \citep{Wiener1930,Khintchine1934}, which states that the expectation of the squared modulus of the Fourier transform of a stationary process is the Fourier transform of its time correlation function, which is usually referred to as the process \emph{power spectral density},
+This equation expresses the Wiener-Khintchine theorem \cite{Wiener1930,Khintchine1934}, which states that the expectation of the squared modulus of the Fourier transform of a stationary process is the Fourier transform of its time correlation function, which is usually referred to as the process \emph{power spectral density},
 \begin{equation}
   S(\omega) = \int_{-\infty}^\infty \langle X_t X_0 \rangle \,\mathrm{e}^{i\omega t} dt, \label{eq:S(omega)}
 \end{equation}
@@ -207,10 +207,10 @@ is often called \emph{convective} (or \emph{kinetic}) and the second term,
     \mathbf{J}_v = \frac{1}{\rOmega} \left[ \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-virial}
 \end{equation}
 is often called \emph{virial} (or \emph{potential}).
-\citeauthor{Fan2015} and \citeauthor{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}_c$ ``does not contribute to thermal conductivity'' in solids. 
+\citet{Fan2015} and \citet{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}_c$ ``does not contribute to thermal conductivity'' in solids. 
 We feel that the wording ``convective'' is somewhat misleading in this context, as the convective current, as well as its contribution to heat conductivity, may not vanish even in the absence of convection.
 
-In the literature the nomenclature is often confusing, and this aspect not so well investigated. \citeauthor{Vogelsang1987} (**CHECK AUTHOR**) divide the energy currents in two terms \cite{McQuarrie2000}:
+In the literature the nomenclature is often confusing, and this aspect not so well investigated. \citet{Vogelsang1987} (**CHECK AUTHOR**) divide the energy currents in two terms \cite{McQuarrie2000}:
 \begin{equation}
     \mathbf{J}^\smallE(\rGamma) = \mathbf{J}'_k + \mathbf{J}'_p ,
 \end{equation}
@@ -224,7 +224,7 @@ and $\mathbf{J}'_p$ denotes the \emph{potential} part
 \end{equation}
 They find that the kinetic term is negligible in solids, where atomic diffusion does not occour.
 
-\citeauthor{Kinaci2012}, instead, use the Einstein formulation and define a \emph{kinetic} term
+\citet{Kinaci2012}, instead, use the Einstein formulation and define a \emph{kinetic} term
 \begin{equation}
     \mathbf{J}''_k = \frac{1}{\rOmega} \left[ \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right],
 \end{equation}
@@ -238,13 +238,13 @@ Recently, \citet{Carbogno:2017gc} formulated an \emph{ab initio} Green-Kubo appr
 
 
 \paragraph{Many-body potentials}
-In the case of a many-body potential interaction, if the atomic potential energy can be written as a function of the distance vectors $\mathbf{R_nm}=\mathbf{R}_n-\mathbf{R}_m$, as $v_n = v_n(\mathbf{R}_{1n},\mathbf{R}_{2n},\cdots,\mathbf{R}_{Nn})$, the force acting on atom $n$ can be written as: \cite{Fan2015,Hardy2016}
+In the case of a many-body potential interaction, if the atomic potential energy can be written as a function of the distance vectors $\mathbf{R_nm}=\mathbf{R}_n-\mathbf{R}_m$, as $v_n = v_n(\mathbf{R}_{1n},\mathbf{R}_{2n},\cdots,\mathbf{R}_{Nn})$, the force acting on atom $n$ can be written as \cite{Fan2015,Hardy2016}:
 \begin{align}
     \mathbf{F}_n &= -\sum_m \frac{\partial v_m}{\partial \mathbf{R}_n} \\
         &= -\sum_{m\neq n} \frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{pn}} \\
         &= \sum_{m\neq n} \left(\frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{mn}} \right).
 \end{align}
-For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \citeauthor{Fan2015} obtain the following definition for the virial energy flux:
+For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \citet{Fan2015} obtain the following definition for the virial energy flux:
 \begin{equation}
     \mathbf{J}_v = \sum_n \sum_{n\neq m} \mathbf{R}_{ij} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \cdot \mathbf{V}_n \right) ,
 \end{equation}
@@ -254,22 +254,22 @@ equivalent to the one obtained by \citet{Hardy1963}, and they show that some oth
 
 
 \subsection{Multi-component fluids} \label{sec:multi-component}
-In a multi-component fluid there is one conserved quantity (the particle number) per atomic species, plus the total energy and the three Cartesian components of the total momentum. The momentum densities are mass currents: the mass flux is therefore the total momentum, which vanishes in the center of mass reference frame. The transverse components of the momentum densities are decoupled from the other conserved densities \citep{Foster1975}, while the longitudinal one can be assumed to coincide with the total momentum in the long-wavelength limit. Momentum conservation thus constrains the number of fluxes interacting with the energy flux in Eq.~\eqref{eq:onsager} to $Q-1$, $Q$ being the number of atomic species, so that the resulting dimension of the matrix of Onsager coefficients, $L$, is $Q\times Q$. The heat flux is defined as the non-convective component of the energy flux, \emph{i.e.} the value of the latter in the absence of mass transport, that is to say when all the particle fluxes vanish.\footnote{It is unfortunate, but inevitable due to common usage, that this definition of non-convective flux clashes with a different definition given above while commenting Eq.~\eqref{eq:J-classical}.} By imposing this condition in Eq.~\eqref{eq:onsager}, with $\mathbf J^\smallone \equiv \mathbf{J}^\smallE$, and $\mathbf{J}^{q}$ ($q =2,\dots Q$) being independent particle fluxes, the thermal conductivity, defined as the ratio of the heat flux over the temperature gradient, is given by:
+In a multi-component fluid there is one conserved quantity (the particle number) per atomic species, plus the total energy and the three Cartesian components of the total momentum. The momentum densities are mass currents: the mass flux is therefore the total momentum, which vanishes in the center of mass reference frame. The transverse components of the momentum densities are decoupled from the other conserved densities \cite{Foster1975}, while the longitudinal one can be assumed to coincide with the total momentum in the long-wavelength limit. Momentum conservation thus constrains the number of fluxes interacting with the energy flux in Eq.~\eqref{eq:onsager} to $Q-1$, $Q$ being the number of atomic species, so that the resulting dimension of the matrix of Onsager coefficients, $L$, is $Q\times Q$. The heat flux is defined as the non-convective component of the energy flux, \emph{i.e.} the value of the latter in the absence of mass transport, that is to say when all the particle fluxes vanish.\footnote{It is unfortunate, but inevitable due to common usage, that this definition of non-convective flux clashes with a different definition given above while commenting Eq.~\eqref{eq:J-classical}.} By imposing this condition in Eq.~\eqref{eq:onsager}, with $\mathbf J^\smallone \equiv \mathbf{J}^\smallE$, and $\mathbf{J}^{q}$ ($q =2,\dots Q$) being independent particle fluxes, the thermal conductivity, defined as the ratio of the heat flux over the temperature gradient, is given by:
 \begin{equation}
 \kappa = \frac{1}{T^2 \,(L^{-1})^{\smallone\smallone}}. \label{eq:multi_kappa}
 \end{equation}
-This expression can be proved to be invariant under \textit{any} non-singular linear transformation of the independent particle fluxes. For instance, in the case of a two-component liquid, energy and particle currents are coupled as in:
+This expression can be proved to be invariant under \textit{any} non-singular linear transformation of the independent particle fluxes. 
+
+\paragraph{Two-component fluid}
+For instance, in the case of a two-component liquid, energy and particle currents are coupled as in:
 \begin{equation}
   \begin{aligned}
     \mathbf{J}^\smallE &= L^{\smallE\smallE}\,  \nabla \left (\frac{1}{T} \right ) + L^{\smallE\smallQ} \, \nabla \left (\frac{\mu}{T} \right ), \\
     \mathbf{J}^{\smallQ} &= L^{\smallE\smallQ} \, \nabla \left (\frac{1}{T} \right ) + L^{\smallQ\smallQ} \, \nabla \left (\frac{\mu}{T} \right ), \label{eq:two-comp-constitutive}
   \end{aligned}
 \end{equation}
-where $\mathbf{J}^{\smallQ}$ is the particle current of one of the two species (say, the second), and $\mu$ the corresponding chemical potential \citep{Sindzingre1990}. By imposing that the particle current vanishes, the resulting thermal conductivity is:
+where $\mathbf{J}^{\smallQ}$ is the particle current of one of the two species (say, the second), and $\mu$ the corresponding chemical potential \cite{Sindzingre1990}. By imposing that the particle current vanishes, the resulting thermal conductivity is:
 \begin{equation}
   \kappa=\frac{1}{T^2}
   \left( L^{\smallE\smallE} - \frac{(L^{\smallE\smallQ})^2}{L^{\smallQ\smallQ}} \right). \label{eq:two-comp-kappa}
 \end{equation}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
