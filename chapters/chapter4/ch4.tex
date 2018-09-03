@@ -116,9 +116,16 @@ Therefore, the cost of one energy flux calculation is about equal to the cost of
 In the current implementation, each time step costs almost 4 times the cost of a self-consistent calculation.
 The atomic coordinates at time $t+\Delta t$ are extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand, as shown in Fig.~***** for the case of liquid water.******
 
+\bigskip
 *******FIGURA CONVERGENZA TIMESTEP*********
 
+\bigskip
+***** ESEMPI ARIS?? ***
 
 
 \section{Outlook}  \label{sec:dft-outlook}
-As it was already mentioned in Sec.~\ref{sec:gauge-outlook}, the gauge invariance of transport coefficients not only provides a solid foundation to the quantum theory of adiabatic heat transport, by also allows tuning this definition so as to achieve optimal statistical properties to reduce its computational cost. This freedom can in principle be exploited to design new expressions for the heat flux. One possibility may be devising a formulation base on a local representation of the electronic structure \cite{Marzari2012,Damle2015}, \emph{e.g.} maximally localized Wannier functions, that would avoid the use of density-functional perturbation theory for the computation of $\mathbf{J}^{\smallKS}$. In the case of solids, another promising expression may be obtained from a normal-mode expansion \cite{Ladd1986} and interpolation, to cope with noise and finite-size effects, in a similar way to the one proposed by \citet{Carbogno:2017gc}. 
+As it was already mentioned in Sec.~\ref{sec:gauge-outlook}, the gauge invariance of transport coefficients not only provides a solid foundation to the quantum theory of adiabatic heat transport, by also allows tuning this definition so as to achieve optimal statistical properties to reduce its computational cost. This freedom can in principle be exploited to design new expressions for the heat flux. One possibility may be devising a formulation base on a local representation of the electronic structure \cite{Marzari2012,Damle2015}, \emph{e.g.} maximally localized Wannier functions, that would avoid the use of density-functional perturbation theory for the computation of $\mathbf{J}^{\smallKS}$, by removing the ill-definiteness problems in PBC. In the case of solids, where correlation times are generally longer, a more efficient expression may be obtained from a normal-mode expansion \cite{Ladd1986} and interpolation, to cope with noise and finite-size effects, in a similar way to the one proposed by \citet{Carbogno:2017gc}. 
+
+Furthermore, the expression of the energy flux, that is now implemented for LDA and GGA energy functionals, can be extended to more advanced functionals \cite{French_2010:long_range,Berland2015}, where dispersion forces are accounted for. This effects are important in the structural and transport properties of many soft materials.
+
+Finally, the \abinitio computation of thermal conductivity of multi-component fluids has never been attempted and would be particularly beneficial to study systems in extreme conditions.
