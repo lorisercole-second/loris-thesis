@@ -101,11 +101,18 @@ The celebrated Einstein's relation between the mean-square displacement of a dif
 
 Let $X_t$ be a stationary stochastic process. One has:
 \begin{equation}
-  \frac{1}{\mathcal{T}} \left \langle \left | \int_0^\mathcal{T} X_t dt \right |^2 \right \rangle = 2 \int_0^\mathcal{T} \left \langle X_t X_0 \right \rangle dt -\frac{2}{\mathcal{T}} \int_0^\mathcal{T} \left \langle X_t X_0 \right \rangle t \,dt. \label{eq:Einstein-Helfand}
+  \frac{1}{\mathcal{T}} \left\langle \left| \int_0^\mathcal{T} X_t dt \right|^2 \right\rangle = 2 \int_0^\mathcal{T} \left\langle X_t X_0 \right\rangle dt -\frac{2}{\mathcal{T}} \int_0^\mathcal{T} \left\langle X_t X_0 \right\rangle t \,dt. \label{eq:Einstein-Helfand}
 \end{equation}
-In the large-$\mathcal{T}$ limit, the second term on the right-hand side of Eq.~\eqref{eq:Einstein-Helfand} can be neglected.
+In the large-$\mathcal{T}$ limit, the second term on the right-hand side of Eq.~\eqref{eq:Einstein-Helfand} can be neglected. 
 
-When the stochastic process is the velocity of a Brownian particle, Eq.~\eqref{eq:Einstein-Helfand} allows one to establish a relation between the diffusion constant of the particle, temperature, and the auto-correlation time of the velocity.  When $X_t$ is the heat flux of a macroscopic body, Eq.~\eqref{eq:Einstein-Helfand} allows one to estimate the thermal conductivity, as given by Eq.~\eqref{eq:GK}, from the asymptotic behavior of the ``energy displacement'' $\mathcal{D}(\tau) = \int_0^\tau \mathbf{J}(\rGamma_t) dt $.
+When the stochastic process is the velocity of a Brownian particle, Eq.~\eqref{eq:Einstein-Helfand} allows one to establish a relation between the diffusion constant of the particle, temperature, and the auto-correlation time of the velocity.  When $X_t$ is the heat flux of a macroscopic body, Eq.~\eqref{eq:Einstein-Helfand} allows one to estimate the thermal conductivity, as given by Eq.~\eqref{eq:GK}, from the asymptotic behavior of the ``energy displacement'' $\mathcal{D}(\tau) = \int_0^\tau \mathbf{J}(\rGamma_t) dt $. 
+\LE{
+From Eq.~\eqref{eq:L_def} we have that
+\begin{align}
+    L_{\alpha\beta}^{ij} &= \lim_{\mathcal{T\rightarrow\infty}} \frac{\rOmega}{k_B} \int_0^{\mathcal{T}} \left\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0)\right\rangle_0 \left(1 - \frac{t}{\mathcal{T}}\right) dt \nonumber\\
+    &= \lim_{\mathcal{T\rightarrow\infty}} \frac{\rOmega}{2k_B\mathcal{T}} \left\langle \int_0^\mathcal{T} J_\alpha^i(\rGamma_t) \int_0^\mathcal{T} J_\beta^j(\rGamma_t) dt \right\rangle_0 .  \label{eq:Einstein-Helfand-Lij}
+\end{align}
+}
 
 Eq.~\eqref{eq:Einstein-Helfand} can be easily generalized to the finite-frequency regime, to get:
 \begin{equation}
@@ -273,3 +280,8 @@ where $\mathbf{J}^{\smallQ}$ is the particle current of one of the two species (
   \kappa=\frac{1}{T^2}
   \left( L^{\smallE\smallE} - \frac{(L^{\smallE\smallQ})^2}{L^{\smallQ\smallQ}} \right). \label{eq:two-comp-kappa}
 \end{equation}
+
+
+\bigskip
+\bigskip
+*** FINITE SIZE EFFECTS, FINITE-TIME EFFECTS, QUANTUM EFFECTS... ***

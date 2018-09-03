@@ -1,10 +1,55 @@
 \chapter{Data analysis}  \label{ch:data-analysis}
 
-The MD evaluation of the GK integral, Eq.~\eqref{eq:GK}, usually proceeds in two steps. One first evaluates the integrand as a running average of the time-lagged current products, $\langle J^i(\tau)J^j(0)\rangle \sim \frac{1}{\mathcal{T}-\tau} \int_0^{\mathcal{T}-\tau} J^i(t+\tau)J^j(t)dt$, where $\mathcal{T}$ is the length of the MD trajectory.
-The matrix defined in Eq.~\eqref{eq:L_def} is then estimated as a function of the upper limit of integration:  $L^{ij}(\mathcal{T})\propto \frac{\rOmega}{k_B} \int_0^\mathcal{T} \langle J^i(\tau)J^j(0)\rangle \,d\tau$. One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal conductivity depending on $\mathcal{T}$:
-$\kappa(\mathcal{T})\propto \frac{1}{(L^{-1}(\mathcal{T}))^{\smallone\smallone}}$.
-This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(\tau)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathcal{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit.
-The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise. Some authors try to overcome these problems by either fitting the autocorrelation function or the GK integral with a multi-exponential function \citep{Schelling2002,Zhang2015}, or by extrapolating the power spectrum of the energy flux to the zero-frequency limit \citep{Volz2000}. Others have attempted an error analysis of the MD estimate of the GK integral, based on either heuristic or rigorous arguments \citep{Jones2012,Wang_gk2017,Oliveira2017}, but they all require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
+\begin{LEtext}
+The evaluation of transport coefficients in extended systems, such as thermal conductivity or shear viscosity, is known to require impractically long simulations. The Green-Kubo equation, Eq.~\eqref{eq:GK-complete}, expresses the thermal conductivity as the integral of the autocorrelation function of the heat flux, \emph{i.e.} an autocorrelation time. 
+
+Many methods have been formulated to try to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criteria to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
+
+The recent discoveries reinvigorated the interest in the quantum simulation of thermal conduction, and made it urgent to devise a data-analysis technique to make these simulations affordable, thus to paving the way to the \abinitio simulation of heat transport.
+In order to solve this problem, we consider it in the light of the statistical theory of stationary time series, and we devise a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far. This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
+While motivated by heat transport applications, our approach naturally applies to \emph{any} other transport properties that can be expressed, in a GK framework, in terms of time integrals of suitable autocorrelation functions, such as, \emph{e.g.}, ionic conductivities, viscosities, and tracer diffusivity, to name but a few. 
+
+In this chapter we start by summarizing briefly the available techniques to estimate the Green-Kubo integral, then we formulate the problems in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from ``cepstral analysis'', in the case of one-component and multi-component fluids. In the last section we validate this method with extensive benchmarks on the calculation of thermal conductivity.
+\end{LEtext}
+
+
+\section{Estimation of the GK integral} \label{sec:data-analysis-methods}
+
+\begin{figure}
+    \begin{center}
+    ****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********
+        %\subfigure[\label{fig:argon-acf-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
+        %\subfigure[\label{fig:argon-kappa-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
+    \end{center}
+	\caption{(a) Time correlation function of the energy current of a liquid Argon, Eq.~\eqref{eq:JtJ0}
+    (b) Integral of the time correlation function of liquid Argon, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}).
+    The green and red lines are computed from a $100\un{ps}$ trajectory; the blue line is computed from a $1\un{ns}$ trajectory.
+    Errors are estimated by standard block analysis.}
+\end{figure}
+
+\paragraph{Direct integration}
+The MD evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def},
+\begin{equation}
+    L^{ij} = \frac{\rOmega}{k_B} \int_0^\infty \left\langle J^i(t) J^j(0)\right\rangle_0 dt , \label{eq:data-GK-integral}
+\end{equation}
+where $J^i$ indicates any Cartesian component of $\mathbf{J}_i$, usually proceeds in two steps. 
+One first evaluates the integrand as a running average of the time-lagged current products, 
+\begin{equation}
+    \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
+\end{equation}
+where $\mathcal{T}$ is the length of the MD trajectory. An example is shown in Fig.~\ref{fig:argon-acf-long}. 
+The matrix defined in Eq.~\eqref{eq:data-GK-integral} is then estimated as a function of the upper limit of integration: 
+\begin{equation}
+    L^{ij}(\mathcal{T}) = \frac{\rOmega}{k_B} \int_0^\mathcal{T} \langle J^i(\tau)J^j(0)\rangle \,d\tau .  \label{eq:Lij-integralT}
+\end{equation}
+One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal conductivity depending on $\mathcal{T}$:
+\begin{equation}
+    \kappa(\mathcal{T}) = \frac{1}{T^2} \frac{1}{(L^{-1}(\mathcal{T}))^{\smallone\smallone}}.  \label{eq:kappa-integralT}
+\end{equation}
+This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(\tau)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathcal{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as shown in Fig.~\ref{fig:argon-kappa-long}.
+The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise. 
+
+Some authors try to overcome these problems by either fitting the autocorrelation function or the GK integral with a multi-exponential function \citep{Schelling2002,Zhang2015}, or by extrapolating the power spectrum of the energy flux to the zero-frequency limit \citep{Volz2000}. Others have attempted an error analysis of the MD estimate of the GK integral, based on either heuristic or rigorous arguments \citep{Jones2012,Wang_gk2017,Oliveira2017}, but they all require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
 
 
 \section{Solids and one-component fluids} \label{sec:univariate}
