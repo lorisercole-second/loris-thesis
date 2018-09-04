@@ -13,7 +13,12 @@ In this chapter we start by summarizing briefly the available techniques to esti
 \end{LEtext}
 
 
-\section{Estimation of the GK integral} \label{sec:data-analysis-methods}
+\section{Estimation of the Green-Kubo integral} \label{sec:data-analysis-methods}
+
+In the following we shall focus on one-component systems, or molecular systems, where the heat flux correspond to the energy flux. 
+In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,
+\footnote{\LEnote{***THERMOSTAT, INITIAL CONDITIONS STUFF***}} 
+via the classical expression, Eq.~\eqref{eq:J-classical} (Eq.~\eqref{eq:J-classical-2body} for 2-body force fields), or the quantum DFT one, Eq.~\eqref{eq:DFT-Eflux}.
 
 \begin{figure}
     \begin{center}
@@ -24,21 +29,31 @@ In this chapter we start by summarizing briefly the available techniques to esti
 	\caption{(a) Time correlation function of the energy current of a liquid Argon, Eq.~\eqref{eq:JtJ0}
     (b) Integral of the time correlation function of liquid Argon, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}).
     The green and red lines are computed from a $100\un{ps}$ trajectory; the blue line is computed from a $1\un{ns}$ trajectory.
-    Errors are estimated by standard block analysis.}
+    Errors are estimated by standard block analysis.} \label{fig:acf-examples}
 \end{figure}
 
-\paragraph{Direct integration}
-The MD evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def},
-\begin{equation}
-    L^{ij} = \frac{\rOmega}{k_B} \int_0^\infty \left\langle J^i(t) J^j(0)\right\rangle_0 dt , \label{eq:data-GK-integral}
-\end{equation}
-where $J^i$ indicates any Cartesian component of $\mathbf{J}_i$, usually proceeds in two steps. 
-One first evaluates the integrand as a running average of the time-lagged current products, 
+The heat current autocorrelation function (HCACF), $\langle\mathbf{J}(t)\mathbf{J}(0)\rangle$, can then be estimated as a running average of the time-lagged current products, 
 \begin{equation}
     \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
 \end{equation}
-where $\mathcal{T}$ is the length of the MD trajectory. An example is shown in Fig.~\ref{fig:argon-acf-long}. 
-The matrix defined in Eq.~\eqref{eq:data-GK-integral} is then estimated as a function of the upper limit of integration: 
+where $\mathcal{T}$ is the length of the MD trajectory, and $J^i$ indicates any Cartesian component of $\mathbf{J}_i$.
+Some typical examples of HCACFs are shown in Fig.~\ref{fig:argon-acf-long}, for four paradigmatic cases: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$. Liquid argon's HCACF is characterized by a simple exponential decay, as it is a simple diffusing liquid. The other systems, instead, are characterized by an initial drop, followed by a much longer one, with fast superimposed oscillations, due to the faster intramolecular vibrations, that can be linked to the optical phonon modes.
+
+\begin{figure}
+    \begin{center}
+    ****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********
+        %\subfigure[\label{fig:argon-acf-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
+        %\subfigure[\label{fig:argon-kappa-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
+    \end{center}
+	\caption{(a) Time correlation function of the energy current of a liquid Argon, Eq.~\eqref{eq:JtJ0}
+    (b) Integral of the time correlation function of liquid Argon, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}).
+    The green and red lines are computed from a $100\un{ps}$ trajectory; the blue line is computed from a $1\un{ns}$ trajectory.
+    Errors are estimated by standard block analysis.} \label{fig:kappa-examples}
+\end{figure}
+
+
+\subsection{Direct integration}
+The evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def}, can then be performed by direct integration, as a function of the upper limit of integration: 
 \begin{equation}
     L^{ij}(\mathcal{T}) = \frac{\rOmega}{k_B} \int_0^\mathcal{T} \langle J^i(\tau)J^j(0)\rangle \,d\tau .  \label{eq:Lij-integralT}
 \end{equation}
@@ -46,13 +61,69 @@ One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal c
 \begin{equation}
     \kappa(\mathcal{T}) = \frac{1}{T^2} \frac{1}{(L^{-1}(\mathcal{T}))^{\smallone\smallone}}.  \label{eq:kappa-integralT}
 \end{equation}
-This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(\tau)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathcal{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as shown in Fig.~\ref{fig:argon-kappa-long}.
-The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise. 
+This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(\tau)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathcal{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as shown in Fig.~\ref{fig:kappa-examples}.
+The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration, usually with standard block analysis \cite{Frenkel2001}. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise and can make the convergence of the GK not obvious.
 
-Some authors try to overcome these problems by either fitting the autocorrelation function or the GK integral with a multi-exponential function \citep{Schelling2002,Zhang2015}, or by extrapolating the power spectrum of the energy flux to the zero-frequency limit \citep{Volz2000}. Others have attempted an error analysis of the MD estimate of the GK integral, based on either heuristic or rigorous arguments \citep{Jones2012,Wang_gk2017,Oliveira2017}, but they all require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
+\begin{figure}
+    \begin{center}
+    ****************ACF KAPPA ARGON MCGAUGHEY pag.215***********
+        %\subfigure[\label{fig:argon-acf-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
+        %\subfigure[\label{fig:argon-kappa-long}]{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
+    \end{center}
+	\caption{(a) heat current autocorrelation function, Eq.~\eqref{eq:JtJ0}, and
+    (b) thermal conductivity as a function of the upper integration limit, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}), for three phases of LJ argon. Reproduced from Ref.~\cite{McGaughey2004a}.} \label{fig:argon-gk-phases-examples}
+\end{figure}
+\citeauthor{McGaughey2006} \cite{McGaughey2006,McGaughey2004a,McGaughey2004b} studied the case of LJ argon in different phases (fcc crystal, liquid, and amorphous). In Fig.~\ref{fig:argon-gk-phases-examples} we report the comparisons of their HCACFs and their direct GK integrals, Eq.~\eqref{eq:kappa-integralT}. At finite time the HCACFs show the two-stage decay \cite{Ladd1986}, and their extension decreases as the temperature increases, as one would expect due to decreasing phonons relaxation times. Their integral converge to the correspondent value of thermal conductivity, however the practical determination of $\kappa$ may be quite subjective. The ``first dip'' (FD) method, proposed by \citet{Li1998}, specifies its value by setting the upper limit of integration to be the first time where the HCACF goes negative. FD may give acceptable results in solid and liquid argon, but it is not suitable to the amorphous phase and in systems with multi-atom unit cell, as the HCACF oscillates wildly around zero before slowly decaying. Other methods to choose the cutoff time have been devised \cite{Chen2010}, but they are specifically conceived and tested for crystalline solids, such as silicon.
 
 
-\section{Solids and one-component fluids} \label{sec:univariate}
+\subsection{Exponential fit and thermal conductivity decomposition}
+Another technique proposed by some authors is the exponential fit (EF) method, in which a single or multi-exponential function is fitted to the HCACF beyond a certain point (determined on a case-by-case basis) \cite{Che2000a,Li1998,Zhang2015}. An example is the function \cite{Che2000a}:
+\begin{equation}
+    \langle J(t) J(0) \rangle = A_{ac,sh} \mathrm{e}^{-t/\tau_{ac,sh}} + A_{ac,lg} \mathrm{e}^{-t/\tau_{ac,lg}},
+\end{equation}
+where the subscripts $ac,sh$ and $lg$ refer to acoustic, short-, and long range. From here the thermal conductivity is then estimated as:
+\begin{equation}
+    \kappa = \frac{\rOmega}{k_B T^2} (A_{ac,sh}\tau_{ac,sh} + A_{ac,lg}\tau_{ac,lg})  =  \kappa_{ac,sh} + \kappa_{acf,lg}.
+\end{equation}
+\citet{McGaughey2004a} interpreted the two-stage behavior of solid argon's HCACF and the resulting decomposition of the thermal conductivity in the context of the mean phonon relaxation time: $\kappa_{ac,sh}$ corresponds to the phonons with lower relaxation times, whereas $\kappa_{ac,lg}$ corresponds to phonons with longer relaxation times, that make the longer decay time of the HCACF.
+This model works pretty well \emph{e.g.} for solid argon \cite{McGaughey2004a}, diamond and carbon nanotubes \cite{Che2000a,Che2000b}, as well as in liquid argon, where a single-exponential decay is found, but does not work well to fit the long tails of the HCACF of silicon \cite{Schelling2002}.
+
+The HCACF of amorphous argon, instead, shows a different behavior with respect to the solid an liquid phases. It is very similar to the velocity autocorrelation function and can be interpreted considering the different local environments the atoms experience. In a crystal, each atom is immersed in the same local environment; and the same is true in a liquid, if we average over time. Conversely, in an amorphous solid each atom has a different local environment: close its equilibrium position, it experiences the free trajectory of a liquid atom, at short time scales; but at slightly larger times it feels the interactions of the other atoms, that change its trajectory, and make the correlation negative. 
+The first timescale of the HCACF decomposition, $\tau_{ac,sh}$, is related to the time it takes for the energy to move between nearest-neighbor atoms, and corresponds to the higher frequencies of the acoustic branches. The $\kappa_{ac,sh}$ is the only one important in the liquid and amorphous phase, and is a function of the coordination of the atoms \LEnote{**also found in silica structures \cite{McGaughey2004b}**} and scarcely depends on temperature, whereas $\kappa_{ac,lg}$ strongly depends on temperature.
+In the amorphous case the EF method is not suitable for determining the thermal conductivity, and a direct integration should be performed instead. 
+\LEnote{**CP limit?**}
+
+In the case of unit cells with multiple atoms, where intramolecular vibrations manifest as fast oscillations in the HCACF, again, the EF method is not suited to determine $\kappa$. A rather arbitrary compromise is devised by \citet{McGaughey2004b}: they first filter the GK integral function, Eq.~\eqref{eq:Lij-integralT}, with a running average \cite{MovingAverage} and they choose the value at which it looks to converge. If the convergence is not clear they choose to stop the integration at the point at which the oscillations reach a minimum (neck). A more advanced fit can be performed in this case using the form \cite{McGaughey2004b}:
+\begin{multline}
+    \langle J(t) J(0) \rangle = A_{ac,sh} \mathrm{e}^{-t/\tau_{ac,sh}} + A_{ac,lg} \mathrm{e}^{-t/\tau_{ac,lg}} \\
+        + \sum_i B_{op,i} \mathrm{e}^{-t/\tau_{op,i}} \cos(\omega_{op,i},t),
+\end{multline}
+\begin{equation}
+    \begin{aligned}
+        \kappa &= \frac{\rOmega}{k_B T^2} \left(A_{ac,sh}\tau_{ac,sh} + A_{ac,lg}\tau_{ac,lg} + \sum_i \frac{B_{op,i}\tau_{op,i}}{1+\tau_{op,i}^2\omega_{op,i}^2}\right) \\
+        &= \kappa_{ac,sh} + \kappa_{acf,lg} + \kappa_{op},
+    \end{aligned}
+\end{equation}
+where the subscript $op$ refers to optical phonon modes, however the procedure is not trivial. Furthermore, this procedure was found unsuitable for the case of amorphous silica, that therefore requires an alternative approach \cite{McGaughey2004b}.
+
+
+\subsection{Spectral methods}
+, or by extrapolating the power spectrum of the energy flux to the zero-frequency limit \citep{Volz2000}. 
+
+\subsection{Other methods}
+**discussione errori di sampling/integrazione, ... Mandadapu
+
+\subsection{Final remarks}
+We believe that no method is well suited
+Gauge invariance --> ?
+
+Others have attempted an error analysis of the MD estimate of the GK integral, based on either heuristic or rigorous arguments \citep{Jones2012,Wang_gk2017,Oliveira2017}, but they all require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
+
+
+
+\section{Cepstral analysis}  \label{sec:cepstral-analysis}
+%\section{Solids and one-component fluids} \label{sec:univariate}
+
 In practice, MD gives access to a discrete sample of the flux process (a \emph{time series}), $J_n = J(n \epsilon)$, $0 \leq n \leq N-1$, where $\epsilon$ is the sampling period of the flux and $N$ the length of the time series, that we assume to be even. As was shown in Sec.~\ref{sec:Einstein}, the Wiener-Khintchine theorem allows one to express the heat conductivity in terms of the zero-frequency value of the power spectrum of the energy-flux (see Eqs.~(\ref{eq:Wiener-Khintchine}-\ref{eq:GK-S0})):
 \begin{equation}
 \kappa = \frac{\rOmega}{2k_B T^2} S (\omega=0). \label{eq:kappa-S0}
@@ -61,46 +132,72 @@ Let us define the discrete Fourier transform of the flux time series as:
 \begin{equation}
   \tilde{J}_{k}=\sum_{n=0}^{N-1} \mathrm{e}^{ 2\pi i\frac{kn}{N}} J_n, \label{eq:Jk}
 \end{equation}
-for $0 \leq k \leq N-1$.\footnote{Here, the convention for the sign in the exponential of the time-to-frequency Fourier transform is opposite to what adopted in \citep{Ercole2017} and in most of the signal analysis literature, in order to comply with the convention for the space-time Fourier transforms usually adopted in the Physics literature and in Eqs.~\eqref{eq:kontinuity} and \eqref{eq:Fourier-continuity}.} The \emph{sample spectrum} $\hat S_k$, aka \emph{periodogram}, is defined as
+for $0 \leq k \leq N-1$.\footnote{Here, the convention for the sign in the exponential of the time-to-frequency Fourier transform is opposite to what adopted in Ref.~\cite{Ercole2017} and in most of the signal analysis literature, in order to comply with the convention for the space-time Fourier transforms usually adopted in the Physics literature and in Eqs.~\eqref{eq:kontinuity} and \eqref{eq:Fourier-continuity}.} The \emph{sample spectrum} $\hat S_k$, aka \emph{periodogram} in the statistics literature, is defined as
 \begin{equation}
 \hat{S}_{k}=\frac{\epsilon}{N} \left |\tilde{J}_{k} \right |^2, \label{eq:periodogram-def}
 \end{equation}
 and, for large $N$, it is an unbiased estimator of the power spectrum of the process, as defined in Eq.~\eqref{eq:Wiener-Khintchine}, evaluated at $\omega_k=2\pi\frac{k}{N\epsilon}$, namely: $\langle \hat S_k \rangle = S(\omega_k)$. The reality of the $\hat J$'s implies that $\tilde J_k=\tilde J^*_{N-k}$ and $\hat S_k=\hat S_{N-k}$, so that periodograms are usually reported for $0\leq k\leq \frac{N}{2}$ and their Fourier transforms evaluated as discrete cosine transforms.
 
-The space autocorrelations of conserved currents are usually short-ranged. Therefore, in the thermodynamic limit the corresponding fluxes can be seen as sums of (almost) independent identically distributed stochastic variables, so that, according to the central-limit theorem, their equilibrium distribution is Gaussian. A slight generalization of this argument allows us to conclude that any conserved-flux process is Gaussian as well. The flux time series is in fact a multivariate stochastic variable that, in the thermodynamic limit, results from the sum of (almost) independent variables, thus tending to a multivariate normal deviate. This implies that at equilibrium the real and imaginary parts of the $\tilde J_k$'s defined in Eqs.~\eqref{eq:Jk} are zero-mean normal deviates that, in the large-$N$ limit, are uncorrelated among themselves and have variances proportional to the power spectrum evaluated at $\omega_k$. For $k=0$ or $k=\frac{N}{2}$, $\tilde J_k$ is real and $\sim \mathcal{N}\left (0, \frac{N}{\epsilon}S(\omega_k) \right )$; for $k\notin\left\{ 0,\frac{N}{2}\right\}$, $\mathfrak{Re}\tilde{J}_k$ and $\mathfrak{Im}\tilde{J}_k$ are independent and both  $\sim \mathcal{N}\left (0, \frac{N}{2 \epsilon}S(\omega_k) \right )$, where $\mathcal{N} (\mu,\sigma^2)$ indicates a normal deviate with mean $\mu$ and variance $\sigma^2$. We conclude that in the large-$N$ limit the sample spectrum of the heat-flux time series reads:
+The space autocorrelations of conserved currents are usually short-ranged. Therefore, in the thermodynamic limit the corresponding fluxes can be seen as sums of (almost) independent identically distributed stochastic variables, so that, according to the central-limit theorem, their equilibrium distribution is Gaussian. A slight generalization of this argument allows us to conclude that any conserved-flux process, like the heat flux, is Gaussian as well. The flux time series is in fact a multivariate stochastic variable that, in the thermodynamic limit, results from the sum of (almost) independent variables, thus tending to a multivariate normal deviate. This implies that at equilibrium the real and imaginary parts of the $\tilde J_k$'s defined in Eqs.~\eqref{eq:Jk} are zero-mean normal deviates that, in the large-$N$ limit, are uncorrelated among themselves and have variances proportional to the power spectrum evaluated at $\omega_k$. For $k=0$ or $k=\frac{N}{2}$, $\tilde J_k$ is real and $\sim \mathcal{N}\left (0, \frac{N}{\epsilon}S(\omega_k) \right )$; for $k\notin\left\{ 0,\frac{N}{2}\right\}$, $\mathfrak{Re}\tilde{J}_k$ and $\mathfrak{Im}\tilde{J}_k$ are independent and both  $\sim \mathcal{N}\left (0, \frac{N}{2 \epsilon}S(\omega_k) \right )$, where $\mathcal{N} (\mu,\sigma^2)$ indicates a normal deviate with mean $\mu$ and variance $\sigma^2$. We conclude that in the large-$N$ limit the sample spectrum of the heat-flux time series reads:
 \begin{equation}
-\hat{S}_{k} = S \left(\omega_k\right) {\xi}_{k}, \label{eq:periodogram-distribution}
+\hat{S}_{k} = S(\omega_k) \,\xi_{k} \,, \label{eq:periodogram-distribution}
 \end{equation}
-where the $ {\xi}$'s are independent random variables distributed as a $\chi_1^2$ variate for $k=0$ or $k=\frac{N}{2}$ and as one half a $\chi_2^2$ variate, otherwise. Here and in the following $\chi^2_\nu$ indicates the chi-square distribution with $\nu$ degrees of freedom. For the sake of simplicity, we make as though all the ${\xi}$'s were identically distributed, $\xi_k \sim \frac{1}{2} \chi_2^2$ for all values of $k$, thus making an error of order $\mathcal{O}(1/N)$, which vanishes in the long-time limit that is being assumed throughout this section.
+where the $ {\xi}$'s are independent random variables distributed as a $\chi_1^2$ variate for $k=0$ or $k=\frac{N}{2}$ and as one half a $\chi_2^2$ variate, otherwise. Here and in the following $\chi^2_\nu$ indicates the chi-square distribution with $\nu$ degrees of freedom. For the sake of simplicity, we make as though all the ${\xi}$'s were identically distributed as $\xi_k \sim \frac{1}{2} \chi_2^2$ for all values of $k$, thus making an error of order $\mathcal{O}(1/N)$, which vanishes in the long-time limit that is being assumed throughout this section.
 
-In many cases of practical interest, multiple time series are available to estimate the power spectrum of a same process, $\{{^p\!}J_n\}$, $p=1, \cdots \ell$. For instance, in equilibrium MD a same trajectory delivers one independent time series per Cartesian component of the heat flux, all of which are obviously equivalent in isotropic systems. In these cases it is expedient to define a mean sample spectrum by averaging over the $\ell$ different realizations,
+
+\paragraph{Multiple samples}
+In many cases of practical interest, multiple time series are available to estimate the power spectrum of a same process, $\{^{p\!}J_n\}$, $p=1, \cdots \ell$. For instance, in equilibrium MD a same trajectory delivers one independent time series per Cartesian component of the heat flux, all of which are obviously equivalent in isotropic systems. In these cases it is expedient to define a mean sample spectrum by averaging over the $\ell$ different realizations,
 \begin{equation}
     \begin{aligned}
       {^{\ell\!}\hat{S}}_{k}& = \frac{\epsilon}{\ell N} \sum_{p=1}^{\ell}  \left |{^p\!}{\tilde J}_{k} \right |^2 \\
-      & = S \left(\omega_k\right) {^{\ell\!}{\xi}_{k}},
-    \end{aligned} \label{eq:mean-periodogram}
+      & = S(\omega_k) {^{\ell\!}{\xi}_{k}} \,,
+    \end{aligned}  \label{eq:mean-periodogram}
 \end{equation}
-where the ${^{\ell\!}\xi}$'s are $\chi_{2\ell}^2$ variates, divided by the number of degrees of freedom: $^{\ell\!}\xi_{k}\sim\frac{1}{2\ell}\chi_{2\ell}^{2}$ $\bigl (\text{for } k \notin \{ 0,\frac{N}{2} \}\bigr )$.
+where the ${^{\ell\!}\xi}$'s are $\chi_{2\ell}^2$ variates, divided by the number of degrees of freedom:
+\begin{equation}
+    ^{\ell\!}\xi_{k}\sim\frac{1}{2\ell}\chi_{2\ell}^{2}, \label{eq:chi-square-nu}
+\end{equation}
+for $k \notin \{ 0,\frac{N}{2} \}$.
+
+Eqs.~\eqref{eq:periodogram-distribution} and \eqref{eq:mean-periodogram} show that ${^{\ell\!}}{\hat S_0}$ is an unbiased estimator of the zero-frequency value of the power spectrum, $\langle {^{\ell\!}}{\hat S_0} \rangle = S(0)$, and through Eq.~\eqref{eq:kappa-S0}, of the transport coefficients we are after.
+However, this estimator is not consistent, \emph{i.e.} its variance does not vanish in the large-$N$ limit. This is so because a longer time series increases the number of discrete frequencies at which the power spectrum is sampled, rather than its accuracy at any one of them.
 
 \begin{figure}
-\centering
-\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_psd.pdf}
-\caption{Periodogram of a classical flexible model of water obtained from a $100\un{ps}$ MD trajectory. Grey: periodogram obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$. Blue: periodogram filtered with a moving average window of width $1\un{THz}$, useful to reveal the main features of the spectrum (see text). The vertical dashed line delimits the low-frequency region used in the subsequent cepstral analysis.}  \label{fig:water-periodogram}
+    \centering
+    **** PERIODOGRAMS ***
+    %\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_psd.pdf}
+    %\caption{Periodogram of a classical flexible model of water obtained from a $100\un{ps}$ MD trajectory. Grey: periodogram obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$. Blue: periodogram filtered with a moving average window of width $1\un{THz}$, useful to reveal the main features of the spectrum (see text). The vertical dashed line delimits the low-frequency region used in the subsequent cepstral analysis.}  
+    \label{fig:periodograms}
 \end{figure}
 
-Eqs.~\eqref{eq:periodogram-distribution}) and \eqref{eq:mean-periodogram} show that ${^{\ell\!}}{\hat S_0}$ is an unbiased estimator of the zero-frequency value of the power spectrum, $\langle {^{\ell\!}}{\hat S_0} \rangle = S(0)$, and through Eq.~\eqref{eq:kappa-S0}, of the transport coefficients we are after. However, this estimator is not consistent, \emph{i.e.} its variance does not vanish in the large-$N$ limit. This is so because a longer time series increases the number of discrete frequencies at which the power spectrum is sampled, rather than its accuracy at any one of them.
+Fig.~\ref{fig:periodograms} displays the periodogram of four paradigmatic cases (liquid Ar, liquid H$_2$O, crystalline MgO, and amorphous SiO$_2$) obtained from a $100\un{ps}$ ($200\un{ps}$ for MgO) classical MD trajectory, showing the extremely noisy behavior of the periodogram as an estimator of the spectrum. 
+A consistent estimate of the value of the power spectrum at any frequency can be obtained by segmenting a time series into several blocks of equal length and then averaging over the sample spectra computed for each of them. When the length of the trajectory grows large, so does the number of blocks, thus making the variance of the average arbitrarily small. In practice, the determination of the optimal block size is a unwieldy process that leads to an inefficient determination of the length of the trajectory needed to achieve a given overall accuracy. 
+Equivalently, a moving average \cite{MovingAverage} of the periodogram would consistently reduce the statistical noise, but the \emph{multiplicative} nature of the latter in Eq.~\eqref{eq:periodogram-distribution} makes it difficult to disentangle the noise from the signal and may introduce a bias. 
+Here we adopt a different approach that allows us to obtain a consistent estimate of the zero-frequency value of the power spectrum from the statistical analysis of a \emph{single} trajectory sample (\emph{i.e.} no block analysis is needed) and such that the estimate of the trajectory length necessary to achieve a given accuracy is optimal.
 
-Fig.~\ref{fig:water-periodogram} displays the periodogram of water at ambient conditions, obtained from a $100\un{ps}$ classical MD trajectory, showing the extremely noisy behavior of the periodogram as an estimator of the spectrum. Averaging over the values of the periodogram within a frequency window of given width \citep{MovingAverage} would consistently reduce the statistical noise, but the multiplicative nature of the latter in Eq.~\eqref{eq:periodogram-distribution} makes it difficult to disentangle the noise from the signal and may introduce a bias. In order to cope with this problem, we had better transform the multiplicative noise into an additive one by defining the log-periodogram, $^{{\ell\!}}\hat{L}_{k}$, as:
+\paragraph{Log-periodogram}
+Spectral density estimation from finite empirical time series is the subject of a vast literature in the statistical sciences, embracing both parametric and non-parametric methods.\cite{Stoica2005} In the following we propose a semi-parametric method to estimate the power spectrum of a stochastic process, based on a Fourier representation of the logarithm of its power spectrum (the ``log-spectrum''). The advantage of dealing with the log-spectrum, instead of with the power spectrum itself, is twofold. First and foremost, the noise affecting the former is \emph{additive}, instead of multiplicative, thus making it simple and expedient to apply linear filters: limiting the number of components of the Fourier representation of the log-spectrum acts as a low-pass filter that systematically reduces the power of the noise and yields a consistent estimator of the log-spectrum at any given frequency. Second, as a bonus, the logarithm is usually smoother than its argument. Therefore, the Fourier representation of the logarithm of the power spectrum is more parsimonious than that of the spectrum itself.
+
+Let $^{{\ell\!}}\hat{L}_{k} = \log(^{\ell\!}\hat{S}_{k})$ be the ``\emph{log-periodogram}'' of our time series. By taking the logarithm of Eq.~\eqref{eq:periodogram-distribution}, we can express $^{\ell\!}\hat{L}_{k}$ as:
 \begin{equation}
   \begin{aligned}
-    ^{{\ell\!}}\hat{L}_{k} &= \log \left (^{\ell\!}\hat{S}_{k} \right ) \\
-    &= \log\left(S(\omega_k) \right) + \log\left( ^{\ell\!}{\xi}_k\right ) \\
+    ^{{\ell\!}}\hat{L}_{k} &= \log (^{\ell\!}\hat{S}_{k} ) \\
+    &= \log\left(S(\omega_k) \right) + \log( ^{\ell\!}{\xi}_k) \\
     &= \log\left(S(\omega_k) \right) + {^{\ell\!}\rLambda} + {^{\ell\!}{\lambda}}_{k},
   \end{aligned} \label{eq:log-PSD}
 \end{equation}
-where $^{\ell\!}{\lambda}_k = \log\left( {^{\ell\!}{\xi}}_k\right) - {^\ell{\rLambda}}$
-are zero-mean identically distributed independent stochastic variables, ${^{\ell\!}\rLambda} = \left\langle \log\left( {^{\ell\!}{\xi}}\right ) \right\rangle = \psi(\ell)-\log(\ell)$, and $\psi(z)$ and is the digamma function \citep{PolyGamma}. The variance of the $^{\ell\!}\lambda$ variables is $\sigma_{\ell}^{2} =\psi'(\ell)$, where $\psi'(z)$ is the tri-gamma function \citep{PolyGamma}.
+where
+\begin{equation}
+    {^{\ell\!}\rLambda} = \left\langle \log( {^{\ell\!}{\xi}}) \right\rangle = \int_0^\infty \log\left (\frac{\xi}{2\ell}\right ) P_{\chi^2_{2\ell}}(\xi) \, d\xi = \psi(\ell)-\log(\ell) \label{eq:lambda-ell}
+\end{equation}
+is the expected value of the logarithm of the ${^\ell}\hat\xi$ stochastic variables defined in Eq. \eqref{eq:chi-square-nu}, $P_{\chi^2_{2\ell}}$ is the probability density of a $\chi^2_{2\ell}$ variate, $^{\ell\!}{\lambda}_k = \log\left( {^{\ell\!}{\xi}}_k\right) - {^\ell{\rLambda}}$ are zero-mean identically distributed independent stochastic variables, and $\psi(z)$ and is the digamma function \cite{PolyGamma}. 
+The variance of the $^{\ell\!}\lambda$ variables is:
+\begin{equation}
+    \sigma_{\ell}^{2} = \int_0^\infty \log\left (\frac{\xi}{2\ell}\right )^2 P_{\chi^2_{2\ell}}(\xi) \, d\xi - \lambda_{\ell}^2 =\psi'(\ell),\label{eq:sigma2-ell}
+\end{equation}
+where $\psi'(z)$ is the tri-gamma function \cite{PolyGamma}. 
 
+********DA QUI**********
 Whenever the number of (inverse) Fourier components of the logarithm of the power spectrum is much smaller than the length of the time series, applying a low-pass filter to Eq.~\eqref{eq:log-PSD} would result in a reduction of the power of the noise, without affecting the signal. In order to exploit this idea, we define the ``\emph{cepstrum}'' of the time series as the inverse Fourier transform of its sample log-spectrum \citep{Childers1977}:
 \begin{equation}
   ^{\ell\!} \hat C_{n} = \frac{1}{N}\sum_{k=0}^{N-1} {^{\ell\!} \hat L_{k}} \mathrm{e}^{-2\pi i\frac{kn}{N}}. \label{eq:sample-cepstrum}
