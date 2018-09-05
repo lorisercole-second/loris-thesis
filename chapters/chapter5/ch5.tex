@@ -15,6 +15,7 @@ In this chapter we start by summarizing briefly the available techniques to esti
 
 \section{Estimation of the Green-Kubo integral} \label{sec:data-analysis-methods}
 
+\begin{LEtext}
 In the following we shall focus on one-component systems, or molecular systems, where the heat flux correspond to the energy flux. 
 In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,
 \footnote{\LEnote{***THERMOSTAT, INITIAL CONDITIONS STUFF***}} 
@@ -37,7 +38,12 @@ The heat current autocorrelation function (HCACF), $\langle\mathbf{J}(t)\mathbf{
     \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
 \end{equation}
 where $\mathcal{T}$ is the length of the MD trajectory, and $J^i$ indicates any Cartesian component of $\mathbf{J}_i$.
-Some typical examples of HCACFs are shown in Fig.~\ref{fig:argon-acf-long}, for four paradigmatic cases: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$. Liquid argon's HCACF is characterized by a simple exponential decay, as it is a simple diffusing liquid. The other systems, instead, are characterized by an initial drop, followed by a much longer one, with fast superimposed oscillations, due to the faster intramolecular vibrations, that can be linked to the optical phonon modes.
+
+\paragraph{Four paradigmatic systems}
+Some typical examples of HCACFs are shown in Fig.~\ref{fig:acf-examples} for four paradigmatic cases, representative of different classes of materials: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$. Classical MD simulations were run for each of these materials, in the conditions reported in the Sec.~\ref{sec:cepstral-benchmarks}. 
+We will analyze more in details these systems in Sec.~\ref{sec:cepstral-analysis} while presenting the cepstral analysis method. 
+
+Liquid argon's HCACF is characterized by a simple exponential decay, as it is a simple diffusing liquid. The other systems, instead, are characterized by an initial drop, followed by a much longer one, with fast superimposed oscillations, due to the faster intramolecular vibrations, that can be linked to the optical phonon modes. MgO, being a crystalline solid, present the longest correlations, due to the long lifetime of its propagating phonons. Water and silica, instead, have similar HCACFs, that decay quite fast but is subject to high-frequency oscillations that persist at long time-lags.
 
 \begin{figure}
     \begin{center}
@@ -52,7 +58,7 @@ Some typical examples of HCACFs are shown in Fig.~\ref{fig:argon-acf-long}, for 
 \end{figure}
 
 
-\subsection{Direct integration}
+\subsection{Direct integration}  \label{sec:direct-integration}
 The evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def}, can then be performed by direct integration, as a function of the upper limit of integration: 
 \begin{equation}
     L^{ij}(\mathcal{T}) = \frac{\rOmega}{k_B} \int_0^\mathcal{T} \langle J^i(\tau)J^j(0)\rangle \,d\tau .  \label{eq:Lij-integralT}
@@ -62,7 +68,7 @@ One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal c
     \kappa(\mathcal{T}) = \frac{1}{T^2} \frac{1}{(L^{-1}(\mathcal{T}))^{\smallone\smallone}}.  \label{eq:kappa-integralT}
 \end{equation}
 This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(\tau)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathcal{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as shown in Fig.~\ref{fig:kappa-examples}.
-The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration, usually with standard block analysis \cite{Frenkel2001}. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise and can make the convergence of the GK not obvious.
+The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration, usually with standard \emph{block analysis} \cite{Frenkel2001}. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise and can make the convergence of the GK not obvious.
 
 \begin{figure}
     \begin{center}
@@ -119,6 +125,8 @@ Gauge invariance --> ?
 
 Others have attempted an error analysis of the MD estimate of the GK integral, based on either heuristic or rigorous arguments \citep{Jones2012,Wang_gk2017,Oliveira2017}, but they all require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
 
+\end{LEtext}
+
 
 
 \section{Cepstral analysis}  \label{sec:cepstral-analysis}
@@ -128,11 +136,15 @@ In practice, MD gives access to a discrete sample of the flux process (a \emph{t
 \begin{equation}
 \kappa = \frac{\rOmega}{2k_B T^2} S (\omega=0). \label{eq:kappa-S0}
 \end{equation}
+
+
+\subsection{Periodogram}
 Let us define the discrete Fourier transform of the flux time series as:
 \begin{equation}
   \tilde{J}_{k}=\sum_{n=0}^{N-1} \mathrm{e}^{ 2\pi i\frac{kn}{N}} J_n, \label{eq:Jk}
 \end{equation}
-for $0 \leq k \leq N-1$.\footnote{Here, the convention for the sign in the exponential of the time-to-frequency Fourier transform is opposite to what adopted in Ref.~\cite{Ercole2017} and in most of the signal analysis literature, in order to comply with the convention for the space-time Fourier transforms usually adopted in the Physics literature and in Eqs.~\eqref{eq:kontinuity} and \eqref{eq:Fourier-continuity}.} The \emph{sample spectrum} $\hat S_k$, aka \emph{periodogram} in the statistics literature, is defined as
+for $0 \leq k \leq N-1$.\footnote{Here, the convention for the sign in the exponential of the time-to-frequency Fourier transform is opposite to what adopted in Ref.~\cite{Ercole2017} and in most of the signal analysis literature, in order to comply with the convention for the space-time Fourier transforms usually adopted in the Physics literature and in Eqs.~\eqref{eq:kontinuity} and \eqref{eq:Fourier-continuity}.}
+The \emph{sample spectrum} $\hat S_k$, aka \emph{periodogram} in the statistics literature, is defined as
 \begin{equation}
 \hat{S}_{k}=\frac{\epsilon}{N} \left |\tilde{J}_{k} \right |^2, \label{eq:periodogram-def}
 \end{equation}
@@ -157,35 +169,34 @@ where the ${^{\ell\!}\xi}$'s are $\chi_{2\ell}^2$ variates, divided by the numbe
 \begin{equation}
     ^{\ell\!}\xi_{k}\sim\frac{1}{2\ell}\chi_{2\ell}^{2}, \label{eq:chi-square-nu}
 \end{equation}
-for $k \notin \{ 0,\frac{N}{2} \}$.
+for $k \notin \{ 0,\frac{N}{2} \}$. 
+\LEnote{***FOOTNOTE COMMENT SU MEDIE DI SPETTRI vs MEDIE DI KAPPA***}
 
 Eqs.~\eqref{eq:periodogram-distribution} and \eqref{eq:mean-periodogram} show that ${^{\ell\!}}{\hat S_0}$ is an unbiased estimator of the zero-frequency value of the power spectrum, $\langle {^{\ell\!}}{\hat S_0} \rangle = S(0)$, and through Eq.~\eqref{eq:kappa-S0}, of the transport coefficients we are after.
 However, this estimator is not consistent, \emph{i.e.} its variance does not vanish in the large-$N$ limit. This is so because a longer time series increases the number of discrete frequencies at which the power spectrum is sampled, rather than its accuracy at any one of them.
 
-\begin{figure}
+\begin{figure}[!htb]
     \centering
-    **** PERIODOGRAMS ***
-    %\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_psd.pdf}
-    %\caption{Periodogram of a classical flexible model of water obtained from a $100\un{ps}$ MD trajectory. Grey: periodogram obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$. Blue: periodogram filtered with a moving average window of width $1\un{THz}$, useful to reveal the main features of the spectrum (see text). The vertical dashed line delimits the low-frequency region used in the subsequent cepstral analysis.}  
+    \includegraphics[width=\textwidth]{chapters/chapter5/figures/periodograms.pdf}
+    \caption{Sample power spectra of the heat flux computed from MD trajectories for Ar, H$_2$O, a-SiO$_2$ ($100\un{ps}$), and MgO ($500\un{ps}$), obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$ (gray line, see text). The solid lines in color correspond to a moving average performed over a narrow frequency window of width $1\un{THz}$, usefult to reveal the main features of the spectrum. The vertical arrows indicate the cutoff frequencies, $f^*$, used for the subsequent cepstral analysis (see text). The inset in the MgO panel is a magnification of the low-frequency region of the spectrum.}
     \label{fig:periodograms}
+    \LEnote{*** CAMBIA $f$ IN $\omega/2\pi$ ***}
 \end{figure}
 
-Fig.~\ref{fig:periodograms} displays the periodogram of four paradigmatic cases (liquid Ar, liquid H$_2$O, crystalline MgO, and amorphous SiO$_2$) obtained from a $100\un{ps}$ ($200\un{ps}$ for MgO) classical MD trajectory, showing the extremely noisy behavior of the periodogram as an estimator of the spectrum. 
+Fig.~\ref{fig:periodograms} displays the periodograms of the heat fluxes of four paradigmatic cases (liquid Ar, liquid H$_2$O, crystalline MgO, and amorphous SiO$_2$) obtained from a $100\un{ps}$ ($500\un{ps}$ for MgO) classical MD trajectory and averaged over the three Cartesian components, showing the extremely noisy behavior of the periodogram as an estimator of the spectrum. 
 A consistent estimate of the value of the power spectrum at any frequency can be obtained by segmenting a time series into several blocks of equal length and then averaging over the sample spectra computed for each of them. When the length of the trajectory grows large, so does the number of blocks, thus making the variance of the average arbitrarily small. In practice, the determination of the optimal block size is a unwieldy process that leads to an inefficient determination of the length of the trajectory needed to achieve a given overall accuracy. 
-Equivalently, a moving average \cite{MovingAverage} of the periodogram would consistently reduce the statistical noise, but the \emph{multiplicative} nature of the latter in Eq.~\eqref{eq:periodogram-distribution} makes it difficult to disentangle the noise from the signal and may introduce a bias. 
+Equivalently, a moving average \cite{MovingAverage} of the periodogram would consistently reduce the statistical noise, as happens in Fig.~\ref{fig:periodograms}, but its \emph{multiplicative} nature in Eq.~\eqref{eq:periodogram-distribution} makes it difficult to disentangle the noise from the signal and may introduce a bias. 
 Here we adopt a different approach that allows us to obtain a consistent estimate of the zero-frequency value of the power spectrum from the statistical analysis of a \emph{single} trajectory sample (\emph{i.e.} no block analysis is needed) and such that the estimate of the trajectory length necessary to achieve a given accuracy is optimal.
 
-\paragraph{Log-periodogram}
+\subsection{Log-periodogram}
 Spectral density estimation from finite empirical time series is the subject of a vast literature in the statistical sciences, embracing both parametric and non-parametric methods.\cite{Stoica2005} In the following we propose a semi-parametric method to estimate the power spectrum of a stochastic process, based on a Fourier representation of the logarithm of its power spectrum (the ``log-spectrum''). The advantage of dealing with the log-spectrum, instead of with the power spectrum itself, is twofold. First and foremost, the noise affecting the former is \emph{additive}, instead of multiplicative, thus making it simple and expedient to apply linear filters: limiting the number of components of the Fourier representation of the log-spectrum acts as a low-pass filter that systematically reduces the power of the noise and yields a consistent estimator of the log-spectrum at any given frequency. Second, as a bonus, the logarithm is usually smoother than its argument. Therefore, the Fourier representation of the logarithm of the power spectrum is more parsimonious than that of the spectrum itself.
 
 Let $^{{\ell\!}}\hat{L}_{k} = \log(^{\ell\!}\hat{S}_{k})$ be the ``\emph{log-periodogram}'' of our time series. By taking the logarithm of Eq.~\eqref{eq:periodogram-distribution}, we can express $^{\ell\!}\hat{L}_{k}$ as:
-\begin{equation}
-  \begin{aligned}
-    ^{{\ell\!}}\hat{L}_{k} &= \log (^{\ell\!}\hat{S}_{k} ) \\
-    &= \log\left(S(\omega_k) \right) + \log( ^{\ell\!}{\xi}_k) \\
-    &= \log\left(S(\omega_k) \right) + {^{\ell\!}\rLambda} + {^{\ell\!}{\lambda}}_{k},
-  \end{aligned} \label{eq:log-PSD}
-\end{equation}
+\begin{align}
+    ^{{\ell\!}}\hat{L}_{k} &= \log (^{\ell\!}\hat{S}_{k} ) \nonumber\\
+    &= \log\left(S(\omega_k) \right) + \log( ^{\ell\!}{\xi}_k) \nonumber\\
+    &= \log\left(S(\omega_k) \right) + {^{\ell\!}\rLambda} + {^{\ell\!}{\lambda}}_{k},  \label{eq:log-PSD}
+\end{align}
 where
 \begin{equation}
     {^{\ell\!}\rLambda} = \left\langle \log( {^{\ell\!}{\xi}}) \right\rangle = \int_0^\infty \log\left (\frac{\xi}{2\ell}\right ) P_{\chi^2_{2\ell}}(\xi) \, d\xi = \psi(\ell)-\log(\ell) \label{eq:lambda-ell}
@@ -197,66 +208,181 @@ The variance of the $^{\ell\!}\lambda$ variables is:
 \end{equation}
 where $\psi'(z)$ is the tri-gamma function \cite{PolyGamma}. 
 
-********DA QUI**********
-Whenever the number of (inverse) Fourier components of the logarithm of the power spectrum is much smaller than the length of the time series, applying a low-pass filter to Eq.~\eqref{eq:log-PSD} would result in a reduction of the power of the noise, without affecting the signal. In order to exploit this idea, we define the ``\emph{cepstrum}'' of the time series as the inverse Fourier transform of its sample log-spectrum \citep{Childers1977}:
-\begin{equation}
-  ^{\ell\!} \hat C_{n} = \frac{1}{N}\sum_{k=0}^{N-1} {^{\ell\!} \hat L_{k}} \mathrm{e}^{-2\pi i\frac{kn}{N}}. \label{eq:sample-cepstrum}
-\end{equation}
-A generalized central-limit theorem for Fourier transforms of stationary time series ensures that, in the large-$N$ limit, these coefficients are a set of independent (almost) identically distributed zero-mean normal deviates \citep{Anderson1994,Peligrad2010}. It follows that:
-\begin{equation}
-  \begin{aligned}
-    ^{\ell\!} \hat  C_{n} &= \lambda_{\ell} \delta_{n0} + C_{n} +  {^{{\ell\!}}{\mu}}_{n}, \\
-    C_{n} &= \frac{1}{N}\sum_{k=0}^{N-1} \log\bigl (S(\omega_k) \bigr ) \mathrm{e}^{-2\pi i\frac{kn}{N}},
-  \end{aligned} \label{eq:cepstrogram}
-\end{equation}
-where $^{{\ell\!}}{\mu}_{n}$ are independent zero-mean \emph{normal} deviates with variances $\left\langle {^{{\ell\!}}{\mu}_{n}^2}  \right\rangle$ $=\frac{1}{N}\sigma_\ell$ for $n\notin\left\{ 0,\frac{N}{2}\right\}$ and $\left\langle ^{{\ell\!}}{\mu}_{n}^{2}\right\rangle =\frac{2}{N}\sigma_{\ell}^{2}$
-otherwise.
-Fig.~\ref{fig:water-cepstrum} displays the cepstral coefficients of the low-frequency region of the spectrum of water (marked in Fig.~\ref{fig:water-periodogram}), showing that only the first few coefficients are substantially different from zero.
 
-\begin{figure}
-\centering
-\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_cepstrum.pdf}
-\caption{Cepstral coefficients of water computed analyzing the low-frequency region of the periodogram (see Fig.~\ref{fig:water-periodogram}), defined in Eq.~\eqref{eq:sample-cepstrum}. }  \label{fig:water-cepstrum}
+\subsection{Cepstrum filtering}
+Eq.~\eqref{eq:log-PSD} explicitly shows that the sample log-spectrum of a time series is equal to the logarithm of the power spectrum one wishes to evaluate (modulo a constant), \emph{plus} a (non-Gaussian) white noise. Whenever the number of (inverse) Fourier components of the logarithm of the power spectrum is much smaller than the length of the time series, applying a low-pass filter to Eq.~\eqref{eq:log-PSD} would result in a reduction of the power of the noise, without affecting the signal. 
+In order to exploit this idea, we define the ``\emph{cepstrum}'' of the time series as the inverse Fourier transform of its sample log-spectrum \citep{Childers1977}:
+\begin{equation}
+  ^{\ell\!} \hat C_{n} = \frac{1}{N}\sum_{k=0}^{N-1} {^{\ell\!} \hat L_{k}} \mathrm{e}^{-2\pi i\frac{kn}{N}}, \label{eq:sample-cepstrum}
+\end{equation}
+and its coefficients as the \emph{cepstral coefficients}. 
+A generalized central-limit theorem for Fourier transforms of stationary time series ensures that, in the large-$N$ limit, these coefficients are a set of independent (almost) identically distributed zero-mean normal deviates \citep{Anderson1994,Peligrad2010}. It follows that:
+\begin{align}
+    ^{\ell\!} \hat  C_{n} &= \lambda_{\ell} \delta_{n0} + C_{n} +  {^{{\ell\!}}{\mu}}_{n},  \label{eq:cepstrogram}\\
+    C_{n} &= \frac{1}{N}\sum_{k=0}^{N-1} \log\bigl (S(\omega_k) \bigr ) \mathrm{e}^{-2\pi i\frac{kn}{N}}, \label{eq:C-nohat}
+\end{align}
+where $^{{\ell\!}}{\mu}_{n}$ are independent zero-mean \emph{normal} deviates with variances $\left\langle {^{{\ell\!}}{\mu}_{n}^2}  \right\rangle$ $=\frac{1}{N}\sigma_\ell^2$ for $n\notin\left\{ 0,\frac{N}{2}\right\}$ and $\left\langle ^{{\ell\!}}{\mu}_{n}^{2}\right\rangle =\frac{2}{N}\sigma_{\ell}^{2}$
+otherwise.
+This result can be easily checked explicitly by using the definition of the discrete Fourier transform; the non-trivial extra information provided by the central-limit theorem is the asymptotic independence and normality of the $^{\ell}\mu$'s. Similarly to the sample power spectrum, the cepstral coefficients are real, periodic, and even: $\hat C_{n} = \hat C_{N-n}$. 
+
+\begin{figure}[!htb]
+    \centering
+    \LE{**** CEPSTRUMS ****}
+    %\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_cepstrum.pdf}
+    \caption{Cepstral coefficients of \LEnote{***...***} computed analyzing the low-frequency region of the periodogram (see Fig.~\ref{fig:periodograms}), defined in Eq.~\eqref{eq:sample-cepstrum}. }
+    \label{fig:cepstrums}
 \end{figure}
 
-Let us indicate by $P^*$ the smallest integer such that $C_n \approx 0$ for $P^* \le n \le N-P^*$. By limiting the Fourier transform of the sample cepstrum, Eq.~\eqref{eq:sample-cepstrum}, to $P^*$ coefficients, we obtain an efficient estimator of the zero-frequency component of the log-spectrum as:
+\paragraph{A thermal conductivity estimator}
+If the log-spectrum, $\log(S(f_k))$, is smooth enough, the number of non-negligible $C_n$ coefficients in Eq. \eqref{eq:C-nohat} is much smaller than $N$. 
+For example, Fig.~\ref{fig:cepstrums} displays the cepstral coefficients of the low-frequency region of the spectrum of the four systems (marked in Fig.~\ref{fig:periodograms}), showing that only the first few coefficients are substantially different from zero. 
+Therefore, let us indicate by $P^*$ the smallest integer such that $C_n \approx 0$ for $P^* \le n \le N-P^*$. By limiting the Fourier transform of the sample cepstrum, Eq.~\eqref{eq:sample-cepstrum}, to $P^*$ coefficients, we obtain an efficient estimator of the zero-frequency component of the log-spectrum as:
 \begin{equation}
   \begin{aligned}
-    ^{{\ell\!}}\hat{L}_{0}^{*} & = {^{\ell\!}\hat{C}}_{0}+2\sum_{n=1}^{P^{*}-1}{^{{\ell\!}}\hat{C}}_{n} \\
-    & = {^{\ell\!}\rLambda} + \log(S_0) + {^{{\ell\!}} {\mu}_{0}}+ 2 \sum_{n=1}^{P^*-1} {^{\ell\!} {\mu}_{n}}.
+    ^{\ell\!}\hat{L}_{0}^{*} & = {^{\ell\!}\hat{C}}_{0} + 2 \sum_{n=1}^{P^{*}-1} {^{\ell\!}\hat{C}}_{n} \\
+    & = {^{\ell\!}\rLambda} + \log(S_0) + {^{\ell\!} \mu_{0}} + 2 \sum_{n=1}^{P^*-1} {^{\ell\!}} \mu_{n} \,.
   \end{aligned} \label{eq:L0*}
 \end{equation}
 Inspection of Eq.~\eqref{eq:L0*} shows that $^{\ell\!}\hat{L}_{0}^{*}$ is a normal estimator whose expectation and variance are:
 \begin{align}
-	\langle {^{{\ell\!}}\hat{L}_{0}^{*}}\rangle &= \log(S_{0}) + {^{\ell\!}\rLambda}, \label{eq:L*} \\
-	\sigma_\ell^{*}(P^{*},N)^{2} &=\sigma_{\ell}^{2}\frac{4P^{*}-2}{N}. \label{eq:sigma*}
+	\langle {^{\ell\!}}\hat{L}_{0}^{*} \rangle &= \log(S_{0}) + {^{\ell\!}}\rLambda \,, \label{eq:L*} \\
+	\sigma_\ell^{*}(P^{*},N)^{2} &= \frac{4P^{*}-2}{N} \sigma_{\ell}^{2} \,. \label{eq:sigma*}
 \end{align}
 Using Eq.~\eqref{eq:kappa-S0}, we see that the logarithm of the conductivity can be estimated from the cepstral coefficients of the flux time series through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}), and that the resulting estimator is always normal with a variance that depends on the specifc system \emph{only} through the number of these coefficients, $P^*$. Notice that the absolute error on the logarithm of the conductivity directly and nicely yields the relative error on the conductivity itself.
 
-The efficacy of this approach obviously depends on our ability to estimate the number of coefficients necessary to keep the bias introduced by the truncation to a value smaller than the statistical error, while maintaining the magnitude of the latter at a prescribed acceptable level. \cite{Ercole2017} proposed to estimate $P^*$ using the Akaike's information criterion (\cite{Akaike1974}), but other more advanced \emph{model selection} approaches \citep{Claeskens2008} may be more effective. This method consists in choosing $P^*$ as the one that minimizes the function:
-\begin{equation}
-\mathrm{AIC}(P)=\frac{N}{\sigma_\ell^{2}}\sum_{n=P}^\frac{N}{2} \hat{C}_{n}^{2}+2P. \label{eq:AIC-P}
-\end{equation}
-In Fig.~\ref{fig:water-filtered-psd} we report the low-frequency region of the spectrum of water obtained by limiting the number of cepstral coefficients to $P^*$:
-\begin{equation}
-^\ell\hat{S}_k^* = \exp\left[ 2\sum_{n=1}^{P^*-1} {}^\ell\hat{C}_n \mathrm{e}^{2\pi i \frac{k n}{N}} + {}^\ell\hat{C}_0 - {}^\ell\rLambda\right], \label{eq:filtered-psd}
-\end{equation}
-thus showing the filtering effect of this choice.
-Finally, Fig.~\ref{fig:water-fkappa-Pstar} shows the value of thermal conductivity of water obtained through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}).
+The value of $P^{*}$ is a property of the stochastic process underlying the time series, and is therefore independent of $N$: for any given value of $P^{*}$ the variance $\sigma_{\ell}^{*2}$ tends to zero in the large-$N$ limit, and $^\ell\hat{L}^*_0-\rLambda_{\ell}$ is thus a consistent estimator of $\log(S_{0})$. In general, all the cepstral coefficients are different from zero and assuming that many of them actually vanish introduces a bias. 
+The efficacy of this approach obviously depends on our ability to estimate the number of coefficients necessary to keep the bias introduced by the truncation to a value smaller than the statistical error (that increases with $P^*$), while maintaining the magnitude of the latter at a prescribed acceptable level. 
 
-\begin{figure}
+The choice of $P^*$ is the subject of \emph{model selection} theory, another vast chapter in the statistical sciences \cite{Claeskens2008}. Among the several tests that have been devised to perform this task, we choose the optimization of the Akaike's information criterion (AIC) \cite{Claeskens2008,Akaike1974}, as described in Sec.~\ref{sec:AIC} below, but other more advanced \emph{model selection} approaches \citep{Claeskens2008} may be more effective.
+
+\begin{figure}[!htb]
     \centering
-    \begin{center}
-        \subfigure[\label{fig:water-filtered-psd}]{\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_filtered_psd.pdf}}
-        \subfigure[\label{fig:water-fkappa-Pstar}]{\includegraphics[width=8cm]{chapters/chapter5/figures/handbook_water_kappa_Pstar.pdf}}
-    \end{center}
+    %\includegraphics[width=8cm]{chapters/chapter5/figures/filtered_psds.pdf}
     \caption{
-    (a) Filtered low-frequency region of the power spectrum of water obtained by limiting the number of cepstral coefficients to various values of $P^*$, Eq.~\eqref{eq:filtered-psd}. $P^*=7$ is the cutoff value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}. Grey: the unfiltered periodogram obtained from Eq.~\eqref{eq:periodogram-def}.
-    (b) Thermal conductivity of water estimated from Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}) as a function of the cutoff, $P^*$. The colored bands indicate one standard deviation as estimated from theory. The vertical dashed line indicates the value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}.
-    }
+    Filtered low-frequency region of the power spectrum of \LEnote{******} obtained by limiting the number of cepstral coefficients to various values of $P^*$, Eq.~\eqref{eq:filtered-psd}. $P^*=7$ is the cutoff value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}. Grey: the unfiltered periodogram obtained from Eq.~\eqref{eq:periodogram-def}.
+    }  \label{fig:filtered-psds}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    %\includegraphics[width=8cm]{chapters/chapter5/figures/kappa_convergence.pdf}
+    \caption{
+    Thermal conductivity of \LEnote{******} estimated from Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}) as a function of the cutoff, $P^*$. The colored bands indicate one standard deviation as estimated from theory. The vertical dashed line indicates the value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}, $P_A^*$.
+    }  \label{fig:kappa-convergence-Pstar}
 \end{figure}
 
+In Fig.~\ref{fig:filtered-psds} we report the low-frequency region of the spectrum of the four analysed systems obtained by limiting the number of cepstral coefficients to $P^*$:
+\begin{equation}
+    ^\ell\hat{S}_k^* = \exp\left[ 2\sum_{n=1}^{P^*-1} {}^\ell\hat{C}_n \mathrm{e}^{2\pi i \frac{k n}{N}} + {}^\ell\hat{C}_0 - {}^\ell\rLambda\right], \label{eq:filtered-psd}
+\end{equation}
+thus showing the filtering effect of this choice.
+Finally, Fig.~\ref{fig:kappa-convergence-Pstar} shows the value of thermal conductivities obtained through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}).
 
+
+\subsection{Akaike Information Criterion}  \label{sec:AIC}
+Given a model depending on $P$ parameters, $\theta = \{\theta_{1}, \theta_{2}, \cdots \theta_{P}\}$, the AIC \cite{Claeskens2008,Akaike1974} is a sample statistic defined as
+\begin{equation}
+    \mathrm{AIC}(P) =-2\max_{\theta}\log\mathcal{L}(\theta,P)+2P,\label{eq:AIC}
+\end{equation}
+where $\mathcal{L}(\theta,P)$ is the likelihood of the parameters. The optimal number of parameters is determined as the argument of the AIC minimum:
+\begin{equation}
+    P_A^* \equiv \arg\min_P\mathrm{AIC}(P) . \label{eq:P*}
+\end{equation}
+
+In the present case the parameters of the model are the $P$ coefficients $C=\{C_{0},C_{1},\cdots C_{P-1}\}$ as defined in Eq.~\eqref{eq:C-nohat}, and the log-likelihood reads, up to additive terms independent of $P$ and $C$:
+\begin{equation}
+    2\log\mathcal{L}(C,P) = -\frac{N}{2\sigma_\ell^{2}}\left(C_{0}+\rLambda_{\ell}-\hat{C}_{0}\right)^{2} -\frac{N}{\sigma_\ell^{2}}\sum_{n=1}^{P-1}\left(C_{n}-\hat{C}_{n}\right)^{2} -\frac{N}{\sigma_\ell^{2}}\sum_{n=P}^{N/2} \hat{C}_{n}^{2} .
+\end{equation}
+Evidently, the above expression is maximized, for given $P$, by $C_{n} = \hat{C}_{n} - \delta_{n0}\rLambda_{\ell}$ for $n=0,1,\cdots P-1$, and the corresponding value of the maximum is: $2\max_C\log\mathcal{L}(C,P) = -\frac{N}{\sigma_\ell^{2}} \sum_{n=P}^{N/2} \hat{C}_{n}^{2}$.
+We conclude that the value of the AIC is:
+\begin{equation}
+    \mathrm{AIC}(P) = \frac{N}{\sigma_\ell^{2}} \sum_{n=P}^{N/2} \hat{C}_{n}^{2} + 2P . \label{eq:AIC-P}
+\end{equation}
+The value of $P$ that minimizes this expression is the optimal number of parameters in the Akaike sense, $P_A^*$, as defined in Eq.~\eqref{eq:P*}.
+In Fig.~\ref{fig:kappa-convergence-Pstar} the value $P_A^*$ chosen by the AIC for the four systems is indicated.
+
+
+\subsection{Nyqvist frequency}  \label{sec:cepstral-nyqvist}
+The maximum frequency available for spectral/cepstral analysis is the Nyqvist frequency \cite{Oppenheim1999}, determined by the sampling period $\epsilon$ as $f_{\mathrm{Ny}}=\frac{1}{2\epsilon}$. Transport coefficients only depend on the low-frequency behavior of the spectrum, which is independent of $\epsilon$, as long as the latter is small enough as to avoid aliasing effects. For this reason it may prove convenient to eliminate the high-frequency portion of the spectrum ($f>f^*$) by applying a low-pass filter to the time series (\emph{e.g.} a moving average \cite{MovingAverage}) and then resample the latter with a sampling period $\epsilon^*=\frac{1}{2f^*}$, thus resulting in a time series of $N^*=N\frac{f^*}{f_{\mathrm{Ny}}}$ time steps.
+
+The optimal number of cepstral coefficients resulting from Eqs.~\eqref{eq:P*} and \eqref{eq:AIC-P}, as well as the error in the estimate of the transport coefficients resulting from Eq.~\eqref{eq:sigma*}, depends in general on the choice of the cutoff frequency, $f^*$. The smaller $f^*$, the smaller will presumably be the number of cepstral coefficients necessary to describe the log-spectrum to any given accuracy over such a shorter frequency range. However, the shorter length of the filtered time series, $N^*$, results in an increased variance of the estimator $^\ell{\hat L^*_0}$ defined in Eq.~\eqref{eq:L0*}, according to Eq.~\eqref{eq:sigma*}. Numerical experiments performed on the MD data reported in Sec.~\ref{sec:cepstral-benchmarks} and Fig.~\ref{fig:kappa_vs_fstar} show that both the estimated value of $^\ell{\hat L^*_0}$ and its variance are actually fairly insensitive to the value chosen for the cutoff frequency, $f^*$, provided that the power spectrum of the re-sampled time series faithfully features the first band of the original spectrum (\emph{i.e.} the first prominent feature) and that this band is not too peaked at the origin.
+
+
+\subsection{Data analysis work-flow (solids and one-component fluids)}
+We summarize the steps leading to the estimation of thermal conductivity by the \textit{cepstral analysis} method, in order to highlight the simplicity of its practical implementation.
+\begin{enumerate}
+    \item From a MD simulation compute the energy flux time series $J_n^i$, $i=1,\cdots\ell$ (usually $\ell=3$ cartesian components).
+    \item Compute the discrete Fourier transform of the fluxes, $\tilde{J}_k^i$, and the mean-periodogram $^{\ell\!}\hat{S}_k$ from Eqs.~\eqref{eq:periodogram-def} and \eqref{eq:mean-periodogram}, and smooth it out using \emph{e.g.} a moving average \cite{MovingAverage} performed over a narrow frequency window, so as to reduce the statistical noise to a level where the shape of the power spectrum of the underlying process can be appreciated.
+    \footnote{Mind the difference between the moving average performed in the frequency domain to smooth out the power spectrum and that performed in the time domain, as suggested before, and acting as a low-pass filter. Spectral smoothing using a moving average in the frequency domain is common practice in the analysis of time series, and it actually provides a consistent estimator of the power spectrum. In fact, the number of frequencies falling within a window of given width increases linearly with the length of the series, so that the variance of the average decreases as the inverse of the product of the length of the series times the width of the window. The resulting spectral estimate is however biased by the variation of the signal within the window, thus strongly reducing the width of the windows that can be afforded. Moreover, both the bias and the statistical error are difficult to estimate, due to the multiplicative nature of the noise; therefore neither the plain periodogram nor a running average thereof are adequate for a quantitative estimate of the zero-frequency value of the power spectrum, which is proportional to the transport coefficient we are after.}
+    \item Only a selected low-frequency region shall be used in the next steps (see Sec.~\ref{sec:cepstral-nyqvist} and \ref{sec:cepstral-benchmarks} for a detailed discussion): choose a cutoff frequency, $f^*$, so as to encompass the first band of the smoothed power spectrum. 
+    \item Compute the log-periodogram ${^{\ell\!}}\hat{L}_k = \log({^{\ell\!}}\hat{S}_k)$.
+    \item Compute the inverse discrete Fourier transform of the result to obtain the cepstral coefficients ${^{\ell\!}}\hat{C}_n$, Eq.~\eqref{eq:sample-cepstrum}. 
+    \item Apply the Akaike Information Criterion, Eqs.~\eqref{eq:P*} and \eqref{eq:AIC-P}, to estimate the number of cepstral coefficients to retain, $P^*$.
+    \item Finally apply Eq.~\eqref{eq:L0*} to obtain ${^{\ell\!}}\hat{L}_0^*$, and evaluate the thermal conductivity as
+    \begin{equation}
+        \kappa = \frac{\rOmega}{2k_B T^2} \exp\left[\hat{L}_0^* - \psi(\ell) + \log(\ell) \right],
+    \end{equation}
+    and its statistical error as
+    \begin{equation}
+        \frac{\rDelta\kappa}{\kappa} = \sqrt{\psi'(\ell) \frac{4P^{*}-2}{N}}.
+    \end{equation}
+\end{enumerate}
+
+
+\subsection{Benchmarks}  \label{sec:cepstral-benchmarks}
+The cepstral analysis method just presented has been benchmarked for the calculation of the thermal conductivity of four representative systems: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$.
+Classical MD simulations were run using the LAMMPS package \cite{LAMMPS1995} with the following setup:
+\begin{itemize}
+    \item \textbf{liquid Ar}: Lennard Jones potential as described in Ref.~\cite{Argon-FF}, at a temperature $T\approx 220\un{K}$ and density $\rho=1.55\un{g/cm^3}$, in a cubic supercell containing 864 atoms, with a time step $\Delta t=4\un{fs}$.
+    \item \textbf{liquid H$_2$O}: Flexible model as in Ref.~\cite{Water-FF} at a temperature $T\approx 300\un{K}$ and density $\rho=1.0\un{g/cm^3}$, in a cubic supercell containing 180 molecules, with a time step $\Delta t=0.5\un{fs}$.
+    \item \textbf{crystalline fcc Mgo}: Buckingham-plus-Coulomb potential as in Ref. \citenum{MgO-FF} at a temperature $T\approx 1000\un{K}$ and density $\rho=3.61\un{g/cm^3}$, in a $4\times 4\times 4$ simple cubic conventional supercell with 512 atoms, and a time step $\Delta t=0.3\un{fs}$
+    \item \textbf{amorphous SiO$_2$}: BKS potential \cite{Silica-BKS-1990} as implemented by \citet{Silica-BKS-2015} at a temperature $T\approx 1000\un{K}$ and density $\rho=2.29\un{g/cm^3}$,  in a supercell containing 216 atoms with a time step $\Delta t=1\un{fs}$. The glass model was obtained from a quench from the melt ($T\approx 6500\un{K}$) at a constant quenching rate of $5.5\times 10^{12}\un{K/s}$.
+\end{itemize}
+Each system was equilibrated in the NVT ensemble at the target temperature for several hundred picoseconds; data were then collected in the NVE ensemble for trajectories whose length was chosen so as to represent realistic simulation runs that could be afforded using \emph{ab initio} MD ($\mathcal{T} = 100\un{ps}$ for Ar, H$_2$O, and a-SiO$_2$, and $\mathcal{T} =500\un{ps}$ for MgO). 
+In order to compare our estimates of the transport coefficients and their statistical errors with reliable and statistically significant reference data, in all cases we ran much longer ($\approx 50\un{ns}$) simulations. 
+This allowed us to compare our predicted conductivities with accurate values estimated from the direct integration of the GK equation, Eqs.~\eqref{eq:Lij-integralT} and \eqref{eq:kappa-integralT}, as obtained from a block average \cite{Frenkel2001} performed over the long trajectory (see Sec.~\ref{sec:direct-integration}). 
+In addition, we could collect abundant statistics of our estimator for the transport coefficients, Eq.~\eqref{eq:L0*}, and validate its normal distribution specified by Eqs.~\eqref{eq:L*} and \eqref{eq:sigma*}. 
+
+The periodograms of one segment of each system are reported in Fig.~\ref{fig:periodograms}, where a moving average in also computed in order to reveal the main features of the power spectrum. 
+The values of the cutoff frequencies used for cepstral analysis, $f^*$, are chosen so as to encompass the first prominent feature of the (smoothed) power spectrum. For instance, in H$_2$O and a-SiO$_2$ we choose $f^*\approx 29\un{THz}$ and $f^*\approx 28\un{THz}$, respectively. In MgO we assume $f^*\approx 0.6\un{THz}$, just at the upper edge of the first narrow peak, whereas in Ar there is just one band, corresponding to a purely diffusive behavior of a simple fluid, and we assume $f^*\approx 7\un{THz}$, where the spectrum has exhausted most of the available power, but its value is not yet too small (see Fig.~\ref{fig:periodograms}). The corresponding average numbers of cepstral coefficients given by the optimization of the AIC are: $P_A^*=5$ (Ar), $7$ (H$_2$O), $4$ (MgO), and $31$ (a-SiO$_2$). Later we will display the dependence of the number of optimal cepstral coefficients and of the resulting estimate of the thermal conductivity on the choice of $f^*$, and show that this choice is not critical.
+
+\begin{figure}[!tb]
+    \centering
+    \includegraphics[width=\textwidth]{chapters/chapter5/figures/histograms.pdf}
+    \caption{Distributions of the logarithm of the thermal conductivities, $\log(\kappa)$, estimated over multiple MD segments ($100\un{ps}$ for Ar, H$_2$O, and a-SiO$_2$, and $500\un{ps}$ for MgO) extracted from a $50\un{ns}$ long trajectory. The reported data are referred to $\kappa_\mathrm{ref}$, which is the value obtained from the direct integration of the GK equation, combined with standard block analysis over the $50\un{ns}$ trajectory, and represented by the vertical gray bands. The Gaussian curves represent the distributions predicted by the theory, centered at the sample mean. Remember that the absolute error on $\log(\kappa)$ is the relative error on $\kappa$.}
+    \label{fig:histograms}
+\end{figure}
+\begin{figure}[!tb]
+    \centering
+    \includegraphics[width=\textwidth]{chapters/chapter5/figures/Pstar_distribution.pdf}
+    \caption{Distribution of the optimal numbers of cepstral coefficients, $P_A^*$, as determined by optimizing the Akaike's information criterion, Eqs.~\eqref{eq:P*} and \eqref{eq:AIC-P}, for each segment of the $50\un{ns}$ long MD trajectory, as described in Sec.~\ref{sec:AIC}. The vertical dashed lines indicate the average value of $P_A^*$.}
+    \label{fig:Pstar_distribution}
+\end{figure}
+\begin{figure}[!tb]
+    \centering
+    \includegraphics[width=\textwidth]{chapters/chapter5/figures/L-vs-P.pdf}
+    \caption{Dependence of $\log(\kappa)$, as estimated from Eq.~\eqref{eq:L0*}, on the number of cepstral coefficients $P^*$. $P_A^*$ is the optimal number of coefficients estimated from the AIC using Eqs.~\eqref{eq:P*} and \eqref{eq:AIC-P}. The black dots represent the mean values of $\log(\kappa)$ computed over multiple MD segments ($100\un{ps}$ for Ar, H$_2$O, and a-SiO$_2$, and $500\un{ps}$ for MgO) extracted from a $50\un{ns}$ long trajectory; the colored bands and dashed lines represent one standard deviation as estimated from the empirical statistics and from Eq.~\eqref{eq:sigma*}, respectively. The reported data are referred to $\kappa_{\mathrm{ref}}$, which is the value of thermal conductivity obtained from direct integration of the GK equation, combined with standard block analysis over the $50\un{ns}$ trajectory, and represented by the horizontal gray bands. Remember that the absolute error on $\log(\kappa)$ is the relative error on $\kappa$.}
+    \label{fig:L-vs-P}
+\end{figure}
+
+In order to validate our data-analysis protocol, we first computed the heat conductivities from a direct integration of the current autocorrelation function, Eqs.~\eqref{eq:Lij-integralT} and \eqref{eq:kappa-integralT}, combined with standard block analysis over the $50\un{ns}$ long trajectory (see Sec.~\ref{sec:direct-integration}), that will be taken as a reference, obtaining: $\kappa_{\mathrm{ref}} = 0.1965 \pm 0.0015$, $0.970 \pm 0.009$, $19.2 \pm 0.4$, and $2.115 \pm 0.025 \un{W/mK}$, for Ar, H$_2$O, MgO, and a-SiO$_2$, respectively. 
+Although our simulations were meant for benchmarking purposes only, and no particular attention was paid to exactly match the simulation conditions of previous work, these data are in fair agreement with the foregoing theoretical results: $\approx 0.19\un{W/mK}$ (Ar) \cite{Argon-FF}, $\approx 0.85\un{W/mK}$ (H$_2$O) \cite{Romer2012}, $\approx 12\un{W/mK}$ (MgO) \cite{MgO-FF}, and $\approx 2.1\un{W/mK}$ (a-SiO$_2$) \cite{Larkin2014}.
+
+***DA QUI******
+In Fig. \ref{fig:histograms} we display the distributions of the values of $\log(\kappa/\kappa_{\mathrm{ref}})$ estimated by applying our protocol to multiple MD segments of $100\un{ps}$ (for Ar, H$_2$O, a-SiO$_2$) and $500\un{ps}$ (for MgO), extracted from the $50\un{ns}$ long trajectory. The optimal numbers of cepstral coefficients, $P^*$, have been redetermined for each segment independently, while the values of the cutoff frequency, $f^*$, which only depends on the qualitative features of the spectrum, have been determined once for all for one of them. The distribution of the resulting number of cepstral coefficients is reported in Fig. \ref{fig:Pstar_distribution}. The observed distributions of $\log(\kappa)$ successfully pass the Shapiro-Wilk normality test \cite{Shapiro1965} (\emph{i.e.} they do not fail it) and the observed sample standard deviations closely match the theoretical values estimated from Eq. \eqref{eq:sigma*} (sample/theory):  $0.104/0.079$ (Ar), $0.053/0.045$ (H$_2$O), $0.17/0.11$ (MgO), and $0.114/0.095$ (a-SiO$_2$). Remember that the error on $\log(\kappa)$ is the relative error on $\kappa$: the corresponding absolute errors achievable with a short trajectory of $100$ (Ar, H$_2$O, and a-SiO$_2$) or $500$ (MgO) ps, not to be confused with the long trajectory used to establish the reference data above, are therefore: $\sigma_\kappa \approx 0.015$ (Ar), $0.045$ (H$_2$O), $2$ (MgO), and $0.2$ (a-SiO$_2$) $\un{W/mK}$. This indicates that a \emph{single} and short sample trajectory, such as one that is affordable with \emph{ab initio} MD, is sufficient to achieve and accurately estimate a very decent relative error on the computed transport coefficient. In an attempt to evaluate the thermal conductivity from the direct computation of the GK integral, Eq. \eqref{eq:Green-Kubo}, and standard block analysis using similarly short MD trajectories, our best estimate of the resulting statistical error was 2-3 times larger than using our protocol (meaning $5-10\times$ longer trajectories to achieve a comparable accuracy) in all cases but liquid Ar, where only a marginal improvement is achieved using our methodology. Much more than this, the standard analysis of MD data depends on a number of hidden parameters, such as the upper limit of the GK integral, Eq. \eqref{eq:Green-Kubo}, or the width of the blocks for error analysis, that are hard to determine and keep under control. Our method, instead, only depends on a single parameter, the number of cepstral coefficients, whose optimal value can be easily determined from the Akaike's information criterion, or other more sophisticated model-selection methods,\cite{Burnham2004,Claeskens2008} as appropriate.
+
+In order to estimate the bias introduced by limiting the number of cepstral coefficients, we examined the sample mean computed over the distributions displayed in Fig. \ref{fig:histograms}, $\langle\kappa\rangle$, obtaining: $\langle\kappa\rangle = 0.1878 \pm 0.0007$, $0.969 \pm 0.002$, $16.7 \pm 0.2$, and $2.131 \pm 0.009 \un{W/mK}$, for Ar, H$_2$O, MgO, and a-SiO$_2$, respectively. Comparing these data with the reference data obtained from  the direct evaluation of the GK integral, we see that the bias is negligible for H$_2$O and a-SiO$_2$, very small for Ar, and small but not negligible for MgO. In Fig. \ref{fig:L-vs-P} we display the dependence of $\log(\kappa/\kappa_{\mathrm{ref}})$ on the number of cepstral coefficients, $P^*$, as estimated from Eq. \eqref{eq:L0*}. We observe that when the number of cepstral coefficients, $P^*$, is larger than the optimal value determined from the AIC, $P_A^*$, the estimated value of $\kappa$ seems not to depend on $P^*$ for all systems but MgO, for which a slight bias seems to persist, and to a much lesser extent for Ar. Also, Eq. \eqref{eq:sigma*} seems to slightly underestimate the sample variance for small $P^*$ in these cases. In the case of MgO this behavior is likely due to the difficulty of the AIC to cope with the sharp low-frequency peak in the power spectrum, due to the highly harmonic character and slow decay of the vibrational heat carriers in periodic crystals,\cite{Carbogno2017} thus requiring longer simulation times. In the case of Ar the very small bias observed for $P^* =P^*_A$ may be due to the difficulty of choosing a suitable cutoff frequency when only a single diffusive band is present in the spectrum, and to the divergence of the log-spectrum at high frequency. In all cases, use of the Aikake's information criterion results in a bias that is smaller than the statistical error estimated from an individual short sample trajectory and that can be systematically removed by increasing the value of $P^*$, at the price of increasing the statistical error, if and when needed.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\textwidth]{chapters/chapter5/figures/kappa_vs_fstar.pdf}
+\caption{Triangles: average optimal number of cepstral coefficients, $P_A^*$, as determined by the AIC, Eqs. \eqref{eq:P*} and \eqref{eq:AIC-P}, as a function of the cutoff frequency used for cepstral analysis, $f^*$ (see discussion just after Eq. \eqref{eq:AIC-P}). Squares: $\log(\kappa)$ resulting from a given choice of $f^*$ and of the corresponding value of $P_A^*$. All the values are averages performed over multiple $100\un{ps}$ long segments ($500\un{ps}$ for MgO) extracted from a $50\un{ns}$ long MD trajectory, as discussed in the text. The colored bands indicate the sample standard deviation and the dashed lines that resulting from our theoretical analysis (see Eq. \eqref{eq:sigma*}). The vertical arrows indicate the cutoff frequencies, $f^*$, used for the cepstral analysis in this paper (see Fig. \ref{fig:periodograms} and text). In the case of MgO, the data indicated with lighter colors are obtained using a number of cepstral coefficients twice as large as that provided by the AIC, $P^*=2P_A^*$. The data are referred to $\kappa_{\mathrm{ref}}$, which is the value of thermal conductivity obtained from direct integration of the current autocorrelation function in Eq. \eqref{eq:Green-Kubo}, combined with standard block analysis over the $50\un{ns}$ trajectory, and represented by the horizontal gray bands. Remember that the absolute error on $\log(\kappa)$ is the relative error on $\kappa$.
+}
+\label{fig:kappa_vs_fstar}
+\end{figure}
+
+Finally, in Fig. \ref{fig:kappa_vs_fstar} we report the dependence of the optimal number of cepstral coefficients, $P_A^*$, as a function of the cutoff frequency, $f^*$, along with the dependence of the resulting estimate of $\log(\kappa/\kappa_{\mathrm{ref}})$. $P_A^*$ increases with $f^*$. Notwithstanding, the estimated value of the heat conductivity, as well as its variance, is fairly insensitive on the precise value of $f^*$ as long as the latter is large enough as to encompass the lowermost prominent feature of the spectrum. Some more comments are in order for MgO. In this case the high thermal conductivity, due to the strong harmonic character of slowly decaying phonon modes, manifests in the form of a narrow peak centered at $f=0$, followed by a broad plateau that carries little spectral weight. This feature determines a more pronounced increase in the number of significant cepstral coefficients as $f^*$ increases and a corresponding increase of the bias when keeping $P^*$ at the value given by the AIC. The AIC is a less reliable indicator of the number of cepstral coefficients necessary to keep the bias low, in this case. By increasing this number by a factor of two or more, the bias decreases, as indicated by the results reported in lighter colors in Fig. \ref{fig:kappa_vs_fstar}, and eventually vanishes, as shown in Fig. \ref{fig:L-vs-P}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multi-component fluids}
 In Sec.~\ref{sec:multi-component} we have seen that in a fluid made of $Q$ atomic species there are in general $Q$ macroscopic fluxes interacting with each other through Onsager's phenomenological equations, Eq.~\eqref{eq:onsager}, not counting the different Cartesian components that do not interact amongst themselves because of space isotropy. A MD simulation thus samples $Q$ stochastic processes, one for each interacting flux, that we suppose to be stationary. These processes can be thought of as different components of a same multivariate process \citep{Bertossa2018}. As in Sec.~\ref{sec:univariate}, for the sake of generality we suppose to have $\ell$ independent samples of such a process, described by a multivariate time series of length $N$: $\{ ^{p\!}{J}^i_n \}$; $p=1,\dots \ell$; $i=1,\dots Q$; $n=0,\dots N-1$. Stationarity implies that $\langle {J}^i_n\rangle $ does not depend on $n$ and that $\langle {J}^i_n {J}^j_m \rangle$ only depends on $n-m$. We will further assume that $\langle {J}^i_n\rangle =0 $ and that $\langle {J}^i_n {J}^j_0 \rangle$ is an even function of $n$, which is the case when ${J}^i$ and ${J}^j$ have the same signature under time-reversal. By combining Eq.~\eqref{eq:multi_kappa} with Eq.~\eqref{eq:GK-S0}, we see that in order to evaluate the thermal conductivity in the multi-component case we need an efficient estimator for $\left ( S^{-1}_0\right )^{11}$, where $S^{kl}_0=S^{kl}(\omega=0)$ is the zero-frequency cross-spectrum of the relevant fluxes, ordered in  such a way that the energy one is the first.
 

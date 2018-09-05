@@ -2189,7 +2189,6 @@ year = {2011}
   journal = {Int. J. Heat Mass Transfer}
 }
 
-
 @article{Akaike1974,
 author = {H. Akaike},
 doi = {10.1109/TAC.1974.1100705},
@@ -2200,6 +2199,14 @@ title = {A New Look at the Statistical Model Identification},
 url = {https://doi.org/10.1109/TAC.1974.1100705},
 volume = {19},
 year = {1974}
+}
+
+@book{Oppenheim1999,
+  Author = {Alan V. Oppenheim and Ronald W. Schafer and John R. Buck},
+  Title = {Discrete-Time Signal Processing (2nd Edition) (Prentice-Hall Signal Processing Series)},
+  Publisher = {Prentice Hall},
+  Year = {1999},
+  ISBN = {0137549202}
 }
 
 @article{Burnham2004,
@@ -2799,11 +2806,12 @@ url = {https://doi.org/10.1063/1.452424},
 }
 
 @book{McQuarrie2000,
-  Author = {McQuarrie,D. A.},
+  Author = {McQuarrie, Donald A.},
   Title = {Statistical Mechanics},
   Publisher = {University Science Books},
   Address = {Sausalito},
   Year = {2000},
+  ISBN = {978-1-891389-15-3}
 }
 
 @article{Kinaci2012,
@@ -2898,7 +2906,7 @@ number = "1",
 pages = "1 - 19",
 year = "1995",
 issn = "0021-9991",
-doi = "https://doi.org/10.1006/jcph.1995.1039",
+doi = "10.1006/jcph.1995.1039",
 url = "http://www.sciencedirect.com/science/article/pii/S002199918571039X",
 author = "Steve Plimpton"
 }
@@ -2922,7 +2930,7 @@ volume = "126",
 pages = "1 - 6",
 year = "2017",
 issn = "0927-0256",
-doi = "https://doi.org/10.1016/j.commatsci.2016.09.008",
+doi = "10.1016/j.commatsci.2016.09.008",
 url = "http://www.sciencedirect.com/science/article/pii/S0927025616304463",
 author = "Niall J. English and John S. Tse",
 keywords = "Thermal conductivity, Thermoelectric material, Molecular dynamics"
@@ -2955,18 +2963,17 @@ url = {https://doi.org/10.1021/acs.jpcc.8b00880}
   url = {https://link.aps.org/doi/10.1103/PhysRevB.27.6083}
 }
 
-@incollection{McGaughey2006,
+@inbook{McGaughey2006,
+author = "A.J.H. McGaughey and M. Kaviany",
 title = "Phonon Transport in Molecular Dynamics Simulations: Formulation and Thermal Conductivity Prediction",
-editor = "George A. Greene and James P. Hartnett† and Avram Bar-Cohen and Young I. Cho",
-series = "Advances in Heat Transfer",
+booktitle = "Advances in Heat Transfer",
 publisher = "Elsevier",
 volume = "39",
 pages = "169 - 255",
 year = "2006",
 issn = "0065-2717",
-doi = "https://doi.org/10.1016/S0065-2717(06)39002-8",
+doi = "10.1016/S0065-2717(06)39002-8",
 url = "http://www.sciencedirect.com/science/article/pii/S0065271706390028",
-author = "A.J.H. McGaughey and M. Kaviany"
 }
 
 @article{McGaughey2004a,
@@ -2977,7 +2984,7 @@ number = "8",
 pages = "1783 - 1798",
 year = "2004",
 issn = "0017-9310",
-doi = "https://doi.org/10.1016/j.ijheatmasstransfer.2003.11.002",
+doi = "10.1016/j.ijheatmasstransfer.2003.11.002",
 url = "http://www.sciencedirect.com/science/article/pii/S0017931003006197",
 author = "A.J.H. McGaughey and M. Kaviany"
 }
@@ -2990,7 +2997,7 @@ number = "8",
 pages = "1799 - 1816",
 year = "2004",
 issn = "0017-9310",
-doi = "https://doi.org/10.1016/j.ijheatmasstransfer.2003.11.009",
+doi = "10.1016/j.ijheatmasstransfer.2003.11.009",
 url = "http://www.sciencedirect.com/science/article/pii/S0017931003006203",
 author = "A.J.H. McGaughey and M. Kaviany"
 }
@@ -3026,7 +3033,67 @@ number = "2",
 pages = "139 - 152",
 year = "1998",
 issn = "0022-3115",
-doi = "https://doi.org/10.1016/S0022-3115(98)00034-8",
+doi = "10.1016/S0022-3115(98)00034-8",
 url = "http://www.sciencedirect.com/science/article/pii/S0022311598000348",
 author = "Ju Li and Lisa Porter and Sidney Yip"
+}
+
+@article{Argon-FF,
+author = {Tretiakov, K. V. and Scandolo, S.},
+doi = {10.1063/1.1642611},
+journal = {J. Chem. Phys.},
+keywords = {Lennard-Jones potential,argon,kinetic theory,molecular dynamics method,phonon-phonon interactions,thermal conductivity},
+number = {8},
+pages = {3765--3769},
+title = {{Thermal conductivity of solid argon from molecular dynamics simulations}},
+volume = {120},
+year = {2004}
+}
+
+@article{water-FF,
+author = {Alejandre, J. and Chapela, G. A. and Bresme, F. and Hansen, J. P.},
+doi = {10.1063/1.3124184},
+issn = {00219606},
+journal = {J. Chem. Phys.},
+number = {17},
+pmid = {19425788},
+title = {{The short range anion-H interaction is the driving force for crystal formation of ions in water}},
+volume = {130},
+year = {2009}
+}
+
+@article{MgO-FF,
+author = {Shukla, P. and Watanabe, T. and Nino, J. C. and Tulenko, J. S. and Phillpot, S. R.},
+doi = {10.1016/j.jnucmat.2008.06.043},
+isbn = {0022-3115},
+issn = {00223115},
+journal = {J. Nucl. Mat.},
+number = {1-3},
+pages = {1--7},
+title = {{Thermal transport properties of MgO and Nd2Zr2O7 pyrochlore by molecular dynamics simulation}},
+volume = {380},
+year = {2008}
+}
+
+@article{Silica-BKS-1990,
+author = {van Beest, B. W. H. and Kramer, G. J. and van Santen, R. A.},
+doi = {10.1103/PhysRevLett.64.1955},
+journal = {Phys. Rev. Lett.},
+number = {16},
+pages = {1955},
+title = {{Force fields for silicas and aluminophosphates based on ab initio calculations}},
+volume = {64},
+year = {1990}
+}
+
+@article{Silica-BKS-2015,
+author = {Shcheblanov, N. S. and Mantisi, B. and Umari, P. and Tanguy, A.},
+doi = {10.1016/j.jnoncrysol.2015.07.035},
+isbn = {0602602165},
+issn = {00223093},
+journal = {J. Non-Cryst. Solids},
+pages = {6--19},
+title = {{Detailed analysis of plastic shear in the Raman spectra of SiO2 glass}},
+volume = {428},
+year = {2015}
 }
