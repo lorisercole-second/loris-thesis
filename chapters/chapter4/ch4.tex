@@ -2,17 +2,20 @@
 
 \begin{LEtext}
 The advent of density-functional theory (DFT) \cite{Hohenberg1964,Kohn1965} has marked the start of a new era for the quantum modeling of materials. DFT allows computing interatomic forces entirely from first principles using the chemical composition and the fundamental laws of nature as the sole ingredients, without any need to leverage experimental knowledge of these interactions.
-Its combination with classical molecular dynamics, both in the Born-Oppenheimer of Car-Parrinello flavours \cite{Car1985,Marx2009}, had a groundbreaking impact in a wide number of physical problems.
+Its combination with classical molecular dynamics, both in the Born-Oppenheimer or Car-Parrinello flavours \cite{Car1985,Marx2009}, had a groundbreaking impact in a wide number of physical problems.
 
-Nevertheless, quantum simulation methods based on DFT have long been thought to be incompatible with the GK theory of thermal transport \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom} \cite{Stackhouse2010b}. For this reason, \emph{ab initio} simulations of heat transport have often been performed using non-equilibrium approaches.
+Nevertheless, quantum simulation methods based on DFT have long been thought to be incompatible with the GK theory of thermal transport ``\emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}'' \cite{Stackhouse2010b}. For this reason, \emph{ab initio} simulations of heat transport have often been performed using non-equilibrium approaches.
 
-The recently discovered gauge invariance principle that was introduced in Chapter~\ref{ch:gauge-invariance} not only explains why an arbitrary defintion of the heat flux results in a well-defined value for the thermal conductivity, but it also gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients.
+The recently discovered gauge invariance principle, that was introduced in Chapter~\ref{ch:gauge-invariance}, not only explains why an arbitrary defintion of the heat flux results in a well-defined value for the thermal conductivity, but it also gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients.
 
-In this chapter we first summarize the most recent \emph{ab initio} methods for the computation of thermal conductivity. Then we briefly review the first-principles GK theory of thermal transport developed by \citet{Marcolongo2014}, that will be adopted in the rest of this work.
+In this chapter we start by summarizing the most recent \emph{ab initio} methods for the computation of thermal conductivity. Then we briefly review the first-principles GK theory of thermal transport developed by \citet{Marcolongo2016}, that will be used in the rest of this work.
 \end{LEtext}
 
 
+\newpage
 \section{First-principles simulation methods}
+\LEnote{** Questa parte \`e un intro generale ai metodi... forse va spostata nel cap. 1 (introduzione)?? **}
+
 \begin{LEtext}
 In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE), \emph{non-equilibrium Green's functions} (NEGF), and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
 
@@ -28,13 +31,12 @@ In non-equilibrium MD (NEMD) \cite{Evans1990,Muller-Plathe1997}, temperature gra
 In the so-called \emph{approach to equilibrium} (AEMD) methodology of \citet{Lampin2013} the system is first prepared in an out-of-equilibrium state, characterized by an inhomogeneous temperature distribution, and the thermal conductivity is evaluated from the time it takes for the system to equilibrate. 
 NEMD and AEMD lend themselves to a straightforward quantum-mechanical implementation \cite{Stackhouse2010b,Bouzid2017} using \emph{ab initio} molecular dynamics (AIMD). For example, \citet{Stackhouse2010b} computed the thermal conductivity of periclase MgO using a method devised by \citet{Muller-Plathe1997}, \emph{i.e.} by imposing a temperature gradient to the system, and evaluating the ratio between the heat flux and the resulting temperature gradient.
 \citet{Bouzid2017} combined AEMD with AIMD to simulate thermal transport in a GeTe$_4$ glass, while \citet{Puligheddu2017} further generalized and applied it to crystalline and nano-structured MgO.
-However, but methods may be both affected by non-linear effects, due to the strength of the temperature gradient to be imposed \cite{Schelling2002,He2012} and by finite-size/finite-time effects that require long simulation times and difficult extrapolations to approach the thermodynamic limit \cite{sellan2010,He2011,He2012,Zaoui2016,Wang2017}. 
+However, these methods may be both affected by non-linear effects, due to the strength of the temperature gradient to be imposed \cite{Schelling2002,He2012} and by finite-size/finite-time effects that require long simulation times and difficult extrapolations to approach the thermodynamic limit \cite{sellan2010,He2011,He2012,Zaoui2016,Wang2017}. 
 
-The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \cite{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Sec.~\ref{sec:dft-heat-theory} and we will use it in the rest of this work. (***RIFERIMENTI***)
+The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \citet{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Sec.~\ref{sec:dft-heat-theory} and we will use it in the rest of this work.
 
 More recently, several works attempted to combine the GK approach to heat transport with first-principles techniques based on electronic-structure theory, by adopting some \emph{ad hoc} definitions for the energy flux. \citet{Kang2017}, for instance, derived an expression for the energy flux from a (rather arbitrary) quantum-mechanical definition of the atomic energies and used a modified MD integration algorithm to cope with the difficulties ensuing from the implementation of their expression in PBC. 
-\citet{Carbogno:2017gc} gave a different expression for the energy flux, that neglects the convective term (**EQ.**) and is based on a normal-mode decomposition of the atomic coordinates and forces, which, while allowing to reduce the effects of thermal fluctuations, can only be applied to crystalline solids.
-
+\citet{Carbogno:2017gc} gave a different expression for the energy flux, that neglects the convective term, Eq.~\eqref{eq:J-convective}, and is based on a normal-mode decomposition of the atomic coordinates and forces, which, while allowing to reduce the effects of thermal fluctuations, can only be applied to crystalline solids.
 \citet{English2017}, instead, used the classical Einstein relation for the energy displacement, $\mathcal{D}(\tau) = \sum_n \mathbf{R}_n \int_0^\tau \mathbf{F}_n \cdot \mathbf{V}_n \, dt$, computed from a BO-AIMD trajectory, where the forces are computed from the Hellmann-Feynman theorem. They applied this methodology to the computation of thermal conductivity of periclase MgO \cite{Tse2018} and other solids. Their approach also neglects the convective term and is only applicable to solids.
 \end{LEtext}
 
@@ -92,7 +94,7 @@ are the projections over the empty-state manifold of the action of the position 
 
 \subsection{Electronic current}
 \begin{LEtext}
-The current $\mathbf{J}^\smallKS$, Eq.\eqref{eq:DFT-KS}, is not manifestly invariant with rspect to the arbitrary choice of the zero of the one-electron energy levels: a shift of this zero by a quantity $\Delta\epsilon$ results in a shift of the energy flux by $\Delta \mathbf{J}^{el}$, where $\mathbf{J}^{el}$ is the adiabatic electronic current \cite{Thouless1983},
+The current $\mathbf{J}^\smallKS$, Eq.\eqref{eq:DFT-KS}, is not manifestly invariant with respect to the arbitrary choice of the zero of the one-electron energy levels: a shift of this zero by a quantity $\Delta\epsilon$ results in a shift of the energy flux by $\Delta \mathbf{J}^{el}$, where $\mathbf{J}^{el}$ is the adiabatic electronic current \cite{Thouless1983}:
 \begin{equation}
  \mathbf J^{el} = \frac{2}{\rOmega}\mathfrak{Re} \sum_{v} \langle\bm{\bar \phi}_v^c |\dot \phi_v^c \rangle, \label{eq:DFT-electronic}
 \end{equation}
@@ -100,21 +102,24 @@ that can be derived from the continuity equation for the electronic density:
 \begin{equation}
 \nabla\cdot \bm j^{el}(\bm r,t) =- \dot{n}^{el}(\bm r,t).    
 \end{equation}
-The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-electronic}.
+The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
 \end{LEtext}
 
 
-\subsection{Multi-component heat flux}
-\LEnote{*********}
+%\subsection{Multi-component heat flux}
+%\LEnote{****???*****}
 
 
 \subsection{Numerical computation}
+\begin{LEtext}
 The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-ionic}, at time $t$ requires the atomic positions $\{\mathbf{R}\}$ and velocities $\{\mathbf{R}\}$, along with the Kohn-Sham eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, the ground-state electron density distributions $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$ and their time-derivatives. 
 
-The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code (not yet publicly available). In order to compute the energy flux $\mathbf{J}^\smallE$, one should first extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). For each of these time steps, two self-consistent KS calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
+The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code (not yet publicly deployed). In order to compute the energy flux $\mathbf{J}^\smallE$, one should first extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). For each of these time steps, two self-consistent KS calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
 Therefore, the cost of one energy flux calculation is about equal to the cost of two self-consistent calculations plus one linear response calculation. *******
 In the current implementation, each time step costs almost 4 times the cost of a self-consistent calculation.
 The atomic coordinates at time $t+\Delta t$ are extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand, as shown in Fig.~***** for the case of liquid water.******
+
+\end{LEtext}
 
 \bigskip
 \LEnote{*******FIGURA CONVERGENZA TIMESTEP*********}
@@ -124,8 +129,11 @@ The atomic coordinates at time $t+\Delta t$ are extrapolated from those at time 
 
 
 \section{Outlook}  \label{sec:dft-outlook}
-As it was already mentioned in Sec.~\ref{sec:gauge-outlook}, the gauge invariance of transport coefficients not only provides a solid foundation to the quantum theory of adiabatic heat transport, by also allows tuning this definition so as to achieve optimal statistical properties to reduce its computational cost. This freedom can in principle be exploited to design new expressions for the heat flux. One possibility may be devising a formulation base on a local representation of the electronic structure \cite{Marzari2012,Damle2015}, \emph{e.g.} maximally localized Wannier functions, that would avoid the use of density-functional perturbation theory for the computation of $\mathbf{J}^{\smallKS}$, by removing the ill-definiteness problems in PBC. In the case of solids, where correlation times are generally longer, a more efficient expression may be obtained from a normal-mode expansion \cite{Ladd1986} and interpolation, to cope with noise and finite-size effects, in a similar way to the one proposed by \citet{Carbogno:2017gc}. 
+\begin{LEtext}
+As it was already mentioned in Sec.~\ref{sec:gauge-outlook}, the gauge invariance of transport coefficients not only provides a solid foundation to the quantum theory of adiabatic heat transport, by also allows tuning this definition so as to achieve optimal statistical properties to reduce its computational cost. This freedom can in principle be exploited to design new expressions for the heat flux from first principles. One possibility may be devising a formulation based on a local representation of the electronic structure \cite{Marzari2012,Damle2015}, \emph{e.g.} maximally localized Wannier functions, that would avoid the use of density-functional perturbation theory for the computation of $\mathbf{J}^{\smallKS}$, by removing the ill-definiteness problems in PBC. In the case of solids, where correlation times are generally longer, a more efficient expression may be obtained from a normal-mode expansion \cite{Ladd1986} and interpolation, to cope with noise and finite-size effects, in a similar way to the one proposed by \citet{Carbogno:2017gc}. 
 
-Furthermore, the expression of the energy flux, that is now implemented for LDA and GGA energy functionals, can be extended to more advanced functionals \cite{French_2010:long_range,Berland2015}, where dispersion forces are accounted for. This effects are important in the structural and transport properties of many soft materials.
+Furthermore, the expression of the energy flux, that is now implemented for LDA and GGA energy functionals, can be extended to more advanced functionals \cite{French_2010:long_range,Berland2015}, where dispersion forces are accounted for. This effects are important in the structural and transport properties of many soft materials, and may give important contributions to the thermal conductivity as well.
 
 Finally, the \abinitio computation of thermal conductivity of multi-component fluids has never been attempted and would be particularly beneficial to study systems in extreme conditions.
+
+\end{LEtext}
