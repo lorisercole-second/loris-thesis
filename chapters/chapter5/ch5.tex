@@ -502,6 +502,9 @@ By analyzing the trend of the estimate of $\log(\kappa)$ of MgO with the length 
 When the heat flux time series is characterized by a slowly decaying HCACF (a long autocorrelation time) and a sharp peak at $f\approx 0$, like in the case of MgO, a longer trajectory (\emph{i.e.} a higher number of frequencies) is required to adequately sample the low-frequency region. 
 Whether it is possible to define a minimum simulation length necessary to optimize the estimate of $\kappa$ in cases like this is an issue that should be studied more extensively, possibly by analyzing synthetic analytic stochastic time series that can reproduce similar power spectra. 
 We believe that the Akaike Information Criterion can be improved to perform better in these critical class of systems. 
+
+For the other cases, for example for a-SiO$_2$, the value of $\kappa$ as a function of the cutoff frequency $f^*$, estimated from a single $100\un{ps}$ trajectory segment, oscillates around an average value that is compatible with the distributions of Fig.~\ref{fig:histograms}. Using a longer segment decreases the magnitude of these oscillations, making the estimate of $\kappa$ more stable at different $f^*$, which is compatible with the reduced variance of its distribution. 
+A possible further aspect to be considered is the low-pass filter applied to the time series before resampling. The type of filter will affect the highest frequencies of the spectrum of the resampled heat current (an effect known as \emph{spectral leakage}), and it may add some subtle effects to the estimate of $\kappa$ as well. 
 \end{LEtext}
 
 
@@ -612,3 +615,16 @@ and its statistical error as
 
 \section{Outlook}
 \LEnote{**Conclusioni cepstral methods, improvements, outlook... AIMD simulations...***}
+
+\begin{LEtext}
+The cepstral analysis method introduced in this chapter promises to be a very powerful tool to estimate the thermal conductivity, from relatively short MD runs, in a more rigorous way than done so far by other methods. 
+Its implementation is straightforward and its use robust, as the only parameter to be determined is the optimal number of cepstral coefficients, using \emph{e.g.} the Akaike's information criterion.
+The most impressive results are achieved for disordered systems, \emph{e.g.} liquids and amorphous solids, and multi-atom cells, where a low conductivity results from large cancellations in the integral of a highly oscillatory time auto-correlation function, where all the traditional methods fail or give very subjective results. In these systems, simulation times of the order of $100\un{ps}$ seem sufficient to obtain accuracies of the order of $10\%$ in the estimated thermal conductivities. 
+
+The performance is less spectacular in periodic crystals, where slowly-decaying strongly-harmonic phonon modes require longer simulation times and the ensuing sharp peak in the low-frequency region of the power spectrum requires a larger number of cepstral coefficients than predicted by the optimization of the AIC. Even so, simulation times of the order of a few hundred picoseconds seem sufficient to achieve a comparable accuracy. In the latter case, it is possible that a combination of the methodology introduced here with specialized techniques based on normal-mode analysis, such as that presented in Ref.~\cite{Carbogno:2017gc}, will result in further improvements. 
+Leveraging more general (possibly non-Fourier) representations of the log-spectrum of the currents to be analyzed, and replacing the optimization of the AIC with more sophisticated and possibly more efficient approaches, such as \emph{e.g.} weighted multi-model inference techniques,\cite{Burnham2004,Claeskens2008} may also assist in this and other difficult cases. 
+Finally, we expect that our methodology will impact on the simulation of any transport phenomena to which the Green-Kubo theory applies, such as ionic conduction, viscosity, and many others.
+
+This achievement overcomes the last hurdle towards the quantum simulation of heat transport, which has been considered out of its scope until very recently, particularly for strongly anharmonic and/or disordered systems.
+
+\end{LEtext}
