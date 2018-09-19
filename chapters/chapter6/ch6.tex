@@ -8,10 +8,10 @@ However, ``thermal conductivity represents largely explored territories, ripe fo
 
 \paragraph{Vitreous silica}
 Vitreous silica has been the subject of significant research efforts in the last decades, due to is many technological applications that range from thermal insulation to laser engineering, semiconductor fabrication, and optical communication.
-In particular, thanks to its excellent UV transparency, mechanical stability, and chemical durability, silica can be used in many optical applications, such as the diffractive elements and the protective windows of the optics assemblies of inertial confinement fusion facilities. In these facilities, extremely intense nanosecond laser pulses are used and seriously challenge the durability the optical glasses. It is indeed well established that the small defects or impurities of the glass may induce damage craters due to local lattice heating and melting, that will result in a rapid optical degradation \cite{Miller2004,Canaud2004,Miller2010,Chambonneau2014,Kuzuu1999,Stuart1995,Wong2006,Carr2010,Saito2000}. The interpretation of this damage process requires the study of thermal transport and the prediction of the thermal conductivity. 
+In particular, thanks to its excellent UV transparency, mechanical stability, and chemical durability, silica can be used in many optical applications, such as the diffractive elements and the protective windows of the optics assemblies of inertial confinement fusion facilities. In these facilities, extremely intense nanosecond laser pulses are used and can seriously challenge the durability the optical glasses. It is indeed well established that the small defects or impurities of the glass may cause local lattice heating and melting, resulting in damage craters that will rapidly degrade its optical performance \cite{Miller2004,Canaud2004,Miller2010,Chambonneau2014,Kuzuu1999,Stuart1995,Wong2006,Carr2010,Saito2000}. The interpretation of these type of damage processes require the study of thermal transport and the prediction of the thermal conductivity of glasses. 
 
 Furthermore, amorphous silica serves as the basis of multicomponent silica glasses, that are adopted for a wide range of special applications. 
-Therefore predicting the thermal conductivity of silica is the first step to predict the thermal conductivity of more complicated glasses, whose elements are characterized by a complex chemistry that is difficult to model.
+Therefore, predicting the thermal conductivity of silica represent the first step towards the prediction of the thermal conductivity of more complicated glasses, whose components are characterized by a complex chemistry that more is difficult to model.
 
 **Esempio vetri borosilicati ecc**
 
@@ -48,7 +48,16 @@ A cooling rate of $5\un{K/ps}$ is commonly used in the literature and it was sho
 
 The structure of amorphous silica is made of a continuous random network of silicon atoms tetrahedrally bonded to bridging oxygen atoms (2-fold coordinated).
 
+\begin{figure}
+    \centering
+    \includegraphics[]{chapters/chapter6/figures/BKSW.pdf}
+    \caption{BKS potential with Wolf truncation.}
+    \label{fig:BKS-potential}
+\end{figure}
+
 BKS works suprisingly well, not only for silica polymorfs, but also for vitreous silica.
+
+One of the most succesful force fields for a-SiO$_2$ is the so-called BKS potential, proposed by van Beest, Kramer, and van Santen \cite{Silica-BKS-1990}, who built it*****by fitting \abinitio data of ..***********
 
 \citet{Tian2017} compared the structures of silica obtained from different force fields. They quenched a fully melted silica box of density $\rho=2.2\un{g/cm^3}$ from $5000\un{K}$ to $300\un{K}$ at $5\times 10^{12}\un{K/s}$ in the NVT ensemble. 
 The BKS, Teter, and ReaxFF potentials all generate realistic silica structures \cite{Vollmayr1996,Yu2016,Yuan2001}, with radial distribution functions, neutron structure factors, and coordination numbers that reasonably reproduce the experimental observations.
@@ -62,7 +71,13 @@ The coordination numbers can be used to detect coordination defects, by choosing
 Of course the quenching rate largely influences the number of defects of the generated glass. 
 \LE{**discussed in sezione dopo**}
 
-\paragraph{Thermal conductivity}
+\begin{description}
+    \item[Experimental density] $2.202\un{g/cm^3}$
+    \item[Experimental thermal expansion coefficient] $\alpha_v \approx 5.5\times 10^{-7}\un{K^{-1}}$. (CHECK)
+\end{description}
+
+
+\subsection{Thermal conductivity}
 \LEnote{**da spostare in sec dopo**}
 Thermal conductivity depends on:
 \begin{itemize}
@@ -72,13 +87,48 @@ Thermal conductivity depends on:
     \item quenching
 \end{itemize}
 
+
+\paragraph{VDOS}
+Besides the structure of the generated sample, what determine the thermal conductivity of the system are its vibrational properties, that are determined by the interaction potential and can be analyzed by the vibrational density of states (VDOS).
+Experimentally, the VDOS obtained from neutron scattering shows three significant peaks at about $400\un{cm^-1}$, $800\un{cm^-1}$, and $1100\un{cm^-1}$, that represent the rocking, bending, and stretching modes respectively \cite{Galeener1983}, as shown in Fig.\LEnote{**Figura articolo sarnthein**}.
+
+First principles simulations have shown to successfully reproduce all the principle peaks of the VDOS. \citet{Sarnthein1997} studied a sample of $72$ atoms of a-SiO$_2$ obtained from a quench from the melt with AIMD at experimental density ($2.20\un{g/cm^3}$), within the local density approximation of DFT, and computed the VDOS by diagonalization of the dynamical matrix. Their results, reported in Fig.\LEnote{Figura articolo Sarnthein} are in very good agreement with the experiments. The same calculation has been reproduced more recently by \citet{Bhattarai2016} using a $648$-atom model of a-SiO$_2$ (see Fig.\LEnote{Figura articolo Tian, con comparison BKS...}).
+
+Conversely, classical force fields struggle to correctly reproduce the features of the VDOS of a-SiO$_2$. In Fig.\LEnote{Figura Tian} we report the VDOS obtained for the BKS, Teter, and ReaxFF potentials \cite{Tian2017}, compared to an \abinitio calculation \cite{Bhattarai2016}. 
+The low-frequency band is dominated by O contributions and agrees well with the results of first-principles simulations and experiments, even though it wrongly elongates up to $600\un{cm^{-1}}$ using the BKS and Teter potentials. For these two models, the modes in the $400-500\un{cm^{-1}}$ range do not agree well with experiment, a sign suggesting that these potentials struggle to reproduce correctly the forces over intermediate-range distances \cite{Vollmayr1996}. 
+The intermediate-frequency band of \abinitio simulations is dominated by Si contributions and presents an isolated peak at about $800\un{cm^{-1}}$, but this is not reproduced by the BKS and Teter potentials, while ReaxFF do not account correctly for the contributions of Si and O atoms. 
+The high-frequency band, that corresponds to Si-O stretching vibrations, is well reproduced by the BKS and Teter potentials, but is notably missing in ReaxFF. 
+Therefore we can expect that ReaxFF will provide most realistic prediction of thermal conductivity at room temperature, where thermal conduction is mainly contributed by acoustic-like phonon vibrations whoose frequencies are typically below $400\un{cm^{-1}}$ \cite{Bhattarai2016}; whereas the BKS and Teter potential will probably be more suitable to study high-temperatures cases, where the contribution of stretching vibrations to thermal conduction increases significantly. 
+
+
+\subsection{Sample preparation}
+\subsection{Quenching}
+The properties of the simulated glass may sensibly depend on the quenching process adopted to generate the virtual sample. 
+When a supercooled liquid is cooled down so much that the relaxation times of the system exceed the time scale of the (virtual) experiment, the system will be in a nonequilibrium state and undergo a glass transition, provided it does not crystallize. The obtained glass is a nonequilibrium structure whose properties will generally depend on its production history. The \emph{quenching rate} at which it was cooled will determine its macroscopic and, in particular, microscopic properties \cite{Vollmayr1996}. 
+For example, the glass transition temperature computed by simulations is significantly higher than the glass transition temperature observed in the laboratory. 
+The time scales reachable by computer simulations are many orders of magnitude shorter than the typical time scales of laboratory experiments, hence the minimum quenching rates attainable in classical MD simulations are of the order of $10^{11}-10^{13}\un{K/s}$, a rate that can only be replicated experimentally by strong laser pulses or ion bombardment \cite{Soules2011}.
+
+\citet{Vollmayr1996} extensively studied the effects of quenching rate on the properties of BKS amorphous silica. They used a sample of $\sim 1000$ atoms at zero pressure, melted it at $7000\un{K}$ and then cooled it down to $0\un{K}$ at different temperature rates $\gamma$, ranging from $10^{12}$ to $10^{15}\un{K/s}$. The glass transition temperature, that they estimated from the enthalpy curves, increases with $\gamma$. As one can expect, fast cooling rates make the system fall out of equilibrium more quickly during the quench. 
+The density $\rho$ of the final sample also depends on the quenching rate: a higher $\gamma$ determine higher densities at low temperatures, while decreasing $\gamma$ make the density converge to an ``equilibrium density'' curve, that can be observed in Fig.~\LEnote{**FIGURA QUENCH-DENSITY**}. Noticeably, the density has a maximum at $T\sim 4800\un{K}$ that does not depend on $\gamma$: this ``density anomaly'' is also observed in experiments, at a much lower temperature, of $1820\un{K}$. This discrepancy can be attributed to the BKS potential.
+Furthermore, the thermal expansion coefficient at constant pressure, $\alpha_p = \frac{1}{V} \left.\frac{\partial V}{\partial T}\right|_p$, increases with $\gamma$.
+
+Microscopic properties are even more affected by the quenching rate. 
+By analysing the radial distribution function (RDF) between different species it is possible to observe that a small cooling rate makes the structural order at short and intermediate distances increase, \emph{i.e.} the RDF peaks and minima become more pronounced. However, the location of the RDF's peaks is very little affected by $\gamma$ (\emph{i.e.} the Si-O tetrahedra do not change much their size with $\gamma$) and compares quite well with experiment, thus making BKS a good potential to reproduce the short- and medium-range structure of a-SiO$_2$. 
+The study of coordination numbers of each atom type shows that local order increases fast with decreasing cooling rate: for example, the number of Si atoms that are 4-fold coordinated with oxygen atoms increases from $95\%$ to $99.5\%$ by decreasing the cooling rate from $10^{15}\un{K/s}$ to $10^{13}\un{K/s}$.
+Since the size of Si-O tetrahedra does not change much their size with $\gamma$, the variation of density with the changes in the cooling rate is due to relative arrangement of neighboring tetrahedra. This can be observed in variations of the angle distributions (\emph{e.g.} the O-Si-O angle distribution shrinks by decreasing $\gamma$ and approaches the ideal tetrahedron angle of $109.47^\circ$) and rings distributions (rings of size $6$ becomes more frequent with decreasing $\gamma$, indicating that the local structure of the system approaches the one of $\beta$-crystobalite). 
+Finally, the two high-frequency peaks of VDOS depend on the quench rate in that their height increases significantly by decreasing $\gamma$, hence improving the agreement with experiment. The low-frequency band, which is quite featureless, does not change very much, and the same applies to the intermediate band, that therefore remains quite in discordance with experimental results. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Classical simulations: thermal conductivity}
+
 \paragraph{Non-Equilibrium MD studies}
-Many studies of the thermal conductivity of a-SiO$_2$ are based on NEMD simulations, that are strongly size dependent due to scattering of phonon with the heat sink, and require the study of its convergence at large cell sizes. 
+Many studies of the thermal conductivity of a-SiO$_2$ are based on NEMD simulations, that are strongly size dependent due to scattering of phonons with the heat sink, and thus require the study of its convergence at large cell sizes. 
 For example, \citet{Tian2017} simulated a-SiO$_2$ with the BKS potential at $T=300\un{K}$, $\rho=2.2\un{g/cm^3}$, and obtained a value of thermal conductivity of $\kappa=(2.27 \pm 0.06)\un{W/mK}$ at the maximum size simulated, whereas \citet{Coquil2011} obtained $\kappa= (2.10 \pm 0.10)\un{W/mK}$. 
 
-An extrapolation technique is needed to estimate the convergence of $\kappa$ as a function of the length of the simulation cell in the direction of the heat flux $L_z$. According to the kinetic theory: $\kappa = \frac{1}{3} c_V v \,l$, where $c_V$ is the lattice specific heat at constant volume, $v$ is the sound velocity, and $l$ is the mean-free path of the phonons. The thermal conductivity can be obtained by linear fitting $1/\kappa$ vs $1/L_z$ and extrapolating the value at $1/L_z=0$ \cite{Schelling2002}. This method has been widely applied in the literature, but it has to be adopted with extreme care: if the distribution of phonon mean-free paths cannot be approximated by its average value, then the linear dependence of $1/\kappa$ on $1/L_z$ is no longer valid, as higher-order are not negligible, as discovered by \citet{Sellan2010} studying Ar and Si crystals. If the considered system sizes are smaller than the largest bulk mean-free paths that dominate the thermal transport, then the linear relationship may not work and the thermal conductivity can be severely underestimated.
+An extrapolation technique is needed to estimate the convergence of $\kappa$ as a function of the length of the simulation cell in the direction of the applied heat flux (or temperature gradient), $L_z$. According to the kinetic theory: $\kappa = \frac{1}{3} c_v v \,l$, where $c_v$ is the lattice specific heat at constant volume, $v$ is the sound velocity, and $l$ is the mean-free path of the phonons. The thermal conductivity can be obtained by linear fitting $1/\kappa$ vs $1/L_z$ and extrapolating the value at $1/L_z=0$ \cite{Schelling2002}. 
+Despite being widely applied in the literature, this method has to be adopted with extreme care. Indeed, if the distribution of phonon mean-free paths cannot be approximated by its average value, then the linear dependence of $1/\kappa$ on $1/L_z$ is no longer valid, as higher-order terms are not negligible, as \citet{Sellan2010} ascertained studying Ar and Si crystals. If the considered system sizes are smaller than the largest bulk mean-free paths that dominate the thermal transport, then the linear relationship may not work and the thermal conductivity can be severely underestimated.
 
-In the case of amorphous silica, the maximum phonon mean-free path is quite short ($\sim 6\un{\angstrom}$ \cite{Yu2006}), a fact that can explain why \citet{Tian2017} find the linear extrapolation to work well, allowing them to estimate a value of $2.5\un{W/mK}$ for the BKS and Teter potentials, and of $1.28\un{W/mK}$ for the ReaxFF potential, at $300\un{K}$. Therefore, the ReaxFF potential seems to best reproduce the experimental value of $\kappa_{exp}\approx 1.3-1.4\un{W/mK}$. 
+In the case of amorphous silica, the maximum phonon mean-free path is quite short ($\sim 6\un{\angstrom}$ \cite{Yu2006}), a fact that may explain why \citet{Tian2017} find the linear fit to work well in this case, allowing them to extrapolate a value of $\kappa=2.5\un{W/mK}$ for the BKS and Teter potentials, and of $1.28\un{W/mK}$ for the ReaxFF potential, at $300\un{K}$. Therefore, the ReaxFF potential seems to best reproduce the experimental value of $\kappa_{exp}\approx 1.3-1.4\un{W/mK}$ at this temperature. 
 
 
 \paragraph{Equilibrium MD studies}
@@ -87,35 +137,6 @@ Few studies have been performed using EMD, probably due to the difficulty in est
 The GK method is much less affected by finite-size effets, and can simulate the bulk with much smaller systems, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
 \LE{**celle usate da McGaughey??**}
 
-
-\paragraph{VDOS}
-Besides the structure of the generated sample, what determine the thermal conductivity of the system are its vibrational properties, that are determined by the interaction potential and can be analyzed by the vibrational density of states (VDOS).
-Experimentally, the VDOS obtained from neutron scattering shows three significant peaks at about $400\un{cm^-1}$, $800\un{cm^-1}$, and $1100\un{cm^-1}$, that represent the rocking, bending, and stretching modes respectively \cite{Galeener1983}, as shown in Fig.\LEnote{**Figura articolo sarnthein**}.
-
-First principles simulations have shown to successfully reproduce all the principle peaks of the VDOS. \citet{Sarnthein1997} studied a sample of $72$ atoms of a-SiO$_2$ obtained from a quench from the melt with AIMD at experimental density ($2.20\un{g/cm^3}$), within the local density approximation of DFT, and computed the VDOS by diagonalization of the dynamical matrix (see Fig.\LEnote{Figura articolo Sarnthein}). The same calculation has been reproduced more recently by \citet{Bhattarai2016} using a $648$-atom model of a-SiO$_2$ (see Fig.\LEnote{Figura articolo Tian, con comparison BKS...}).
-
-Conversely, classical force fields struggle to correctly reproduce the features of the VDOS of a-SiO$_2$. In Fig.\LEnote{Figura Tian} we report the VDOS obtained by \citet{Tian2017} for the BKS, Teter, and ReaxFF potentials, compared to the \emph{ab initio} calculation \cite{Bhattarai2016}. The low-frequency band is dominated by O contributions and agrees well with the results of first-principles simulations, even though it elongates up to $600\un{cm^{-1}}$ for the BKS and Teter potentials. 
-The intermediate-frequency band of \abinitio simulations is dominated by Si contributions and presents an isolated peak at about $800\un{cm^{-1}}$, but this is not reproduced by the BKS and Teter potentials, while ReaxFF do not account correctly for the contributions of Si and O atoms. 
-The high-frequency band, that corresponds to Si-O stretching vibrations, is well reproduced by the BKS and Teter potentials, but is notably missing in ReaxFF. 
-Therefore we can expect that ReaxFF will provide most realistic prediction of thermal conductivity at room temperature, where thermal conduction is mainly contributed by acoustic-like phonon vibrations, whose frequencies are typically below $400\un{cm^{-1}}$ \cite{Bhattarai2016}; whereas the BKS and Teter potential will probably be more suitable to study high-temperatures cases, where the contribution of stretching vibrations to thermal conduction increases significantly. 
-
-
-
-BKS
-\begin{figure}
-    \centering
-    \includegraphics[]{chapters/chapter6/figures/BKSW.pdf}
-    \caption{BKS potential with Wolf truncation.}
-    \label{fig:BKS-potential}
-\end{figure}
-
-\subsection{Sample preparation}
-
-
-\subsection{Quenching}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Classical simulations: thermal conductivity}
 
 \subsection{Cepstral analysis}
 \paragraph{Dependence on cutoff frequency $f^*$}
