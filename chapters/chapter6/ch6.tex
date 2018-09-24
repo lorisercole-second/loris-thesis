@@ -22,23 +22,12 @@ All this classical study will be instrumental in determining the feasibility of 
 
 The structure of amorphous silica is made of tetrahedra of SiO$_4$, where silicon is at the center, bonded to 4 oxygen atoms located at the vertexes. Each oxygen, in turn, bridges the tetrahedral corners, bonding between two silicon centers. The variation in orientation of adjacent tetrahedra makes the medium and long range structures disordered, forming a typical glass network.
 
-\begin{figure}[!tb]
-    \centering
-    \includegraphics[]{chapters/chapter6/figures/BKSW.pdf}
-    \caption{BKS potential with Wolf truncation.}
-    \label{fig:BKS-potential}
-\end{figure}
-
 One of the most successful force fields for a-SiO$_2$ is the so-called BKS potential \cite{Silica-BKS-1990}. 
-The BKS potential was devised by \citeauthor*{Silica-BKS-1990} who fit self-consistent-field Hartree-Fock calculations on small silica clusters, and it has the form...
-
-FORM OF BKS...
+The BKS potential was devised by \citeauthor*{Silica-BKS-1990} who fit self-consistent-field Hartree-Fock calculations on small silica clusters, and it is defined as the sum of a Coulomb potential and a Buckingham potential:
 \begin{equation}
-    BKS, \label{eq:BKS}
+    v_{\alpha\beta}^{\mathrm{BKS}}(R) = q_\alpha q_\beta \mathtt{e}^2 V_C(R) + A_{\alpha\beta}\mathrm{e}^{-B_{\alpha\beta}R} - \frac{C_{\alpha\beta}}{R^6}, \label{eq:BKS}
 \end{equation}
-
-TRUNCATION
-PARAMETRI USATI (nella sezione risultati)
+where $\alpha,\beta \in [\text{Si},\text{O}]$, and $R$ is the distance between the ions $\alpha$ and $\beta$. 
 
 Let us notices that Si-O bonds are generally considered to have partial ionic and covalent character. The BKS potential is spherical, therefore it does not describe the directional nature of the covalent bond, but it can anyway achieve the tetrahedral structure through a strictly repulsive interaction between oxygen atoms. We can expect that the bond's directionality could be better described by other more sophisticated potentials or by \abinitio methods.
 
@@ -171,31 +160,82 @@ The GK method is much less affected by finite-size effets, and can simulate the 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Classical simulations: Results}
+
+\begin{figure}[!tb]
+    \centering
+    \includegraphics[]{chapters/chapter6/figures/BKSW.pdf}
+    \caption{BKS potential with Wolf truncation.}
+    \label{fig:BKS-potential}
+\end{figure}
+
 We performed classical MD simulations of amorphous silica using the \textsc{LAMMPS} package \cite{LAMMPS1995}. 
 We used a modified version of the BKS potential \cite{Carre2008}, in which the long-range Coulomb interaction is truncated with the Wolf method \cite{Wolf1992,Wolf1999,Fennel2006}, thus avoiding the use of Ewald summation methods \cite{Allen1989,Frenkel2001}. This truncation is possible thanks to Coulomb screening effects, and it only needs the addition of a correction term that recovers the requirement of charge neutrality. 
-
-The Coulomb term in Eq.~\eqref{eq:BKS} is approximated by the following form:
+The final form we used is the one of Ref.~\cite{Mantisi2012}:
+\begin{multline}
+    v_{\alpha\beta}^{\mathrm{BKS}}(R) = q_\alpha q_\beta \mathtt{e}^2 V_W(R) G_W(R) + \\
+    \left[ A_{\alpha\beta} \mathrm{e}^{-\frac{R}{\rho_{\alpha\beta}}} - \frac{C_{\alpha\beta}}{R^6} - \left( A_{\alpha\beta} \mathrm{e}^{-\frac{R_{c,\mathrm{sh}}}{\rho_{\alpha\beta}}} - \frac{C_{\alpha\beta}}{R_{c,\mathrm{sh}}^6} \right) \right] G_{\mathrm{sh}}(R) , \label{eq:BKS-Wolf}
+\end{multline}
+with
 \begin{equation}
-    V_W(R<R_c) = \left(\frac{1}{R}-\frac{1}{R_c}\right) + \frac{1}{R_c^2}\left(R-R_c\right),  \label{eq:BKS-Wolf}
+    v_W(R) = \left(\frac{1}{R}-\frac{1}{R_c}\right) + \frac{1}{R_c^2}\left(R-R_c\right) ,
 \end{equation}
-\LEnote{DECIDI SE USARE V PER IL POTENZIALE}
-while $V_W(R \geq R_c)=0$, where $R_c$ is a cutoff distance. This potential, whose form is depicted in Fig.~\ref{fig:BKS-potential}, was shown to give results comparable to the original BKS formula. 
-Since the potential becomes attractive at very short distances, a repulsive part at short-range has been added to it in order to avoid atoms to get too close to each other: a problem that may arise at high temperatures during melting. For this repulsive core we used the form:
 \begin{equation}
-    V_{\alpha\beta}^{\mathrm{rep}}(R) = \left(\frac{D_{\alpha\beta}}{R}\right)^{12} + E_{\alpha\beta}R + F_{\alpha\beta}, \label{eq:BKS-repulsive-core}
+    G_W(R) = \exp \left( -\frac{\gamma_W^2}{(R-R_{c,W})^2} \right) , \quad
+    G_{\mathrm{sh}}(R) = \exp \left( -\frac{\gamma_{\mathrm{sh}}^2}{(R-R_{c,\mathrm{sh}})^2} \right) ,
 \end{equation}
-which we designed such that the potential and its first and second derivatives are continuous, in a similar way to Ref.~\cite{Mantisi2012}. The parameters of the potential are reported in Table~\ref{tab:BKS-table}
+$q_{\mathrm{Si}}=2.4$, $q_{\mathrm{O}}=-1.2$, $\gamma_W = \gamma_{\mathrm{sh}} = 0.5$, $R_{c,W} = 10.17\un{\angstrom}$, and $R_{c,\mathrm{sh}} = 5.5 \un{\angstrom}$.
+This potential, whose form is depicted in Fig.~\ref{fig:BKS-potential}, was shown to give results comparable to the original BKS formula \cite{Carre2008}. 
+Since the potential becomes attractive at very short distances, its short-range part at $R < R_{\mathrm{inf}}$ has been substituted by a repulsive core, in order to avoid atoms to get too close to each other: a problem that may arise at high temperatures during melting. The form of this repulsive part is:
+\begin{equation}
+    V_{\alpha\beta}^{\mathrm{rep}}(R) = \frac{D_{\alpha\beta}}{R^{12}} + E_{\alpha\beta}R + F_{\alpha\beta}, \quad R < R_{\mathrm{inf}}, \label{eq:BKS-repulsive-core}
+\end{equation}
+that we designed such that the potential and its first and second derivatives are continuous, as depicted in Fig.~\ref{fig:BKS-potential}. The parameters of the potential are reported in Table~\ref{tab:BKS-table}. 
 
-\begin{table}[!htb]
+\begin{table}[!tb]
     \centering
-    \begin{tabular}{c|c}
-         &  \\
-         & 
+    \begin{tabular}{c|ccccccc}
+             & $A_{\alpha\beta}\un{(eV)}$ & $\rho_{\alpha\beta}\un{(\angstrom)}$ & $C_{\alpha\beta}\un{(eV\angstrom^6)}$ & $D_{\alpha\beta}\un{(eV\angstrom^{12})}$ \\
+        \hline
+        O-O   & $1388.773$    & $0.3623$ & $175.0$     & $142.209126863$ \\
+        Si-O  & $18003.7572$  & $0.2052$ & $133.5381$  & $1.434274208$ \\
+        Si-Si & $872360308.1$ & $0.0657$ & $23.299907$ & $0.0$ \\
+        \hline
+        \hline
+              & $E_{\alpha\beta}\un{(eV\angstrom^{-1})}$ & $F_{\alpha\beta}\un{(eV)}$ & $r_{\mathrm{inf}}\un{(\angstrom)}$ \\
+        \hline
+        O-O   & $-14.9704268$ & $39.035745917$  & $1.75$ \\
+        Si-O  & $-3.2771769$  & $-15.797166326$ & $1.27$ \\ 
+        Si-Si & $0.0$         & $0.0$           & $0.0$
     \end{tabular}
-    \caption{Parameters of the BKS potential used in the classical MD simulations, defined in Eq.~\eqref{eq:BKS-Wolf} and \eqref{eq:BKS-repulsive-core}.}
+    \caption{Parameters of the BKS potential used in classical MD simulations, defined in Eq.~\eqref{eq:BKS-Wolf} and \eqref{eq:BKS-repulsive-core}.}
     \label{tab:BKS-table}
 \end{table}
 
+
+\paragraph{Simulation setup}
+We started the simulation from a $72$-atom sample of $\beta$-cristobalite, correspondent to $24$ SiO$_2$ units, that was replicated to obtain larger cubic supercells at the experimental density of a-SiO$_2$, $\rho = 2.202\un{g/cm^3}$. 
+Each system was melted and equilibrated at constant temperature $7000\un{K}$ for more than $t_{\mathrm{melt}} = 500\un{ps}$ in the NVT ensemble, using the Bussi-Donadio-Parrinello stochastic velocity-rescaling thermostat \cite{Bussi:2007cs}, and with a time step $dt=1\un{fs}$. 
+Subsequently, the temperature was decreased linearly in a time $t_{\mathrm{quench}}$, down to $T_{\mathrm{eq}}=500\un{K}$, in the NVT ensemble, thus resulting in a quenching rate of $\gamma = \frac{6500\un{K}}{t_{\mathrm{quench}}}$. The effects of different quenching rates will be studied in Sec.~\ref{sec:results-class-quench}. 
+Then, the system was equilibrated at $T_{\mathrm{eq}}$ in the NVT ensemble for other $400\un{ps}$, and finally in the microcanonical (NVE) ensemble for $100\un{ps}$. At this point, we started to collect data for at least $t_{\mathrm{run}} = 1\un{ns}$. 
+The computational cost of these classical simulations is very low, so it was possible to run different replicas of each system from different initial conditions, thus providing us with abundant statistics. 
+
+Finally, thermal conductivity was estimated from $t_{\mathrm{run}} = 1\un{ns}$ of trajectory for each sample, using the \emph{cepstral analysis} method presented in Sec.~\ref{sec:cepstral-analysis}.
+
+\begin{itemize}
+    \item NVT:  300 (deform) + 200(NVT) + 500(NVT)            + ramp + 400(NVT) + 100(NVE)
+    \item NPT:  300 (deform) + 100(NPT) + 300(NVT) + 100(NPT) + ramp + 200(NPT) + 200(NVT) + 100(NVE)
+\end{itemize}
+
+
+\subsection{Thermal conductivity: size and quenching rate dependence}  \label{sec:results-class-quench}
+In order to study the convergence of lattice thermal conductivity with the size of the system and the quenching rate, we considered cells containing $72$, $144$, $288$, $432$, $576$, $864$, $1152$, $2304$, $5184$, and $10800$ atoms. For each cell size we analyzed the data obtained from $10$ replicas. 
+For each replica, we considered ten different quenching times: $t_{\mathrm{quench}} = 5$, $10$, $25$, $50$, $100$, $250$, $500\un{ps}$, $1$, $5$, and $10\un{ns}$, that corresponds to quenching rates ranging from $1.3\times 10^{15}$ to $6.5\times 10^{11}\un{K/s}$.
+
+
+
+SIZE EFFECTS:  SMALL SAMPLE PROBLEMS -- SIZE EFFECTS OF GK
+
+ERRORE CLASSICO DA 100ps
 
 \subsection{Cepstral analysis}
 \paragraph{Dependence on cutoff frequency $f^*$}
@@ -215,8 +255,6 @@ Fig.~\ref{fig:csilica-sample-expdens-fstar} -- stability of $\kappa$ as a functi
 Any frequency in the central region of the spectrum can be taken as $f^*$, hence we choose to set $f^*=28\un{THz}$. Conversely, a $f^*$ too small makes $\kappa$ deviate sensibly, due to the fact that the low-pass filter is not strong enough to avoid aliasing effects that modify the spectrum of the resampled time series; instead, a $f^*$ that is too high ($f^*\gtrsim 60\un{THz}$) induces a bias in $\kappa$, due to the fact the log-periodogram diverges to negative values and we start to have problems of numerical precision.
 
 
-\subsection{Finite-size and quench rate dependence}  \label{sec:results-class-quench}
-SIZE EFFECTS:  SMALL SAMPLE PROBLEMS -- SIZE EFFECTS OF GK
 
 \subsection{Volume dependence}
 (NEGLECTED)
