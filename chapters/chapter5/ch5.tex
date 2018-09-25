@@ -5,14 +5,16 @@ The evaluation of transport coefficients in extended systems, such as thermal co
 
 Many methods have been formulated to try to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criteria to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that they always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
 
-The recent discoveries reinvigorated the interest in the quantum simulation of thermal conduction, and made it urgent to devise a data-analysis technique to make these simulations affordable, thus to paving the way to the \abinitio simulation of heat transport.
-In order to solve this problem, we consider it in the light of the statistical theory of stationary time series, and we devise a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far. This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
+The recent advances in the quantum simulations of thermal transport reinvigorated the interest in this subject and made it urgent to devise a data-analysis technique to make these simulations affordable, thus paving the way to the \abinitio simulation of heat transport.
+In order to solve this problem, we considered it in the light of the statistical theory of stationary time series, and we devised a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far. This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
 While motivated by heat transport applications, our approach naturally applies to \emph{any} other transport properties that can be expressed, in a GK framework, in terms of time integrals of suitable autocorrelation functions, such as, \emph{e.g.}, ionic conductivities, viscosities, and tracer diffusivity, to name but a few. 
 
-In Sec.~\ref{sec:data-analysis-methods} of this chapter we summarize the available techniques to estimate the Green-Kubo integral and we illustrate some of their criticalities, along with the physical interpretations that have been proposed. Then, in Sec.~\ref{sec:cepstral-analysis}, we reformulate the problem in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from ``\emph{cepstral analysis}'', in the case of solids one-component fluids. We validate this method with extensive benchmarks on the calculation of the thermal conductivity of diffrerent classes of materials. In Sec.~\ref{sec:data-analysis-multicomponent} we show how to extend the theory to the case of multi-component fluids. 
+In Section~\ref{sec:data-analysis-methods} of this chapter we review some of the techniques found in the literature to estimate the Green-Kubo integral and we illustrate some of their criticalities, along with some physical interpretations that have been proposed. 
+Then, in Section~\ref{sec:cepstral-analysis}, we reformulate the problem in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from ``\emph{cepstral analysis}'', in the case of solids and one-component fluids. We validate this method with extensive benchmarks on the calculation of the thermal conductivity of different classes of materials. 
+In Section~\ref{sec:data-analysis-multicomponent} we show how to extend the theory to the case of multi-component fluids. 
 We conclude the chapter with an outlook of possible future developments. 
 
-\LEnote{*** RENORMALIZATION / DECORRELATION METHODS ?? ***}
+\LEnote{***RENORMALIZATION / DECORRELATION METHODS ?? ***}
 \end{LEtext}
 
 
@@ -20,53 +22,63 @@ We conclude the chapter with an outlook of possible future developments.
 \section{Estimation and interpretation of the Green-Kubo integral} \label{sec:data-analysis-methods}
 
 \begin{LEtext}
-In the following we shall focus on one-component systems, or molecular systems, where the heat flux correspond to the energy flux. 
-In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,\footnote{\LEnote{***Comment on THERMOSTATS?***}} 
-via the classical expression, Eq.~\eqref{eq:J-classical} (Eq.~\eqref{eq:J-classical-2body} for 2-body force fields), or the quantum DFT one, Eq.~\eqref{eq:DFT-Eflux}.
+In the following we shall focus on one-component systems, or molecular systems, where the heat flux corresponds to the energy flux. 
+In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,\footnote{The issue of estimating dynamical properties in the canonical ensemble with thermostats is still matter of debate and is not completely settled. Some preliminary tests on simple systems showed that thermal conductivity is not affected by a well-designed global thermostat. However, we believe that this issue should be a matter of further dedicated studies, that fall outside the scope of this work. Therefore we decide to employ the common practice of computing dynamical properties in the microcanonical ensemble.} 
+via the classical expression, Eq.~\eqref{eq:J-classical} (Eq.~\eqref{eq:J-classical-2body} for 2-body force fields), or the quantum (DFT) one, Eq.~\eqref{eq:DFT-Eflux}.
 
 The heat current autocorrelation function (HCACF), $\langle\mathbf{J}(t)\mathbf{J}(0)\rangle$, can then be estimated as a running average of the time-lagged current products, 
 \begin{equation}
     \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
 \end{equation}
 where $\mathcal{T}$ is the length of the MD trajectory, and $J^i$ indicates any Cartesian component of $\mathbf{J}_i$. 
-In Eq.~\eqref{eq:JtJ0}, the ensemble average has been expressed as a time average, \emph{i.e.} the average over different starting times of one single trajectory. Of course, if a dynamical system is ergodic, the ensemble average is equal to the time average \cite{Frenkel2001}, however, the calculation of dynamical properties, such as thermal conductivity, requires a minimum trajectory to compute time-correlation functions. On the computational point of view, ensemble averaging, \emph{i.e.} averaging over different initial configurations, exhibits similar overall cost with respect to simple time averaging, however it may significantly accelerate the calculation by exploiting parallel machines \cite{Gordiz2015}. This can be particularly relevant when dealing with expensive AIMD simulations.
+In Eq.~\eqref{eq:JtJ0}, the ensemble average has been expressed as a time average, \emph{i.e.} the average over different starting times of one single trajectory. Of course, if a dynamical system is ergodic, the ensemble average is equal to the time average \cite{Frenkel2001}, however, the calculation of dynamical properties, such as thermal conductivity, requires a minimum trajectory to compute time-correlation functions. On the computational point of view, ensemble averaging, \emph{i.e.} averaging over different initial configurations, exhibits similar overall cost with respect to simple time averaging, but it may significantly accelerate the calculation by exploiting parallel machines \cite{Gordiz2015}. This point can be particularly relevant when dealing with expensive AIMD simulations.
 
 
-\paragraph{Example: Four paradigmatic systems}
+\subsection{Example: four paradigmatic systems}  \label{sec:data-analysis-4systems}
 \begin{figure}[!tb]
     \begin{center}
         \subfigure[\label{fig:acf-examples}]{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
         \subfigure[\label{fig:kappa-examples}]{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
     \end{center}
 	\caption{(a) Time correlation function of the energy current, Eq.~\eqref{eq:JtJ0}, and (b) the thermal conductivity as a function of the upper limit of integration, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}), computed from MD trajectories for Ar, H$_2$O, MgO, and a-SiO$_2$,
-	The green and red lines are computed from a $100\un{ps}$ trajectory; the blue line is computed from a $1\un{ns}$ trajectory.
+	The green and red lines are computed from two different $100\un{ps}$ trajectories; the blue line is computed from a $1\un{ns}$ trajectory.
 	The shaded area surrounding each line indicates the error bars, as estimated from standard block analysis.} 
 \end{figure}
-Some typical examples of HCACFs are shown in Fig.~\ref{fig:acf-examples} for four paradigmatic cases representative of different classes of materials: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$. Classical MD simulations were run for each of these materials, at the conditions reported in the Sec.~\ref{sec:cepstral-benchmarks}. 
+
+To illustrate some real examples, we have run classical MD simulations using the \textsc{LAMMPS} package \cite{LAMMPS1995} of four paradigmatic systems representatite of different classes of materials, with the following setup:
+\begin{itemize}
+    \item \textbf{liquid Ar}: Lennard Jones potential as described in Ref.~\cite{Argon-FF}, at a temperature $T\approx 220\un{K}$ and density $\rho=1.55\un{g/cm^3}$, in a cubic supercell containing 864 atoms, with a time step $\Delta t=4\un{fs}$.
+    \item \textbf{liquid H$_2$O}: Flexible model as in Ref.~\cite{Water-FF} at a temperature $T\approx 300\un{K}$ and density $\rho=1.0\un{g/cm^3}$, in a cubic supercell containing 180 molecules, with a time step $\Delta t=0.5\un{fs}$.
+    \item \textbf{crystalline fcc Mgo}: Buckingham-plus-Coulomb potential as in Ref. \citenum{MgO-FF} at a temperature $T\approx 1000\un{K}$ and density $\rho=3.61\un{g/cm^3}$, in a $4\times 4\times 4$ simple cubic conventional supercell with 512 atoms, and a time step $\Delta t=0.3\un{fs}$
+    \item \textbf{amorphous SiO$_2$}: BKS potential \cite{Silica-BKS-1990} as implemented by \citet{Silica-BKS-2015} at a temperature $T\approx 1000\un{K}$ and density $\rho=2.29\un{g/cm^3}$,  in a supercell containing 216 atoms with a time step $\Delta t=1\un{fs}$. The glass model was obtained from a quench from the melt ($T\approx 6500\un{K}$) at a constant quenching rate of $5.5\times 10^{12}\un{K/s}$.
+\end{itemize}
+Each system was equilibrated in the NVT ensemble at the target temperature for several hundred picoseconds; data were then collected in the NVE ensemble and analyzed. 
 We will also use these systems to benchmark the cepstral analysis method presented in Sec.~\ref{sec:cepstral-analysis}. 
 
-Liquid argon's HCACF is characterized by a simple exponential decay, as it is a simple diffusing liquid. The other systems, instead, are characterized by an initial drop, followed by a much longer one, with fast superimposed oscillations originated from the fast intramolecular vibrations (they can thought to be linked to the optical phonon modes of the system). MgO, being a crystalline solid, present the longest correlations, due to the long lifetimes of its propagating phonons. Water and silica, instead, have similar HCACFs, that decay quite fast but feature high-frequency oscillations that persist at long time-lags.
+The HCACFs computed for these materials are shown in Fig.~\ref{fig:acf-examples}. 
+Liquid argon's HCACF is characterized by a simple exponential decay, characteristic of a simple diffusing liquid. The HCACFs of the other systems, instead, are characterized by an initial drop, followed by a much longer tail, with fast superimposed oscillations caused by the fast intramolecular vibrations (they can thought to be linked to the optical phonon modes of the system). MgO, being a crystalline solid, exhibits the longest correlations, due to the long lifetimes of its propagating phonons. Water and silica, instead, have similar HCACFs, that decay quite fast but feature high-frequency oscillations that persist at long time-lags.
 
-When a HCACF is computed from a trajectory of finite length $\mathcal{T}$, the statistical error increases with the time-lag $t$, as larger time lags have less statistics. In Fig.~\ref{fig:acf-examples} three examples of HCACFs are plotted: two of them are computed from a $100\un{ps}$ trajectory and present more oscillations and a larger error with respect to the the third HCACF, that is computed from a $1\un{ns}$ trajectory and shows a smoother decay.
+When a HCACF is computed from a trajectory of finite length $\mathcal{T}$, the statistical error increases with the time-lag $t$, as larger time-lags have less statistics. In Fig.~\ref{fig:acf-examples} three examples of HCACFs are plotted: two of them are computed from a $100\un{ps}$ trajectory and present more oscillations and a larger statistical error with respect to the the third HCACF, that is computed from a $1\un{ns}$ trajectory and shows a smoother decay.
 
 
 \subsection{Direct integration}  \label{sec:direct-integration}
-The evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def}, can simply be performed by direct integration of Eq.~\eqref{eq:JtJ0}, as a function of the upper limit of integration: 
+The evaluation of the GK integral, Eq.~\eqref{eq:GK}, or more generally of an Onsager coefficient $L^{ij}$, Eq.~\eqref{eq:L_def}, can simply be performed by direct integration of Eq.~\eqref{eq:JtJ0} as a function of the upper limit of integration: 
 \begin{equation}
-    L^{ij}(\mathtt{T}) = \frac{\rOmega}{k_B} \int_0^{\mathtt{T}} \langle J^i(t)J^j(0)\rangle \,dt .  \label{eq:Lij-integralT}
+    L^{ij}(\mathtt{T}) = \frac{\rOmega}{k_B} \int_0^{\mathtt{T}} \langle J^i(t)J^j(0)\rangle \,dt ,  \label{eq:Lij-integralT}
 \end{equation}
-One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal conductivity depending on $\mathtt{T}$:
+with $\mathtt{T} < \mathcal{T}$. 
+One then recovers, via Eq.~\eqref{eq:multi_kappa}, an estimate for the thermal conductivity dependent on $\mathtt{T}$:
 \begin{equation}
     \kappa(\mathtt{T}) = \frac{1}{T^2} \frac{1}{(L^{-1}(\mathtt{T}))^{\smallone\smallone}}.  \label{eq:kappa-integralT}
 \end{equation}
-This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(t)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathtt{T})$ starts integrating noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as shown in Fig.~\ref{fig:kappa-examples}.
-The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration, usually with standard \emph{block analysis} \cite{Frenkel2001}. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features in the power spectrum of the energy flux, possibly due to intramolecular oscillations that meddle with the noise and can make the convergence of the GK not obvious.
+This function is usually very noisy: in fact, at times greater than the correlation time between $J^i$ and $J^j$, the correlation function $\langle J^i(t)J^j(0)\rangle$ approaches zero, hence $L^{ij}(\mathtt{T})$ starts integrating pure noise and behaves like the distance traveled by a random walk, whose variance grows linearly with the upper integration limit, as can be appreciated in Fig.~\ref{fig:kappa-examples}.
+The evaluation of transport coefficients thus requires averaging over multiple trajectories (possibly multiple segments of a same long trajectory) and estimating the resulting uncertainty as a function of both the length of each trajectory and the upper limit of integration, usually with standard \emph{block analysis} \cite{Frenkel2001}. This is a cumbersome task that often leads to a poor estimate of the statistical and systematic errors on the computed conductivity. All the more so when the signal is inherently oscillatory, due to the existence of high-frequency features, possibly due to intramolecular oscillations that meddle with the noise and can make the convergence of the GK not obvious.
 
-The accuracy on the transport coefficient $\kappa$ estimated by a direct integration of Eq.~\eqref{eq:Lij-integralT} is subject to three possible sources of errors:
+The accuracy of the transport coefficient $\kappa$ estimated by a direct integration of Eq.~\eqref{eq:Lij-integralT} is subject to three possible sources of errors:
 \begin{itemize}
     \item[-] \emph{averaging error}: the finite simulation length $\mathcal{T}$ over which the HCACF is computed, Eq.~\eqref{eq:JtJ0}.
     \item[-] \emph{truncation error}: the upper limit of integration $\mathtt{T}$ used in the estimation of $L^{ij}$, Eq.~\eqref{eq:Lij-integralT}, that should be much greater than the characteristic decay time of the correlation.
-    \item[-] \emph{discretization/aliasing error}: the finite sampling interval of the heat current, $\epsilon$, that should be large enough to avoid aliasing effects. The Nyqvist-Shannon sampling theorem \cite{Oppenheim1999} states that the sampling period should be smaller than $\frac{1}{2f_\mathrm{max}}$, where $f_\mathrm{max}$ is the maximum frequency of the heat flux $J(t)$.
+    \item[-] \emph{discretization/aliasing error}: the finite sampling interval of the heat current, $\epsilon$, that should be large enough to avoid aliasing effects. The Nyqvist-Shannon sampling theorem \cite{Oppenheim1999} states that the sampling period should be smaller than $\frac{1}{2f_\mathrm{max}}$, where $f_\mathrm{max}$ is the maximum frequency of the heat flux signal $J(t)$.
 \end{itemize}
 If the fluctuations of $J(t)$ follow a Gaussian process, the variance of the HCACF estimated from a finite simulation time $\mathcal{T}$, that we denote with $\mathcal{C}_\mathcal{T}$, tends to the following limits \cite{Jones2012}:
 \begin{equation}
@@ -408,6 +420,7 @@ We summarize the steps leading to the estimation of thermal conductivity by the 
 
 
 \subsection{Benchmarks}  \label{sec:cepstral-benchmarks}
+\LEnote{**rimuovere dati sistemi -- spostati all' inizio**}
 The cepstral analysis method just presented has been benchmarked for the calculation of the thermal conductivity of four representative systems: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$.
 Classical MD simulations were run using the \textsc{LAMMPS} package \cite{LAMMPS1995} with the following setup:
 \begin{itemize}

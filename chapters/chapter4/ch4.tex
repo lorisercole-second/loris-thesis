@@ -1,5 +1,6 @@
 \chapter{Density-functional theory of adiabatic heat transport} \label{ch:dft-heat}
 
+\LEnote{** FORSE ESSENDO CORTO SI PUO' UNIRE A CAP. 3 **}
 \begin{LEtext}
 The advent of density-functional theory (DFT) \cite{Hohenberg1964,Kohn1965} has marked the start of a new era for the quantum modeling of materials. DFT allows computing interatomic forces entirely from first principles using the chemical composition and the fundamental laws of nature as the sole ingredients, without any need to leverage experimental knowledge of these interactions.
 Its combination with classical molecular dynamics, both in the Born-Oppenheimer or Car-Parrinello flavours \cite{Car1985,Marx2009}, had a groundbreaking impact in a wide number of physical problems.
@@ -14,17 +15,19 @@ In this chapter we start by summarizing the most recent \emph{ab initio} methods
 
 \newpage
 \section{First-principles simulation methods}
-\LEnote{** Questa parte \`e un intro generale ai metodi... forse va spostata nel cap. 1 (introduzione)?? **}
+\LEnote{** FARLA DIVENTARE UN'INTRO GENERALE AI METODI E SPOSTARLA IN CAP. 1 **}
 
 \begin{LEtext}
-In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE), \emph{non-equilibrium Green's functions} (NEGF), and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
-
-\emph{Non-equilibrium Green's functions} (NEGF) \cite{Wang2008} are designed to compute the conductance of open systems, such as nanoscale devices and interfaces, but they do not apply to bulk conduction. 
+In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE)  %\emph{non-equilibrium Green's functions} (NEGF), 
+and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
+%
+%\emph{Non-equilibrium Green's functions} (NEGF) \cite{Wang2008} are designed to compute the conductance of open systems, such as nanoscale devices and interfaces, but they do not apply to bulk conduction. 
 
 The \emph{Boltzmann's transport equation} (BTE) \cite{Peierls1929,Zhou2016} is the method of choice for crystals well below melting, where long-lived phonons are clearly identified as the heat carriers. In this case density-functional perturbation theory \cite{Baroni1987a,Gonze1989,Baroni2001} allows one to compute accurate phonon frequencies \cite{Giannozzi1991} and lifetimes, \cite{Debernardi1995,Paulatto2013} and thus implement the BTE entirely from first principles \cite{Broido:2007iu}. 
 The flexibility and accuracy of \abinitio BTE are such that this approach is being successfully used to screen new materials for custom-designed properties, such as high thermal conductivity for passive cooling \cite{Lindsay:2013fw,Lindsay:2013db} or low thermal conductivity for thermoelectric energy conversion \cite{PhysRevX.4.011019,Schwingen2014}. 
 Recent self-consistent and variational approaches to solve the BTE beyond the relaxation-time approximation \cite{Fugallo2013} are also providing fresh and deep insight into the collective character of heat transport \cite{Fugallo2013,Lee:2015ex,Cepellotti2015,Cepellotti:2016bk}. 
-Yet, the applicability of \emph{ab initio} BTE is restricted to periodic systems consisting of a small number of atoms per unit cell, and is severely limited by its own inherent approximations: as the temperature increases, anharmonic effects become so important as to eventually make it break down well below melting \cite{Turney:2009bb}, while the BTE simply does not apply to glasses and liquids, where phonons are not even defined \cite{Allen1989} .
+Yet, the applicability of \emph{ab initio} BTE is restricted to periodic systems consisting of a small number of atoms per unit cell, and is severely limited by its own inherent approximations: as the temperature increases, anharmonic effects become so important as to eventually make it break down well below melting \cite{Turney:2009bb}, while the BTE simply does not apply to glasses and liquids, where phonons are not even defined \cite{Allen1989} . 
+\LEnote{** FORSE CITARE ALTRI METODI VIBRAZIONALI: loconi-cosoni...**}
 
 \emph{Molecular dynamics} (MD) \cite{Allen1989,Frenkel2001} is set to overcome these limitations. 
 In non-equilibrium MD (NEMD) \cite{Evans1990,Muller-Plathe1997}, temperature gradients or heat fluxes are explicitly imposed on the virtual sample, and the thermal conductivity is estimated from the resulting value of the conjugate variable (flux or gradient). 
@@ -37,7 +40,7 @@ The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo
 
 More recently, several works attempted to combine the GK approach to heat transport with first-principles techniques based on electronic-structure theory, by adopting some \emph{ad hoc} definitions for the energy flux. \citet{Kang2017}, for instance, derived an expression for the energy flux from a (rather arbitrary) quantum-mechanical definition of the atomic energies and used a modified MD integration algorithm to cope with the difficulties ensuing from the implementation of their expression in PBC. 
 \citet{Carbogno:2017gc} gave a different expression for the energy flux, that neglects the convective term, Eq.~\eqref{eq:J-convective}, and is based on a normal-mode decomposition of the atomic coordinates and forces, which, while allowing to reduce the effects of thermal fluctuations, can only be applied to crystalline solids.
-\citet{English2017}, instead, used the classical Einstein relation for the energy displacement, $\mathcal{D}(\tau) = \sum_n \mathbf{R}_n \int_0^\tau \mathbf{F}_n \cdot \mathbf{V}_n \, dt$, computed from a BO-AIMD trajectory, where the forces are computed from the Hellmann-Feynman theorem. They applied this methodology to the computation of thermal conductivity of periclase MgO \cite{Tse2018} and other solids. Their approach also neglects the convective term and is only applicable to solids.
+\citet{English2017}, instead, used the classical Einstein relation for the energy displacement, $\mathcal{D}(\tau) = \sum_n \mathbf{R}_n \int_0^\tau \mathbf{F}_n \cdot \mathbf{V}_n \, dt$, computed from a BO-AIMD trajectory, where the forces are computed via the Hellmann-Feynman theorem. They applied this methodology to the computation of thermal conductivity of periclase MgO \cite{Tse2018} and other solids. Their approach also neglects the convective term and is only applicable to solids.
 \end{LEtext}
 
 
@@ -104,7 +107,7 @@ that can be derived from the continuity equation for the electronic density:
 \end{equation}
 The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
 \end{LEtext}
-
+\LEnote{** $\mathbf{J}^{el}$ E' NON DIFFUSIVA SOLO IN 1-COMPONENT SYSTEMS?? IN UN FLUIDO MULTI-COMPONENTE MI SEMBRA DIFFUSIVA ***}
 
 %\subsection{Multi-component heat flux}
 %\LEnote{****???*****}
@@ -112,17 +115,24 @@ The electronic current is the difference between the total charge current and it
 
 \subsection{Numerical computation}
 \begin{LEtext}
-The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-ionic}, at time $t$ requires the atomic positions $\{\mathbf{R}\}$ and velocities $\{\mathbf{R}\}$, along with the Kohn-Sham eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, the ground-state electron density distributions $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$ and their time-derivatives. 
+The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-Eflux}, at time $t$ requires the atomic positions $\{\mathbf{R}\}$ and velocities $\{\mathbf{V}\}$, along with the Kohn-Sham eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, the ground-state electron density distributions $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$, and their time-derivatives. 
 
-The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code (not yet publicly deployed). In order to compute the energy flux $\mathbf{J}^\smallE$, one should first extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). For each of these time steps, two self-consistent KS calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
-Therefore, the cost of one energy flux calculation is about equal to the cost of two self-consistent calculations plus one linear response calculation. *******
-In the current implementation, each time step costs almost 4 times the cost of a self-consistent calculation.
-The atomic coordinates at time $t+\Delta t$ are extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand, as shown in Fig.~***** for the case of liquid water.******
+\begin{figure}
+    \centering
+    %\includegraphics{}
+    \caption{Convergence of the DFT energy of liquid water as a function of the timestep $\Delta t$ used to compute finite-differences.}
+    \label{fig:dft-curr-timestep-water}
+\end{figure}
+The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code maintained by us. 
+In order to compute the energy flux $\mathbf{J}^\smallE$, the following steps are needed: 
+\begin{enumerate}
+    \item One should extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). 
+    \item For each of these time steps, two self-consistent Kohn-Sham self-consistent field calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The atomic coordinates at time $t+\Delta t$ can be extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand: an example is Fig.~\ref{fig:dft-curr-timestep-water} for the case of liquid water.
+    \item The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
+\end{enumerate}
+The cost of one energy flux calculation is about equal to the cost of two self-consistent \textsc{PW} calculations plus one linear response calculation. For example, in the current implementation, each time step costs almost 4 times the cost of a self-consistent calculation.
 
 \end{LEtext}
-
-\bigskip
-\LEnote{*******FIGURA CONVERGENZA TIMESTEP*********}
 
 \bigskip
 \LEnote{***** ESEMPI ARIS?? ***}
