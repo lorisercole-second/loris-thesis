@@ -12,6 +12,33 @@ Struttura del capitolo  (vedi anche intros dei capitoli)
     \item and apply this method to amorphous materials for the first time, study of Silica
 \end{itemize}
 
+Heat flow is ubiquitous in nature, it governs a multitude of \LE{dynamical} processes in living organisms and the evolution of star and planets, all the way down to the maintenance of optimal operating conditions in many nanotechnological applications. 
+Heat flow determines the internal temperature distribution and the rate of cooling of heating of bodies, therefore the study of thermal transport is fundamental to understanding a multitude of complex systems, and to the engineering of technology, where thermal insulation or thermal dissipation properties have to be properly designed. 
+Yet, despite being one the oldest problems of statistical mechanics, a complete theoretical understanding of heat transport is still lacking. 
+
+Transfer of thermal energy occurs via three different mechanisms, that may prevail of coexist in different regimes: [8] \emph{convection}, in which heat is transported by a flow of mass; \emph{radiation}, in which heat is removed from the surface of the hot source by phtons; and \emph{conduction}, in which heat transfer is determined by the microscopic dynamics of atoms, or in the case of metals, of conduction electrons. 
+In condensed phases and at the molecular scale, conduction is by far the most relevant heat-transfer mechanism, and we shall focus on it. 
+The first macroscopic theory of heat transport was formulated by Fourier in 1822, who observed a proportionality law between the heat current $\mathbf{J}$ and the temperature gradient in the system $\nabla T$:
+\begin{equation}
+    \mathbf{J} = -\kappa\, \nabla T \,.  \label{eq:Fourier-law}
+\end{equation}
+The ratio between the heat flux and the temperature gradient defines the \emph{thermal conductivity} (TC), $\kappa$, which is an intrinsic property of the material. 
+
+Notwithstanding its fundamental importance, ``\emph{thermal conductivity has proven to be one of the most difficult transport coefficients to calculate}'' \cite{Evans1990} and its simulations is still today a conceptual, no less than practical, challenge to our materials modeling capabilities. 
+In order to compute $\kappa$, one needs a microscopic theory that describes the conduction of heat carriers, \emph{i.e.} electrons and lattice vibrations (phonons). Hereafter we will consider only the latter, which are the only ones contributing to the heat transport in \emph{insulators} (the electrons following adiabatically in their ground state), to which we restrict our attention in this work. 
+
+The first microscopic theory of lattice thermal transport was formulated by Pierls in 1929, and is based on the assumption that phonons obey the Boltzmann transport equation (BTE) \cite{Peierls1929}. 
+About thirty years later, Green and Kubo (GK) made use of liner response theory and expressed the thermal conductivity (as well as other transport coefficients) in terms of correlation functions of the heat currents \cite{Green1952,Green1954,Kubo1957a,Kubo1957b,Zwanzig1965}, thus allowing its computation from simple equilibrium molecular dynamics (MD) simulations. 
+
+At the same time, some decades ago, our prediction capabilities were boosted by the advent of density functional theory (DFT), which allows computing interactions entirely from quantum mechanics, thus freeing MD simulations from the need to leverage prior experimental knowledge of these interactions. 
+
+Recent developments allowed the implementation of the BTE from first principles, becoming the state of the art technique to compute $\kappa$ of bulk crystalline materials \LE{[broido, ward,..]} and nanostructures (\emph{e.g.} graphene and 2D materials \LE{[]Fugallo]}). \emph{Ab initio} BTE also provides insights into the mechanisms of heat transport, by braking down the contributions to $\kappa$ in single carrier properties. 
+Nonetheless, the applicability of the BTE approach is limited to periodic materials at low temperatures, where the harmonic approximation of normal modes applies, or anharmonic effects are very limited, and it cannot be straightforwardly applied to disordered systems, such as glasses and liquids, were phonons are not even defined, and for which MD is a natural choice. 
+
+
+
+
+
 %\paragraph{The Green-Kubo equation}
 %\begin{equation}
 %\kappa\propto\int_{0}^{\infty}\!\langle{J}(t){J}(0)\rangle\, dt, \label{eq:GK}
@@ -19,8 +46,9 @@ Struttura del capitolo  (vedi anche intros dei capitoli)
 
 IDEE
 
-GK perché no assumptionss about the nature of the thermal transport are required before predicting the thermal conductivity. The only inputs are an atomic structure and appropriate interatomic potnetial, which can be constructed from experimental and/or ab initio results. Atomic level observations are also possible. 
-Challenges: finding suitable interatomic potentials, taking into accoun size effect
+GK perché no assumptions about the nature of the thermal transport are required before predicting the thermal conductivity. 
+The only inputs are an atomic structure and appropriate interatomic potential, which can be constructed from experimental and/or \abinitio results. Atomic level observations are also possible. 
+Challenges: finding suitable interatomic potentials, taking into account size effect
 
 GK perche' anharmonic effects at high T
 

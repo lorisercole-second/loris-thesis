@@ -7,7 +7,7 @@ Its combination with classical molecular dynamics, both in the Born-Oppenheimer 
 
 Nevertheless, quantum simulation methods based on DFT have long been thought to be incompatible with the GK theory of thermal transport ``\emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}'' \cite{Stackhouse2010b}. For this reason, \emph{ab initio} simulations of heat transport have often been performed using non-equilibrium approaches.
 
-The recently discovered gauge invariance principle, that was introduced in Chapter~\ref{ch:gauge-invariance}, not only explains why an arbitrary defintion of the heat flux results in a well-defined value for the thermal conductivity, but it also gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients.
+The recently discovered gauge invariance principle, that was introduced in Chapter~\ref{ch:gauge-invariance}, not only explains why an arbitrary definition of the heat flux results in a well-defined value for the thermal conductivity, but it also gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients.
 
 In this chapter we start by summarizing the most recent \emph{ab initio} methods for the computation of thermal conductivity. Then we briefly review the first-principles GK theory of thermal transport developed by \citet{Marcolongo2016}, that will be used in the rest of this work.
 \end{LEtext}
@@ -17,7 +17,6 @@ In this chapter we start by summarizing the most recent \emph{ab initio} methods
 \section{First-principles simulation methods}
 \LEnote{** FARLA DIVENTARE UN'INTRO GENERALE AI METODI E SPOSTARLA IN CAP. 1 **}
 
-\begin{LEtext}
 In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE)  %\emph{non-equilibrium Green's functions} (NEGF), 
 and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
 %
@@ -36,12 +35,12 @@ NEMD and AEMD lend themselves to a straightforward quantum-mechanical implementa
 \citet{Bouzid2017} combined AEMD with AIMD to simulate thermal transport in a GeTe$_4$ glass, while \citet{Puligheddu2017} further generalized and applied it to crystalline and nano-structured MgO.
 However, these methods may be both affected by non-linear effects, due to the strength of the temperature gradient to be imposed \cite{Schelling2002,He2012} and by finite-size/finite-time effects that require long simulation times and difficult extrapolations to approach the thermodynamic limit \cite{Sellan2010,He2011,He2012,Zaoui2016,Wang2017}. 
 
-The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \citet{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Sec.~\ref{sec:dft-heat-theory} and we will use it in the rest of this work.
+The combination of equilibrium molecular dynamics (EMD), based on the Green-Kubo theory, with DFT, has been successfully accomplished very recently by \citet{Marcolongo2016}, thanks to the gauge-invariance principle introduced in Chapter~\ref{ch:gauge-invariance}, that gives a rigorous way of deriving an expression for the energy flux directly from DFT, without introducing any \emph{ad hoc} ingredients. We describe this approach in Section~\ref{sec:dft-heat-theory} and we will use it in the last part of this work.
 
-More recently, several works attempted to combine the GK approach to heat transport with first-principles techniques based on electronic-structure theory, by adopting some \emph{ad hoc} definitions for the energy flux. \citet{Kang2017}, for instance, derived an expression for the energy flux from a (rather arbitrary) quantum-mechanical definition of the atomic energies and used a modified MD integration algorithm to cope with the difficulties ensuing from the implementation of their expression in PBC. 
+More recently, several authors attempted to combine the GK approach to heat transport with first-principles techniques based on electronic-structure theory, by adopting some \emph{ad hoc} definitions for the energy flux. \citet{Kang2017}, for instance, derived an expression for the energy flux from a (rather arbitrary) quantum-mechanical definition of the atomic energies and used a modified MD integration algorithm to cope with the difficulties ensuing from the implementation of their expression in PBC. 
 \citet{Carbogno:2017gc} gave a different expression for the energy flux, that neglects the convective term, Eq.~\eqref{eq:J-convective}, and is based on a normal-mode decomposition of the atomic coordinates and forces, which, while allowing to reduce the effects of thermal fluctuations, can only be applied to crystalline solids.
 \citet{English2017}, instead, used the classical Einstein relation for the energy displacement, $\mathcal{D}(\tau) = \sum_n \mathbf{R}_n \int_0^\tau \mathbf{F}_n \cdot \mathbf{V}_n \, dt$, computed from a BO-AIMD trajectory, where the forces are computed via the Hellmann-Feynman theorem. They applied this methodology to the computation of thermal conductivity of periclase MgO \cite{Tse2018} and other solids. Their approach also neglects the convective term and is only applicable to solids.
-\end{LEtext}
+
 
 
 \section{DFT energy flux}  \label{sec:dft-heat-theory}
