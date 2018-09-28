@@ -59,26 +59,26 @@ where $v_{nm}= v(|\mathbf{R}_{n} - \mathbf{R}_{m}|)$.
     \end{center}
 	\caption{(a) Time correlation functions of the modified macroscopic energy flux of a Lennard-Jones fluid, at the conditions described in the text, as defined in Eq.~\eqref{eq:gamma-classical-current}, for different definitions of the $\gamma$ matrix (see text). The ``0'' line refers to the standard definition ($\gamma = 0$), whereas the labels ``1'' and ``2'' correspond to the two (arbitrary) definitions of $\gamma$ given in Eq.~\eqref{eq:gamma-definitions}.
     (b) Integral of the time correlation functions displayed in Fig.~\ref{fig:argon-gauge-acf}, multiplied by the prefactor appearing in the GK relation, Eq.~\eqref{eq:GK-complete}, as a function of the upper limit of integration. 
-    The parameterss used are $\lambda_1=10$ and $\lambda_2=2.5$. The barely visible shaded area surrounding each line is an indication of the error bars, as estimated by standard block analysis. Units are Lennard-Jones units ($M=\sigma=\varepsilon=1$). Reproduced from Ref.~\cite{Ercole2016}. 
+    The parameters used are $\lambda_1=10$ and $\lambda_2=2.5$. The barely visible shaded area surrounding each line is an indication of the error bars, as estimated by standard block analysis. Units are Lennard-Jones units ($M=\sigma=\varepsilon=1$). Reproduced from Ref.~\cite{Ercole2016}. 
     }
     \label{fig:argon-gauge}
 \end{figure}
 
 \subsection{An example from classical MD}
-In order to illustrate this state of affairs, we have performed classical MD simulations for a Lennard-Jones monotaomic fluid described by the inter-atomic potential $v(R) = 4\varepsilon \left[ \left( \frac{\sigma}{R}\right)^{12} - \left(\frac{\sigma}{R} \right)^{6} \right]$ at temperature $T=1.86 \frac{\epsilon}{k_B}$ and density $\rho=0.925 \sigma^{-3}$, using cubic simulation cells containing 256 atoms in the iso-choric microcanonical ensemble, with the LAMMPS package \cite{LAMMPS1995}. 
+In order to illustrate this state of affairs, we have performed classical MD simulations for a Lennard-Jones monoatomic fluid described by the inter-atomic potential $v(R) = 4\varepsilon \left[ \left( \frac{\sigma}{R}\right)^{12} - \left(\frac{\sigma}{R} \right)^{6} \right]$ at temperature $T=1.86 \frac{\epsilon}{k_B}$ and density $\rho=0.925 \sigma^{-3}$, using cubic simulation cells containing 256 atoms in the iso-choric microcanonical ensemble, with the LAMMPS package \cite{LAMMPS1995}. 
 We computed different definitions of the energy flux of Eq.~\eqref{eq:gamma-classical-current}, by choosing $\gamma$ matrices constructed in two different ways, according to the (arbitrary) prescriptions:
 \begin{equation}
-\setbox0=\vbox{\hsize=50mm \small\noindent where the matrix
+\setbox0=\vbox{\hsize=68mm \small\noindent where the matrix
       elements of $A$ are drawn from a uniform deviate  in the
       $[0,\lambda]$ interval.}
-\setbox1 \vbox{\hsize=50mm \small\noindent according to whether $I=J$,
+\setbox1 \vbox{\hsize=68mm \small\noindent according to whether $I=J$,
   $I>J$, or $I<J$.}
 \gamma_{IJ}= \left \{
   \begin{alignedat}{2}
-    \frac{1}{2} \left(A_{IJ}-A_{JI}\right ) & \quad\raise -.5\ht0
+    \frac{1}{2} \left(A_{IJ}-A_{JI}\right ) & \quad\raise -0.3\ht0
     \box0 && \qquad (1) \\
 \\
-    0, +\lambda, -\lambda & \quad\raise -0.5\ht1 \box1 && \qquad (2) \\
+    0, +\lambda, -\lambda & \quad \box1 && \qquad (2) \\
   \end{alignedat} \right .
 \label{eq:gamma-definitions}
 \end{equation}
@@ -144,28 +144,30 @@ Two energy fluxes that differ by a total time derivative of a bounded function, 
 \subsection{Alternative proof}
 \begin{LEtext}
 An alternative proof of the gauge invariance principle of the Onsager coefficients can be obtained using the Lemma described by \citet{Marcolongo2016}.
-\begin{theorem}[Marcolongo-Schwartz] \label{th:aris-theorem}
-Let $\mathbf{J}_A$ and $\mathbf{J}_B$ be two macroscopic fluxes defined for the same system, and  $\mathbf{J}_{C} = \mathbf{J}_A + \mathbf{J}_B$ be their sum. The corresponding Onsager coefficients\footnote{For the sake of simplicity, with $L^X$ we indicate the $(\smallone,\smallone)$ component of the Onsager matrix, built using $J^X$.
+
+\begin{lemma}[\citeauthor{Marcolongo2016}] \label{th:aris-theorem}
+Let $\mathbf{J}^A$ and $\mathbf{J}^B$ be two macroscopic fluxes defined for the same system, and  $\mathbf{J}^{C} = \mathbf{J}^A + \mathbf{J}^B$ be their sum. The corresponding Onsager coefficients\footnote{For the sake of simplicity, with $L^X$ we indicate the $(\smallone,\smallone)$ component of the Onsager matrix, built using $J^X$.
 %but it is straightforward to generalize the theorem to the other components.
 }, $L^{A}$, $L^{B}$, and $L^{C}$ satisfy the relation:
 \begin{equation} \label{eq:aris-theorem}
     \left| L^{C} - L^{A} - L^{B} \right| \leq 2 \sqrt{L^{A} L^{B}}
 \end{equation}
-\end{theorem}
+\end{lemma}
+
 \begin{proof}
 The Einstein-Helfand relation (Eq.~\eqref{eq:Einstein-Helfand-Lij}) correspondent to a flux $\mathbf{J}^X$ states that 
 \begin{equation}
-    L^{X} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle|\mathcal{D}^X(\mathcal{T})|^2\right\rangle} {\mathcal{T}},
+    L^{X} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle|\mathbfcal{D}^X(\mathcal{T})|^2\right\rangle} {\mathcal{T}},
 \end{equation}
-where $\mathcal{D}^X(\tau)=\int_0^\tau \mathbf{J}^X(t) dt$ is the displacement associated with the flux $\mathbf{J}^X$. It follows that:
+where $\mathbfcal{D}^X(\mathcal{T})=\int_0^{\mathcal{T}} \mathbf{J}^X(t) dt$ is the displacement associated with the flux $\mathbf{J}^X$. It follows that:
 \begin{equation}
-    L^{C} = L^{A} + L^{B} + \lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathcal{D}^A(t) \cdot \mathcal{D}^B(t)\right\rangle} {t}.
+    L^{C} = L^{A} + L^{B} + \lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\textbf{}}.
 \end{equation}
 Canonical averages of products of phase-space functions can be seen as scalar products:\footnote{Let us consider two random variables, $X$ and $Y$, and $Z=(X+aY)^2$, where $a\in \mathbb{R}$ is a constant. By definition $Z$ is not negative, and $0\leq \langle Z \rangle = \langle X^2 \rangle + a^2 \langle Y^2 \rangle + 2a \langle XY \rangle$. If we take $a = -\frac{\langle XY \rangle}{\langle Y^2 \rangle}$, we obtain the Schwartz inequality
 \begin{equation} \label{eq:schwartz-ineq}
     |\langle XY \rangle| \leq \sqrt{\langle X^2 \rangle} \sqrt{\langle Y^2 \rangle}.
 \end{equation}}
-therefore, thanks to the Cauchy-Schwartz inequality, we have that $\lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathcal{D}^A(t) \cdot \mathcal{D}^B(t)\right\rangle} {t} \leq 2\sqrt{L^{A} L^{B}}$, that proves the theorem. 
+therefore, thanks to the Cauchy-Schwartz inequality, we have that $\lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\mathcal{T}} \leq 2\sqrt{L^{A} L^{B}}$, that proves the theorem. 
 \end{proof}
 
 \begin{proof}[Proof (alternative)]
@@ -190,7 +192,7 @@ for any $\mathcal{T}>0$. By letting $\mathcal{T}\rightarrow\infty$, Eq.~\eqref{e
 \end{proof}
 
 \smallskip
-Thanks this theorem, if we define $\mathrm{J}'(t)$ as in Eq.~\eqref{eq:macroscopic_flux_gauge}, we shall have that $\left| \kappa' - \kappa - \kappa_{\dot{\mathbf{P}}} \right| \leq 2 \sqrt{\kappa \kappa_{\dot{\mathbf{P}}}}$. Since $\mathbf{\dot{P}}$ is a bounded function and using the Einstein-Helfan relation (Eq.~\ref{eq:Einstein-Helfand-Lij}), we have that $\kappa_{\dot{\mathbf{P}}} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle |\dot{\mathbf{P}}| \right\rangle}{\mathcal{T}} = 0$, hence $\kappa = \kappa'$. 
+Thanks this theorem, if we define $\mathbf{J}'(t)$ as in Eq.~\eqref{eq:macroscopic_flux_gauge}, we shall have that $\left| \kappa' - \kappa - \kappa_{\dot{\mathbf{P}}} \right| \leq 2 \sqrt{\kappa \kappa_{\dot{\mathbf{P}}}}$. Since $\mathbf{\dot{P}}$ is a bounded function and using the Einstein-Helfan relation (Eq.~\ref{eq:Einstein-Helfand-Lij}), we have that $\kappa_{\dot{\mathbf{P}}} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle |\dot{\mathbf{P}}| \right\rangle}{\mathcal{T}} = 0$, hence $\kappa = \kappa'$. 
 \end{LEtext}
 
 
@@ -219,7 +221,7 @@ If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation re
 The discovery of the gauge invariance principle provides the theoretical foundation for the formulation of a microscopic theory of adiabatic heat transport in the framework of density functional theory (DFT). The first such formulation is presented in Chapter~\ref{ch:dft-heat}. 
 
 Furthermore, this principle opens the possibility of designing the definition of the local energy (both in terms of atomic energies or energy densities), so as to optimize the convergence of the thermal conductivity estimator.
-The Marcolongo-Schwartz theorem, Eq.~\eqref{eq:aris-theorem}, ensures that if a flux $\mathbf{J}_B$ does not contribute to the conductivity (\emph{i.e.} it has a vanishing GK integral, $L^B=0$), it is possible to the define a new flux $\mathbf{J}_C=\mathbf{J}_A+\mathbf{J}_B$ that will yield the same conductivity of $\mathbf{J}_A$. Even though $L^C=L^A$, the statistical properties of two such equivalent currents need not to be the same, in that the fluctuations of their correlation functions will be different, and the resulting GK integral, Eq.~\eqref{eq:GK-complete} will depend differently on the upper limit of integration, as it was the case in the example shown in Fig.~\ref{fig:argon-gauge}.
+The Marcolongo-Schwartz theorem, Eq.~\eqref{eq:aris-theorem}, ensures that if a flux $\mathbf{J}^B$ does not contribute to the conductivity (\emph{i.e.} it has a vanishing GK integral, $L^B=0$), it is possible to the define a new flux $\mathbf{J}^C=\mathbf{J}^A+\mathbf{J}^B$ that will yield the same conductivity of $\mathbf{J}^A$. Even though $L^C=L^A$, the statistical properties of two such equivalent currents need not be the same, in that the fluctuations of their correlation functions will be different, and the resulting GK integral, Eq.~\eqref{eq:GK-complete} will depend differently on the upper limit of integration, as it was the case in the example shown in Fig.~\ref{fig:argon-gauge}.
 We shall see that in the particular case of DFT thermal transport, for some peculiar systems, the natural definition of energy density and flux may make the estimate of the thermal conductivity very difficult, due to the large statistical fluctuations of the correlation functions. In this cases, the gauge invariance principle can come to the rescue.
 
 Besides, the general concept of gauge invariance of heat conductivity will likely apply to other transport properties as well, such as ionic conduction, viscosity, and many others, and/or simulation methodologies, such as those based on a neural-network representation of interatomic potentials, which hold the promise of a strong and long-lasting impact on molecular simulations. 

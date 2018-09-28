@@ -107,7 +107,7 @@ Let $X_t$ be a stationary stochastic process. One has:
 \end{equation}
 In the large-$\mathcal{T}$ limit, the second term on the right-hand side of Eq.~\eqref{eq:Einstein-Helfand} can be neglected. 
 
-When the stochastic process is the velocity of a Brownian particle, Eq.~\eqref{eq:Einstein-Helfand} allows one to establish a relation between the diffusion constant of the particle, temperature, and the auto-correlation time of the velocity.  When $X_t$ is the heat flux of a macroscopic body, Eq.~\eqref{eq:Einstein-Helfand} allows one to estimate the thermal conductivity, as given by Eq.~\eqref{eq:GK}, from the asymptotic behavior of the ``energy displacement'' $\mathcal{D}(\tau) = \int_0^\tau \mathbf{J}(\rGamma_t) dt $. 
+When the stochastic process is the velocity of a Brownian particle, Eq.~\eqref{eq:Einstein-Helfand} allows one to establish a relation between the diffusion constant of the particle, temperature, and the auto-correlation time of the velocity.  When $X_t$ is the heat flux of a macroscopic body, Eq.~\eqref{eq:Einstein-Helfand} allows one to estimate the thermal conductivity, as given by Eq.~\eqref{eq:GK}, from the asymptotic behavior of the ``energy displacement'' $\mathbfcal{D}(\tau) = \int_0^\tau \mathbf{J}(\rGamma_t) dt $. 
 From Eq.~\eqref{eq:L_def} we have that
 \begin{align}
     L_{\alpha\beta}^{ij} &= \lim_{\mathcal{T\rightarrow\infty}} \frac{\rOmega}{k_B} \int_0^{\mathcal{T}} \left\langle J^i_\alpha(\rGamma_t) J^j_\beta(\rGamma_0)\right\rangle_0 \left(1 - \frac{t}{\mathcal{T}}\right) dt \nonumber\\
@@ -216,15 +216,15 @@ Notice that this expression is also well-defined in PBC.
 
 The first term on the right-hand side of Eq.~\eqref{eq:J-classical},
 \begin{equation}
-    \mathbf{J}_c = \frac{1}{\rOmega} \sum_n \mathbf{V}_n e_n , \label{eq:J-convective}
+    \mathbf{J}^\smallE_c = \frac{1}{\rOmega} \sum_n \mathbf{V}_n e_n , \label{eq:J-convective}
 \end{equation}
 is often called \emph{convective} (or \emph{kinetic}) and the second term,
 \begin{equation}
-    \mathbf{J}_v = \frac{1}{\rOmega} \left[ \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-virial}
+    \mathbf{J}^\smallE_v = \frac{1}{\rOmega} \left[ \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-virial}
 \end{equation}
 is often called \emph{virial} (or \emph{potential}).
-\citet{Fan2015} and \citet{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}_c$ ``\emph{gives no contributions to the conductivity tensor in solids, as mass transport is negligible}''.
-We feel that the wording ``convective'' is somewhat misleading in this context, as the contribution of the convective current $\mathbf{J}_c$ to the heat conductivity may not vanish even in the absence of convection, especially in softer solid materials. 
+\citet{Fan2015} and \citet{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}^\smallE_c$ ``\emph{gives no contributions to the conductivity tensor in solids, as mass transport is negligible}''.
+We feel that the wording ``convective'' is somewhat misleading in this context, as the contribution of the convective current $\mathbf{J}^\smallE_c$ to the heat conductivity may not vanish even in the absence of convection, especially in softer solid materials. 
 Using Eqs.~\eqref{eq:J-convective} and \eqref{eq:J-virial}, the energy flux autocorrelation function can be split into 3 terms:
 \begin{equation}
     \langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(t)\rangle = \langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(t)\rangle + 
@@ -239,22 +239,22 @@ While the convective term may not be as important for materials with higher ther
 In the literature the nomenclature is often confusing, and the relative contributions of each term is often not very well known. 
 For example, \citet{Vogelsang1987} divide the energy currents in two terms \cite{McQuarrie2000}: a ``\emph{kinetic}'' part, defined as
 \begin{equation}
-    \mathbf{J}'_k = \frac{1}{\rOmega} \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n ,
+    {\mathbf{J}^\smallE_k}' = \frac{1}{\rOmega} \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n ,
 \end{equation}
 and a ``\emph{potential}'' part, defined as
 \begin{equation}
-    \mathbf{J}'_p = \frac{1}{\rOmega} \left[ \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right] .
+    {\mathbf{J}^\smallE_p}' = \frac{1}{\rOmega} \left[ \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right] .
 \end{equation}
-They find that $\mathbf{J}'_k$ is negligible in solids, where atomic diffusion does not occur.
+They find that ${\mathbf{J}^\smallE_k}'$ is negligible in solids, where atomic diffusion does not occur.
 \citet{Kinaci2012}, instead, use the Einstein formulation and define a ``\emph{kinetic}'' term
 \begin{equation}
-    \mathbf{J}''_k = \frac{1}{\rOmega} \left[ \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right],
+    {\mathbf{J}^\smallE_k}'' = \frac{1}{\rOmega} \left[ \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right],
 \end{equation}
 and a ``\emph{potential}'' term
 \begin{equation}
-    \mathbf{J}''_p = \frac{1}{\rOmega} \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n ,
+    {\mathbf{J}^\smallE_p}'' = \frac{1}{\rOmega} \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n ,
 \end{equation}
-and conclude that in perfect solid systems, where diffusion is highly improbable, $\mathbf{J}''_p$ contribution to thermal conductivity is negligible.
+and conclude that in perfect solid systems, where diffusion is highly improbable, ${\mathbf{J}^\smallE_p}''$ contribution to thermal conductivity is negligible.
 
 Finally, an alternative definition of the heat current can be used when dealing with solids \cite{Ladd1986}:
 \begin{equation}
@@ -265,16 +265,15 @@ where $\mathbf{R}_n^0$ denotes the average atomic position of atom $n$. One shou
 
 
 \paragraph{Many-body potentials}
-In the case of a many-body potential interaction, if the atomic potential energy can be written as a function of the distance vectors $\mathbf{R_{nm}}=\mathbf{R}_n-\mathbf{R}_m$, as $v_n = v_n(\mathbf{R}_{1n},\mathbf{R}_{2n},\cdots,\mathbf{R}_{Nn})$, the force acting on atom $n$ can be written as \cite{Fan2015,Hardy2016}:
+In the case of a many-body potential interaction, if the atomic potential energy can be written as a function of the distance vectors $\mathbf{R}_{nm}=\mathbf{R}_n-\mathbf{R}_m$, as $v_n = v_n(\mathbf{R}_{1n},\mathbf{R}_{2n},\cdots,\mathbf{R}_{Nn})$, the force acting on atom $n$ can be written as \cite{Fan2015,Hardy2016}:
 \begin{align}
-    \mathbf{F}_n &= -\sum_m \frac{\partial v_m}{\partial \mathbf{R}_n} \\
-        &= -\sum_{m\neq n} \frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{pn}} \\
-        &= \sum_{m\neq n} \left(\frac{\partial v_m}{\partial \mathbf{R}_{nm}} + \sum_{p\neq n} \frac{\partial v_n}{\partial \mathbf{R}_{mn}} \right).
+    \mathbf{F}_n &= -\sum_m \frac{\partial v_m}{\partial \mathbf{R}_n} = \sum_m \sum_{p\neq n} \frac{\partial v_m}{\partial \mathbf{R}_{pn}} \nonumber\\
+        &= \sum_m \sum_{p\neq n} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \delta_{pm} + \frac{\partial v_m}{\partial \mathbf{R}_{pn}} \delta_{mn} \right) \nonumber\\
+        &= -\sum_{m\neq n} \left( \frac{\partial v_n}{\partial \mathbf{R}_{nm}} - \frac{\partial v_m}{\partial \mathbf{R}_{mn}} \right).
 \end{align}
-\LEnote{**CHECK FORMULA**}
 For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \citet{Fan2015} obtain the following definition for the virial energy flux:
 \begin{equation}
-    \mathbf{J}_v = \sum_n \sum_{n\neq m} \mathbf{R}_{ij} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \cdot \mathbf{V}_n \right) ,
+    \mathbf{J}^\smallE_v = \sum_n \sum_{n\neq m} \mathbf{R}_{nm} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \cdot \mathbf{V}_n \right) ,
 \end{equation}
 equivalent to the one obtained by \citet{Hardy1963}, and they show that other two-body like formulations widely reported in the literature may give wrong results, especially in low-dimensional systems.
 
