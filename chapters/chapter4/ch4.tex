@@ -105,12 +105,14 @@ that can be derived from the continuity equation for the electronic density:
 \begin{equation}
 \nabla\cdot \bm j^{el}(\bm r,t) =- \dot{n}^{el}(\bm r,t).    
 \end{equation}
-The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
+The electronic current is the difference between the total charge current (defined as the atom's Born charge times its velocity and summed over the atoms) and its ionic component (here defined considering the nucleus plus the valence electrons). 
+In the specific case of one-component systems and molecural systems that are electric insulators, the total charge current and the electronic flux $\mathbf{J}^{el}$ are non-diffusive, as well as the ionic one, \emph{i.e.} they do not contribute to thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}. 
+In multi-component systems and conductors, this is not the case. 
+However, using the gauge invariance principle, it is possible to prove that a shift in the zero energy level adds a non-diffusive contribution, even for multi-component systems. 
+%In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
 \end{LEtext}
-\LEnote{** PRECISAZIONE: $\mathbf{J}^{el}$ e' non diffusiva solo in sistemi a 1 componente, giusto?? in un fluido multi-componente la corrente elettronica e' uguale a quella di massa direi ***}
+%\LEnote{** PRECISAZIONE: $\mathbf{J}^{el}$ e' non diffusiva solo in sistemi a 1 componente, giusto?? in un fluido multi-componente la corrente elettronica e' uguale a quella di massa direi ***}
 
-%\subsection{Multi-component heat flux}
-%\LEnote{****???*****}
 
 
 \subsection{Numerical computation}

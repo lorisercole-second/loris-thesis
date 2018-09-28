@@ -704,7 +704,9 @@
     \noindent\hbox{\vrule height.5pt width84pt}
     \vskip28\p@}
             \if@ChapterTOCs
+            \ifnum\c@chapter >1  % LORIS HACK to remove TOC from CHAPTER 1
       \make@chaptoc
+      \fi  % HACK
     \else
 \fi
     \vskip 19.3\p@}

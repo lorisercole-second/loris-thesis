@@ -227,11 +227,11 @@ is often called \emph{virial} (or \emph{potential}).
 We feel that the wording ``convective'' is somewhat misleading in this context, as the contribution of the convective current $\mathbf{J}^\smallE_c$ to the heat conductivity may not vanish even in the absence of convection, especially in softer solid materials. 
 Using Eqs.~\eqref{eq:J-convective} and \eqref{eq:J-virial}, the energy flux autocorrelation function can be split into 3 terms:
 \begin{equation}
-    \langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(t)\rangle = \langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(t)\rangle + 
-    2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(t)\rangle + 
-    \langle\mathbf{J}_v^\smallE(t)\cdot\mathbf{J}_v^\smallE(t)\rangle . \label{eq:JtJ0-components}
+    \langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(0)\rangle = \langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(0)\rangle + 
+    2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle + 
+    \langle\mathbf{J}_v^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle . \label{eq:JtJ0-components}
 \end{equation}
-Their contributions to thermal conductivity were computed by \citet{McGaughey2006} for a LJ fcc argon crystal at $50\un{K}$ (the breakdown of $\langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(t)\rangle$ into the three terms of Eq.~\eqref{eq:JtJ0-components} is shown in Fig.~\ref{fig:argon-convective}). They found that while the convection contribution $\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(t)\rangle$ was indeed small ($\sim 1\%$), the contribution of the cross term $2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(t)\rangle$ is not insignificant ($\sim 10\%$). 
+Their contributions to thermal conductivity were computed by \citet{McGaughey2006} for a LJ fcc argon crystal at $50\un{K}$ (the breakdown of $\langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(0)\rangle$ into the three terms of Eq.~\eqref{eq:JtJ0-components} is shown in Fig.~\ref{fig:argon-convective}). They found that while the convection contribution $\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(0)\rangle$ was indeed small ($\sim 1\%$), the contribution of the cross term $2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle$ is not insignificant ($\sim 10\%$). 
 The relative contributions of the convective and cross terms increase as the temperature goes up and anharmonic effects inhibit ``pure'' conduction. 
 The absolute values of the convective contribution remains the same with increasing temperature, whereas the virial and cross term contributions decrease. \LEnote{<-- check this**}
 While the convective term may not be as important for materials with higher thermal conductivity, in general, its contribution and that of the cross term should be checked before assuming they are negligible. Some further comments on this issue in Sec.~\ref{sec:carbogno}. 
