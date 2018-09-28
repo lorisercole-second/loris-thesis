@@ -173,7 +173,7 @@ The rationale behind these fits given by \citet{Lee1991} and \cite{Volz2000} wer
 The finite size of the simulation cell sets a lower limit to the phonon wavelength that is allowed. Only phonons with a wavelength shorter than the cell size are permitted to exist in the simulation domain and can contribute to the thermal conductivity.
 Furthermore, the small cell size may introduce artificial autocorrelations that do not exist in real systems, an effect that will be especially strong for long-wavelength phonons with long mean-free paths. 
 \citet{Lee1991} attributed the dip in the heat-current power spectrum of amorphous silicon found at low-frequencies (shown in Fig.~\ref{fig:aSi-expfit}) to this phenomenon, while \citet{Volz2000} attributed it to the apparent divergence of the heat-current power spectrum of crystalline silicon, reported in Fig.~\ref{fig:cSi-expfit}.
-\LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that does not vanish even when considering much larger sized. ****FIGURA????******}
+\LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that however does not vanish even when considering much larger sized. ****FIGURA????******}
 
 It is not easy to determine \emph{a priori} at what level the power spectrum is affected by finite-size effects. In any case, let us notice that the size-dependence problem in the estimation of $\kappa$ is also present in other methods, such as the direct integration of the GK equation. In general, one should be careful to verify that the chosen simulation cell is big enough for the thermal conductivity to converge. This will also imply that low-frequency region of the power spectrum is correctly reproduced and does not exhibit unphysical features.  
 In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis, with a solid statistical basis.
@@ -184,7 +184,6 @@ In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} t
 
 
 \subsection{Final remarks}  \label{sec:data-analysis-remarks}
-***MERGE*** Different classes of systems require different approaches to error analysis, but it is widely believed that all of them always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. In order to solve this problem, \cite{Ercole2017} considered it in the light of the statistical theory of stationary time series.
 
 Many methods have been formulated to estimate the thermal conductivity from the GK equation, but none of them is fully satisfactory. Some of them are optimized to the specific case of crystalline solids or simple liquids, and may be a good choice, however they do not really help much when dealing with amorphous solids. 
 Different classes of systems require different approaches to error analysis: in some cases these methods fail to provide rigorous criteria to estimate the accuracy resulting from a given MD trajectory, but in general all of them always require very long simulation times, thus making \abinitio simulations unaffordable. 
@@ -199,8 +198,6 @@ However, in the light of the gauge invariance principle presented in Sec.~\ref{c
 Whether and how a particular definition can be linked to physical quantities is not yet completely understood. Therefore, extreme caution should be used when making physical interpretations out of a HCACF. 
 
 In conclusion, although the GK method yields a direct estimate of the thermal conductivity, it provides only very indirect information about the mechanisms of heat transport. We believe that different approaches, such as phonon-level methods, \emph{e.g.} methods based on a normal-modes analysis \cite{Esfarjani2011} may be able to bring better insights into the individual contributions to thermal conductivity, especially in complex or disordered systems. 
-
-\LEnote{**EXAMPLES OF REFS??**}
 \end{LEtext}
 
 
@@ -536,7 +533,7 @@ Therefore, both these filtering operations may add some subtle effects to the es
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multi-component fluids}  \label{sec:data-analysis-multicomponent}
-\LEnote{******* TENERE/TOGLIERE/SPOSTARE IN APPENDICE? *********}\\
+%\LEnote{******* TENERE/TOGLIERE/SPOSTARE IN APPENDICE? *********}\\
 In Sec.~\ref{sec:multi-component} we have seen that in a fluid made of $Q$ atomic species there are in general $Q$ macroscopic fluxes interacting with each other through Onsager's phenomenological equations, Eq.~\eqref{eq:onsager}, not counting the different Cartesian components that do not interact amongst themselves because of space isotropy. A MD simulation thus samples $Q$ stochastic processes, one for each interacting flux, that we suppose to be stationary. These processes can be thought of as different components of a same multivariate process. 
 
 \subsection{Cepstral analysis}  \label{sec:cepstral-multicomponent}

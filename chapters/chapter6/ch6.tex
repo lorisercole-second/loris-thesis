@@ -146,7 +146,7 @@ In the case of amorphous silica, the maximum phonon mean-free path is quite shor
 
 
 \paragraph{Equilibrium MD studies}
-\LEnote{**CHECK THIS PARAGRAPH**}
+\LEnote{**PARAGRAFO DA RIVEDERE. Devo guardare questo articolo**}
 Few studies have been performed using EMD, probably due to the difficulty in estimating the thermal conductivity from the GK equation, as we already described in Sec.~\ref{sec:data-analysis-methods}.
 \citet{McGaughey2004b} was estimated the thermal conductivity of a system of $576$ atoms (\LE{$\rho=***$ at $T\sim \un{K}$}), obtaining a thermal conductivity of $1.96\un{W/mK}$. 
 The GK method is much less affected by finite-size effets, and can simulate the bulk with much smaller systems, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
@@ -225,10 +225,10 @@ At this point, we started to collect data for at least $t_{\mathrm{run}} = 1\un{
 The computational cost of these classical simulations is very low, so it was possible to run different replicas of each system from different initial conditions, thus providing us with abundant statistics. 
 The thermal conductivity was estimated from $t_{\mathrm{run}} = 1\un{ns}$ of trajectory for each sample, using the \emph{cepstral analysis} method presented in Sec.~\ref{sec:cepstral-analysis}.
 
-\begin{itemize}
-    \item NVT:  300 (deform) + 200(NVT) + 500(NVT)            + ramp + 400(NVT) + 100(NVE)
-    \item NPT:  300 (deform) + 100(NPT) + 300(NVT) + 100(NPT) + ramp + 200(NPT) + 200(NVT) + 100(NVE)
-\end{itemize}
+%\begin{itemize}
+%    \item NVT:  300 (deform) + 200(NVT) + 500(NVT)            + ramp + 400(NVT) + 100(NVE)
+%    \item NPT:  300 (deform) + 100(NPT) + 300(NVT) + 100(NPT) + ramp + 200(NPT) + 200(NVT) + 100(NVE)
+%\end{itemize}
 
 
 \subsection{Thermal conductivity: size and quenching rate dependence}  \label{sec:results-class-quench}
@@ -239,7 +239,7 @@ We computed the thermal conductivity $\kappa$ of each of these systems, from a t
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_NATconv.pdf}
-    \caption{Thermal conductivity }
+    \caption{Thermal conductivity *caption*}
     \label{fig:results-class-kappa-vs-size}
 \end{figure}
 
@@ -250,12 +250,12 @@ We can infer that $\kappa$ is underestimated by the smallest systems considered,
 This is likely due to two effects, both entering this analysis. 
 One is the fact that small replicas cannot account for the whole ensemble of possible amorphous structures. In particular, the variety medium- and long-range structures need larger system to be correctly accounted for. However, as we mentioned in Sec.~\ref{sec:silica-size}, some authors found that averaging over a little set of small structures ($N_{at}=72$) should be enough to reproduce the range of glass-network structures found in larger cells \cite{VanGinhoven2005}. 
 \LEnote{The VDOS is also weakly affected by the system size.}
-Nevertheless, thermal conductivity needs a sufficient cell size to converge. We can probably attribute this behavior mostly to finite-size effects, that dictate an upper limit to the wavelength of the vibrational modes that can be accommodated into the simulation cell, and alter the the low and medium vibrational frequencies, which are largely attributed to collective modes. The Green-Kubo equation thus requires a larger volume to correctly account for all the contributions. We should however notice that this value is remarkably lower than the typical cell lengths required by NEMD calculations (\LEnote{NAT necessari in NEMD}).
+Nevertheless, thermal conductivity needs a sufficient cell size to converge. We can probably attribute this behavior mostly to finite-size effects, that dictate an upper limit to the wavelength of the vibrational modes that can be accommodated into the simulation cell, and alter the the low and medium vibrational frequencies, which are largely attributed to collective modes. The Green-Kubo equation thus requires a larger volume to correctly account for all the contributions. We should however notice that this value is remarkably lower than the typical cell lengths required by NEMD calculations (\LEnote{NAT necessari in NEMD?}).
 
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_QTIMEconv.pdf}
-    \caption{Thermal conductivity }
+    \caption{Thermal conductivity *caption*}
     \label{fig:results-class-kappa-vs-quench}
 \end{figure}
 
@@ -269,22 +269,20 @@ We observe that in general the single calculations of $\kappa$ ($10$ replicas fo
 
 \begin{figure}[!tb]
     \centering
-    \subfigure[\label{fig:results-class-kappaerror-vs-size}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_error_NAT.pdf}}
+    \subfigure[\label{fig:results-class-kappaerror-vs-size}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_NAT.pdf}}
     \hfill
-    \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_error_QTIME.pdf}}
-    \caption{Thermal conductivity error}
+    \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_QTIME.pdf}}
+    \caption{Thermal conductivity relative error *caption*}
     \label{fig:results-class-kappaerror}
 \end{figure}
 
-\LEnote{*RIGUARDA CON RELATIVE ERROR*}
-The trend of the error, estimated for a $1\un{ns}$ trajectory, with $N_{\mathrm{at}}$ is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size} for $4$ selected quenching rates. The estimated error decreases as $\sim 1/\sqrt{N_\mathrm{nat}}$, \LEnote{suggesting that it is influenced by the fluctuations of ... the energy?? in the NVE ensemble, that decrease with the same trend.}
-The quenching rate, instead, does not change much the error on the estimate of $\kappa$, with a slight increase of error by lowering the quenching rate.
+The trend of the error, estimated for a $1\un{ns}$ trajectory, with $N_{\mathrm{at}}$ is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size} for $4$ selected quenching rates. The estimated relative error decreases as $\sim 1/\sqrt{N_\mathrm{nat}}$, \LEnote{suggesting that it is influenced by the fluctuations of ... the energy?? in the NVE ensemble, that decrease with the same trend.}
+The quenching rate, instead, does not appear to affect the error on the estimate of $\kappa$. 
 
 
-
-SIZE EFFECTS:  SMALL SAMPLE PROBLEMS -- SIZE EFFECTS OF GK
-
-ERRORE CLASSICO DA 100ps
+\LEnote{* Da inserire:\\
+ERRORE CLASSICO DA 100ps\\
+SAMPLE SELEZIONATO}
 
 
 \subsection{Cepstral analysis}  \label{sec:results-class-cepstral}

@@ -1,6 +1,7 @@
 \chapter{Density-functional theory of adiabatic heat transport} \label{ch:dft-heat}
 
-\LEnote{** FORSE ESSENDO CORTO SI PUO' UNIRE A CAP. 3 **}
+\LEnote{** FORSE, ESSENDO BREVE, QUESTO CAPITOLO SI PUO' UNIRE A CAP. 3 **}
+
 \begin{LEtext}
 The advent of density-functional theory (DFT) \cite{Hohenberg1964,Kohn1965} has marked the start of a new era for the quantum modeling of materials. DFT allows computing interatomic forces entirely from first principles using the chemical composition and the fundamental laws of nature as the sole ingredients, without any need to leverage experimental knowledge of these interactions.
 Its combination with classical molecular dynamics, both in the Born-Oppenheimer or Car-Parrinello flavours \cite{Car1985,Marx2009}, had a groundbreaking impact in a wide number of physical problems.
@@ -15,7 +16,7 @@ In this chapter we start by summarizing the most recent \emph{ab initio} methods
 
 \newpage
 \section{First-principles simulation methods}
-\LEnote{** FARLA DIVENTARE UN'INTRO GENERALE AI METODI E SPOSTARLA IN CAP. 1 **}
+\LEnote{** IN PARTE INTRODUCO BREVEMENTE IN CAP.1, MA QUESTO E' MOLTO PIU' DETTAGLIATO **}
 
 In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE)  %\emph{non-equilibrium Green's functions} (NEGF), 
 and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
@@ -26,7 +27,7 @@ The \emph{Boltzmann's transport equation} (BTE) \cite{Peierls1929,Zhou2016} is t
 The flexibility and accuracy of \abinitio BTE are such that this approach is being successfully used to screen new materials for custom-designed properties, such as high thermal conductivity for passive cooling \cite{Lindsay:2013fw,Lindsay:2013db} or low thermal conductivity for thermoelectric energy conversion \cite{PhysRevX.4.011019,Schwingen2014}. 
 Recent self-consistent and variational approaches to solve the BTE beyond the relaxation-time approximation \cite{Fugallo2013} are also providing fresh and deep insight into the collective character of heat transport \cite{Fugallo2013,Lee:2015ex,Cepellotti2015,Cepellotti:2016bk}. 
 Yet, the applicability of \emph{ab initio} BTE is restricted to periodic systems consisting of a small number of atoms per unit cell, and is severely limited by its own inherent approximations: as the temperature increases, anharmonic effects become so important as to eventually make it break down well below melting \cite{Turney:2009bb}, while the BTE simply does not apply to glasses and liquids, where phonons are not even defined \cite{Allen1989} . 
-\LEnote{** FORSE CITARE ALTRI METODI VIBRAZIONALI: loconi-cosoni...**}
+\LEnote{** FORSE CITARE ALTRI METODI VIBRAZIONALI: loconi-propagoni-cosoni...**}
 
 \emph{Molecular dynamics} (MD) \cite{Allen1989,Frenkel2001} is set to overcome these limitations. 
 In non-equilibrium MD (NEMD) \cite{Evans1990,Muller-Plathe1997}, temperature gradients or heat fluxes are explicitly imposed on the virtual sample, and the thermal conductivity is estimated from the resulting value of the conjugate variable (flux or gradient). 
@@ -106,7 +107,7 @@ that can be derived from the continuity equation for the electronic density:
 \end{equation}
 The electronic current is the difference between the total charge current and its ionic component. In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
 \end{LEtext}
-\LEnote{** $\mathbf{J}^{el}$ E' NON DIFFUSIVA SOLO IN 1-COMPONENT SYSTEMS?? IN UN FLUIDO MULTI-COMPONENTE MI SEMBRA DIFFUSIVA ***}
+\LEnote{** PRECISAZIONE: $\mathbf{J}^{el}$ e' non diffusiva solo in sistemi a 1 componente, giusto?? in un fluido multi-componente la corrente elettronica e' uguale a quella di massa direi ***}
 
 %\subsection{Multi-component heat flux}
 %\LEnote{****???*****}
