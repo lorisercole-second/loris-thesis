@@ -213,9 +213,9 @@ that we designed such that the potential and its first and second derivatives ar
 \end{table}
 
 
-\paragraph{Simulation setup}
+\paragraph{Simulation protocol}
 We started the simulation from a $72$-atom sample of $\beta$-cristobalite, correspondent to $24$ SiO$_2$ units, that we eventually replicated to obtain larger cubic supercells at the experimental density of a-SiO$_2$, $\rho = 2.202\un{g/cm^3}$. 
-Each system was melted and equilibrated at constant temperature $7000\un{K}$ for more than $t_{\mathrm{melt}} = 500\un{ps}$ in the NVT ensemble, using the Bussi-Donadio-Parrinello stochastic velocity-rescaling thermostat \cite{Bussi:2007cs} with a coupling time constant $\tau_\mathrm{NVT}=200\un{fs}$. The equations of motion were integrated using the velocity Verlet algorithm with a time step of $dt=1\un{fs}$. 
+Each system was melted and equilibrated at constant temperature $7000\un{K}$ for more than $t_{\mathrm{melt}} = 500\un{ps}$ in the NVT ensemble, using the Bussi-Donadio-Parrinello stochastic velocity-rescaling thermostat \cite{Bussi:2007cs} with a coupling time constant $\tau_\mathrm{NVT}=200\un{fs}$. The equations of motion were integrated using the velocity Verlet algorithm with a time step of $\epsilon_\mathrm{MD}=1\un{fs}$. 
 
 Subsequently, the temperature was decreased linearly in a time $t_{\mathrm{quench}}$ down to $T_{\mathrm{eq}}=500\un{K}$, in the NVT ensemble, thus resulting in a quenching rate of $\gamma = \frac{6500\un{K}}{t_{\mathrm{quench}}}$. The effects of different quenching rates will be studied in Sec.~\ref{sec:results-class-quench}. 
 
@@ -232,56 +232,77 @@ The thermal conductivity was estimated from $t_{\mathrm{run}} = 1\un{ns}$ of tra
 
 
 \subsection{Thermal conductivity: size and quenching rate dependence}  \label{sec:results-class-quench}
-In order to study the convergence of lattice thermal conductivity with the size of the system and the quenching rate, we considered cells containing $72$, $144$, $288$, $432$, $576$, $864$, $1152$, $2304$, $5184$, and $10800$ atoms. For each cell size we analyzed the data obtained from $10$ independent replicas. 
+In order to study the convergence of lattice thermal conductivity with the size of the system and the quenching rate, we considered cells containing $72$, $144$, $288$, $432$, $576$, $864$, $1152$, $2304$, $5184$, and $10800$ atoms. For each cell size we analyzed the data obtained from $10$ independent replicas with different initial conditions. 
 For each replica, we considered $10$ different quenching times: $t_{\mathrm{quench}} = 5$, $10$, $25$, $50$, $100$, $250$, $500\un{ps}$, $1$, $5$, and $10\un{ns}$, that correspond to quenching rates $\gamma$ ranging from $1.3\times 10^{15}$ to $6.5\times 10^{11}\un{K/s}$.
-We computed the thermal conductivity $\kappa$ of each of these systems, from a trajectory of $t_\mathrm{run}=1\un{ns}$, using \emph{cepstral analysis}. More technical details on this procedures are presented in Sec.~\ref{sec:cepstral-analysis}. 
+We computed the thermal conductivity $\kappa$ of each of these systems, from a trajectory of $t_\mathrm{run}=1\un{ns}$, using \emph{cepstral analysis}. More technical details on this procedures are reported in Sec.~\ref{sec:cepstral-analysis}. 
 
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_NATconv.pdf}
-    \caption{Thermal conductivity *caption*}
+    \caption{Study of convergence of the thermal conductivity of a-SiO$_2$ with the size of the system, estimated from classical simulations, as described in Sec.~\ref{sec:results-class-quench}. 
+    The abscissa indicate the number of atoms of the system, each panel corresponds to a different quenching rate $\gamma$ (the relative quenching time $t_\mathrm{quench}$ is indicated in brackets). 
+    Circles are the results of $10$ independent replicas simulated with the same quenching protocol. The solid line is a weighted average computed over the replicas and weighted using the errors estimated from cepstral analysis. Three different error limits are indicated. 
+    Dashed area: standard deviation of the weighted mean. 
+    Dashed lines: statistical error estimated for a \emph{single} trajectory of $1\un{ns}$. 
+    Dotted lines: sample standard deviation of the single values of $\kappa$. 
+    }
     \label{fig:results-class-kappa-vs-size}
 \end{figure}
 
 In Fig.~\ref{fig:results-class-kappa-vs-size} we plot the thermal conductivity as a function of the number of atoms of the system $N_{at}$, for the ten quenching rates considered. 
 The $\kappa$ measured for each replica is depicted with a circle. 
-For each $N_{at}$ and $\gamma$, we computed the weighted average of each replica's $\kappa$, depicted with a solid line, using the errors estimated from cepstral analysis as weights. 
-We can infer that $\kappa$ is underestimated by the smallest systems considered, and it seems to converge to a stable value for $N_{at}\gtrsim 500$ atoms. 
+For each $N_{at}$ and $\gamma$, we computed a weighted average over the replicas' results (depicted with a solid line) using the errors estimated from cepstral analysis as weights. 
+We can infer that $\kappa$ is underestimated by the smallest systems considered, and seems to converge to a stable value for $N_{at}\gtrsim 500$ atoms. 
 This is likely due to two effects, both entering this analysis. 
-One is the fact that small replicas cannot account for the whole ensemble of possible amorphous structures. In particular, the variety medium- and long-range structures need larger system to be correctly accounted for. However, as we mentioned in Sec.~\ref{sec:silica-size}, some authors found that averaging over a little set of small structures ($N_{at}=72$) should be enough to reproduce the range of glass-network structures found in larger cells \cite{VanGinhoven2005}. 
-\LEnote{The VDOS is also weakly affected by the system size.}
-Nevertheless, thermal conductivity needs a sufficient cell size to converge. We can probably attribute this behavior mostly to finite-size effects, that dictate an upper limit to the wavelength of the vibrational modes that can be accommodated into the simulation cell, and alter the the low and medium vibrational frequencies, which are largely attributed to collective modes. The Green-Kubo equation thus requires a larger volume to correctly account for all the contributions. We should however notice that this value is remarkably lower than the typical cell lengths required by NEMD calculations (\LEnote{NAT necessari in NEMD?}).
+One is the fact that small replicas cannot account for the whole ensemble of possible amorphous structures. In particular, the variety of medium- and long-range structures needs larger system to be correctly accounted for. However, as we mentioned in Sec.~\ref{sec:silica-size}, some authors found that averaging over a little set of small structures ($N_{at}=72$) should be enough to sufficiently reproduce the range of glass-network structures found in larger cells \cite{VanGinhoven2005}. 
+Nevertheless, the smallest systems lead to an underestimate of $\kappa$ by more than $20\%$. We can probably attribute this behavior to effects on the vibrational modes: the finite-size of the system dictates an upper limit to the wavelength that can be accommodated into the simulation cell, and alters the the low and medium vibrational frequencies, which are largely attributed to the collective modes of silica. The Green-Kubo equation thus requires a sufficiently large volume to correctly account for all the contributions. 
+We should however point out that this value is remarkably lower than the typical cell lengths required by NEMD calculations (\LEnote{NAT necessari in NEMD?}).
 
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_QTIMEconv.pdf}
-    \caption{Thermal conductivity *caption*}
+    \caption{Study of convergence of the thermal conductivity of a-SiO$_2$ with the cooling quenching rate $\gamma$, estimated from classical simulations, as described in Sec.~\ref{sec:results-class-quench}. 
+    Each panel corresponds to a different system sizes with $N_{at}$ atoms.
+    Circles are the results of $10$ independent replicas simulated with the same quenching protocol. The solid line is a weighted average computed over the replicas and weighted using the errors estimated from cepstral analysis. Three different error limits are indicated. 
+    Dashed area: standard deviation of the weighted mean. 
+    Dashed lines: statistical error estimated for a \emph{single} trajectory of $1\un{ns}$. 
+    Dotted lines: sample standard deviation of the single values of $\kappa$. 
+    }
     \label{fig:results-class-kappa-vs-quench}
 \end{figure}
 
 In Fig.~\ref{fig:results-class-kappa-vs-quench}, the same data are plotted as a function of the quenching rate $\gamma = \frac{6500\un{K}}{t_{\mathrm{quench}}}$, for each of the sizes considered. 
-Slower quenching rates (longer quenching times) definitely lead to higher thermal conductivities. 
+Slower quenching rates (longer quenching times, of the order of a few nanoseconds) definitely lead to higher thermal conductivities. 
 This is not very surprising: as we discussed in Sec.~\ref{sec:silica-quenching}, a slower quenching allows the system to relax more and to build glass structures with higher local order, less defects, and structural features that are in better agreement with experiments. 
-A quenching rate $\gamma \lesssim 10^{13}\un{K/s}$ seem to be the requirement for almost all the simulated sizes. 
+Therefore, a quenching rate $\gamma \lesssim 10^{13}\un{K/s}$ seems to be the requirement for almost all the simulated sizes. 
 
-In Fig.~\ref{fig:results-class-kappa-vs-size} and \ref{fig:results-class-kappa-vs-quench} the error on the weighted average is indicated with a thin shaded area surrounding the solid line. Two other lines are reported. The dashed lines delimit the average error that we expect to obtain from a single trajectory sample of $t_{\mathrm{run}}=1\un{ns}$ (it is about the error on the weighted averaged times $\sqrt{10}$). 
-We observe that in general the single calculations of $\kappa$ ($10$ replicas for each abscissa), represented by single circles, fall mostly inside this error bars, for the medium and large systems. For the smaller systems, the fluctuations of the single values become bigger, probably due to larger differences in their structures, in addition to the intrinsic large fluctuations due to the smaller size. This is also indicated by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed \LEnote{(even though this value, computed over only $10$ replicas may fluctuate a lot and should be taken as indicative)}.
+In Fig.~\ref{fig:results-class-kappa-vs-size} and \ref{fig:results-class-kappa-vs-quench} the error on the weighted average is indicated as a thin shaded area surrounding the solid line. Two other lines are reported. The dashed lines delimit the average error that we expect to obtain from a single trajectory sample of $t_{\mathrm{run}}=1\un{ns}$ (it is about the error on the weighted averaged times $\sqrt{10}$). 
+We observe that in general the single calculations of $\kappa$ ($10$ replicas for each abscissa, represented by single circles), fall mostly inside this error bars, for the medium and large systems. For the smaller systems, the fluctuations of the single values become bigger, probably due to larger differences in their structures, in addition to the intrinsically larger fluctuations due to the smaller size. 
+The fluctuations of $\kappa$ can also be quantified by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed (even though this value, estimated from a very small sample, should be taken as indicative).
+The trend of the relative error estimated for a $1\un{ns}$ trajectory as a function of the number of atoms is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size} for $4$ selected quenching rates. The estimated relative error decreases as $\sim 1/\sqrt{N_\mathrm{nat}}$, \LEnote{suggesting that it is influenced by the fluctuations of ... the energy?? in the NVE ensemble, that decrease with the same trend.}
+The quenching rate, instead, does not appear to affect the error on $\kappa$, as shown in Fig.~\ref{fig:results-class-kappaerror-vs-quench}. 
 
 \begin{figure}[!tb]
     \centering
     \subfigure[\label{fig:results-class-kappaerror-vs-size}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_NAT.pdf}}
     \hfill
     \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_QTIME.pdf}}
-    \caption{Thermal conductivity relative error *caption*}
+    \caption{Thermal conductivity relative error *caption*
+    Estimated relative error on the thermal conductivity of a-SiO$_2$ for a $1\un{ns}$ trajectory (dashed lines) as a function of (a) the number of atoms, (b) the cooling quenching rate. 
+    Dotted lines: sample standard deviation computed over the results of $10$ replicas.
+    }
     \label{fig:results-class-kappaerror}
 \end{figure}
 
-The trend of the error, estimated for a $1\un{ns}$ trajectory, with $N_{\mathrm{at}}$ is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size} for $4$ selected quenching rates. The estimated relative error decreases as $\sim 1/\sqrt{N_\mathrm{nat}}$, \LEnote{suggesting that it is influenced by the fluctuations of ... the energy?? in the NVE ensemble, that decrease with the same trend.}
-The quenching rate, instead, does not appear to affect the error on the estimate of $\kappa$. 
+From this analysis we conclude that size of the system and cooling rate considerably affect the thermal conductivity of BKS silica glass. 
+In order to perform an \abinitio study of the thermal conductivity, we need to select a sample size that can be simulated with AIMD at a reasonable computational cost. 
+We decided to use one of the samples with $N_{\mathrm{nat}}=432$ atoms that were generated using the smallest cooling rate analyzed, $\gamma=6.5\times 10^{11}\un{K/s}$, corresponding to a quenching time of $10\un{ns}$. In the following we dub this sample $\S1$. 
+We first made sure that $\S1$ did not exhibit any coordination defects, then we computed its thermal conductivity, that is equal to $\kappa_\S1 = ... \un{W/mK}$, using a $1\un{ns}$-long trajectory. 
+This value differs from the average values obtained for the largest systems analyzed by less than $5\%$ ($\approx 0.1\un{W/mK})$. 
+Further data analysis showed that an error of the order of $..\%$ could be obtained from a trajectory of $100\un{ps}$, which is a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
 
 
 \LEnote{* Da inserire:\\
-ERRORE CLASSICO DA 100ps\\
 SAMPLE SELEZIONATO}
 
 
