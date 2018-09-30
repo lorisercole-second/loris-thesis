@@ -298,13 +298,13 @@ In order to perform an \abinitio study of the thermal conductivity, we need to s
 We decided to use one of the samples with $N_{\mathrm{nat}}=432$ atoms that were generated using the smallest cooling rate analyzed, $\gamma=6.5\times 10^{11}\un{K/s}$, corresponding to a quenching time of $10\un{ns}$. In the following we dub this sample $\S1$. 
 We first made sure that $\S1$ did not exhibit any coordination defects, then we computed its thermal conductivity, that is equal to $\kappa_\S1 = (2.207 \pm 0.045) \un{W/mK}$, using a $1\un{ns}$-long trajectory. 
 This value differs from the average values obtained for the largest systems analyzed by less than $5\%$ ($\approx 0.1\un{W/mK})$. 
-Further data analysis showed that an error of the order of $12\%$ ($\approx 0.25\un{W/mK}$) could be obtained from a trajectory of $100\un{ps}$, which is a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
+Further data analysis showed that an error of the order of $12\%$ ($\approx 0.25\un{W/mK}$) could be obtained from a trajectory of $100\un{ps}$, a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
 
 
 \subsection{Cepstral analysis}  \label{sec:results-class-cepstral}
-The thermal conductivity of each replica was computed with the cepstral analysis described in Sec.~\ref{sec:cepstral-analysis}. 
-The $P^*$ cutoff was chosen using the Akaike Information Criterion (see Sec.~\ref{sec:AIC} without any correction factor, as in Sec.~\ref{sec:cepstral-benchmarks} we saw that this was not necessary for the case of a-SiO$_2$. 
-The heat flux computed by \textsc{LAMMPS} at each time step ($1\un{fs}$) was filtered with a moving average and resampled at a rate of one step every $18\un{fs}$, corresponding to a cutoff frequency $f^*\approx 28\un{THz}$. The resulting spectrum was analyzed by our cepstral analysis code \textsc{ThermoCesptrum} \cite{thermocepstrum}.
+The thermal conductivity of each replica was computed with the cepstral analysis technique described in Sec.~\ref{sec:cepstral-analysis}. 
+The $P^*$ cutoff was chosen using the Akaike Information Criterion (see Sec.~\ref{sec:AIC}) without any correction factor, because in Sec.~\ref{sec:cepstral-benchmarks} we showed that this was not necessary for the case of a-SiO$_2$. 
+The heat flux calculated by \textsc{LAMMPS} at each time step ($1\un{fs}$) was filtered with a moving average and resampled at a rate of one step every $18\un{fs}$, corresponding to a cutoff frequency $f^*\approx 28\un{THz}$. The resulting spectrum was analyzed using our \textsc{ThermoCesptrum} code \cite{thermocepstrum}.
 In the following we perform an additional analysis on the dependence of the thermal conductivity of the $\S1$ sample on some of the parameters. 
 
 \begin{figure}[!tb]
@@ -321,19 +321,20 @@ In the following we perform an additional analysis on the dependence of the ther
 
 We first study the value of the thermal conductivity estimator as a function of the cutoff frequency $f^*$ and the length of the trajectory. 
 In Fig.~\ref{fig:csilica-sample-expdens-fstar}(a-c) we report the average $\kappa$ obtained for a $100\un{ps}$, $1\un{ns}$, and $10\un{ns}$ trajectory, respectively. 
-In general, all the $f^*$ in the middle region give compatible results, with more instabilities arising at the lowest frequency values (likely due to increasing aliasing effects that alter the spectrum), that indeed show an increased error and and should be avoided in this case. These fluctuations decrease in longer trajectories, as the statistical error obviously decreases. Besides, a $f^*$ that is too high ($f^*\gtrsim 60\un{THz}$, not shown) also induces a bias in $\kappa$, due to the fact the log-periodogram diverges to negative values and we start to have problems of numerical precision. 
+In general, all the $f^*$ in the middle region give compatible results, with more instabilities arising at the lowest frequency values (likely due to increasing aliasing effects that alter the spectrum), that indeed show an increased error and and should be avoided in this case. These fluctuations decrease in longer trajectories, as the statistical error obviously decreases. Besides, a $f^*$ that is too high ($f^*\gtrsim 60\un{THz}$, not shown) induces a bias in $\kappa$, due to the fact the log-periodogram diverges to negative values and we start to have problems of numerical precision. 
 A $100\un{ps}$ trajectory ultimately gives compatible results with the $10\un{ns}$ one, as reported in Table~\ref{tab:csilica-sample-kappa-cepstral}
-\LEnote{Ricontrollare la seguente: Incidentally, we notice that the error on $\kappa$ estimed by cepstral analysis decays slower than expected (by Eq.~\eqref{eq:sigma*}) with the length of the trajectory. dovuto all'aumento di $P^*$ con $t_\mathrm{run}$, invece di rimanere fermo. forse perche' l'aic pesa di piu' i picchetti dello spettro)}
+Incidentally, we also notice that the error on $\kappa$ estimated by cepstral analysis decays slower than expected with the length of the trajectory. Indeed the error should decreasy as $\approx \frac{1}{N}$ (see Eq.~\eqref{eq:sigma*})), but from $100\un{ps}$ to $1\un{ns}$ it decreases of a factor $\approx \frac{1}{\sqrt{3}}$, and a factor $\approx \frac{1}{\sqrt{10}}$ from $100\un{ps}$ to $10\un{ns}$. This effect can be explained by the increased number of cepstral coefficients retained by the AIC, that tries to reproduce the finest features of the spectrum with greater precision. 
 
 \begin{table}[!tb]
     \centering
     \begin{tabular}{r|cc|c}
         $t_\mathrm{run}$ & \textbf{standard-HC} & \textbf{VR-HC} & \textbf{$\langle P^* \rangle$} \\
-        $100\un{ps}$ & $2.19 \pm 0.25 (12\%)$  & $2.17 \pm 0.27 (12\%)$  $47-36$\\
-        $1\un{ns}$   & $2.18 \pm 0.15 (9.5\%)$ & $2.18 \pm 0.20 (9.2\%)$ $176-154$ \\
-        $10\un{ns}$  & $2.24 \pm 0.08 (3.5\%)$ & $2.25 \pm 0.07 (3.3\%)$ $448-377$
+        \hline
+        $100\un{ps}$ & $2.19 \pm 0.25 (12\%)$  & $2.17 \pm 0.27 (12\%)$ & $47-36$\\
+        $1\un{ns}$   & $2.18 \pm 0.15 (9.5\%)$ & $2.18 \pm 0.20 (9.2\%)$ & $176-154$ \\
+        $10\un{ns}$  & $2.24 \pm 0.08 (3.5\%)$ & $2.25 \pm 0.07 (3.3\%)$ & $448-377$
     \end{tabular}
-    \caption{Caption}
+    \caption{\LEnote{Caption}}
     \label{tab:csilica-sample-kappa-cepstral}
 \end{table}
 
@@ -343,8 +344,22 @@ The number of cepstral coefficients $P^*$ is reduced as the spectrum is smoother
 
 
 
-\subsection{Volume dependence}
-(NEGLECTED)
+\subsection{Pressure-Volume dependence}
+The dependence of $\kappa$ of a-SiO$_2$ on the pressure can be neglected for the range of temperatures considered later. 
+Silica glass has a anomalously low thermal expansion coefficient, with an experimental value of $\alpha\approx 5.5\times 10^{-7} \un{K^{-1}}$ at $300\un{K}$. 
+The variation in density from $300\un{K}$ to $1500\un{K}$ can be estimated to be $\Delta\rho \approx ... \un{g/cm^3}$.
+Using the experimental bulk modulus $K\approx 36.7\un{GPa}$, if we fix the density at the experimental value at $300\un{K}$ of $\rho=2.202\un{g/cm^3}$, we can expect a consequent variation in pressure of about $\Delta P \approx 0.05\un{GPa}$, is quite negligible. 
+Experimental measures of thermal conductivity of silica at high pressures estimate a variation of $\kappa$ of the order of $..\%$, by increasing the pressure of $..\un{GPa}$. Therefore 
+
+In classical simulations these values may change slightly, but we do not expect significant differences. 
+In the preliminary phases of this work we also performed quenching simulations at constant pressure, in the NPT ensemble. 
+We found, in accordance to the previous studies discussed in Sec.~\ref{sec:silica-quenching}, that the density of the sample increases with the quenching rate. A slow quenching leads to lower densities, closer to the experiment. The average equilibrium volume obtained from the slowest quench at zero pressure exhibits a density of $\rho_{P=0}=...\un{g/cm^3}$, slightly larger than the experimental one. We can attribute this discrepancy to a combined effect of the BKS potential and of the relatively fast quenching rate. 
+The thermal expansion coefficient is $5$ times larger than experiment, with a value of $\alpha\approx 2.8\times 10^{-6} \un{K^{-1}}$. 
+Finally, the thermal conductivities obtained from a quench in the NPT ensemble show slightly larger values, up to $10\%$ higher for the fastest quenching rates and smallest sizes, and of similar values for the slowest rates (plots are reported in Appendix\LEnote{*****}). The high density ($\approx 2.5\un{g/cm^3}$) that is obtained using very fast quenching rate is probably the reason of this difference. 
+We decide therefore to fix the density to the experimental value and to equilibrate our simulations in the NVT ensemble, as previously done by many other authors.
+
+\LEnote{Eventualmente grafici $\rho(\gamma)$}
+
 
 \subsection{Temperature dependence}
 AND THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, X)
@@ -360,3 +375,13 @@ QUANTUM
 DT HEAT CURRENT
 
 \subsection{Results}  \label{sec:results-quantum-results}
+
+
+EXPERIMENT CRC HANDBOOK
+T(C)  K
+-150 0.85
+-100 1.05
+-50 1.20
+0 1.30
+50 1.40
+100 1.50

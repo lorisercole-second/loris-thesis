@@ -15,8 +15,10 @@
 \usepackage[normalem]{ulem}	  % for strike-through of text with \sout{}
 % \usepackage[bottom]{footmisc} % places footnotes at page bottom
 % \usepackage[normalem]{ulem}	  % for strike-through of text with \sout{}
-\usepackage[numbers,sort&compress]{natbib}
 \usepackage[section]{placeins}  % place floats within section
+\usepackage[numbers,sort&compress]{natbib}
+%\usepackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}  % bibliography
+%\addbibresource{bibliography.bib}
 
 \usepackage{bm}
 \usepackage{url}
@@ -100,11 +102,11 @@
 %\include{frontmatter/dedication}
 %\cleardoublepage
 %\setcounter{page}{7} %previous pages will be reserved for frontmatter to be added in later.
-%\tableofcontents
+\tableofcontents
 %\include{frontmatter/foreword}
 %\include{frontmatter/preface}
 %\listoffigures
-%listoftables
+%\listoftables
 %\include{frontmatter/contributor}
 % \include{frontmatter/symbollist}
 
@@ -118,11 +120,10 @@
 \include{chapters/chapter6/ch6}  % Silica
 \include{chapters/chapter7/ch7}  % Conclusions
 
-%\include{chapters/chapterex/chex}
-
 \bibliographystyle{unsrtnat}
 \bibliography{bibliography}
+%\printbibliography[heading=bibintoc]
 
-\printindex
+%\printindex
 
 \end{document}
