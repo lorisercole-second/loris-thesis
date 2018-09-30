@@ -287,8 +287,7 @@ The quenching rate, instead, does not appear to affect the error on $\kappa$, as
     \subfigure[\label{fig:results-class-kappaerror-vs-size}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_NAT.pdf}}
     \hfill
     \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_QTIME.pdf}}
-    \caption{Thermal conductivity relative error *caption*
-    Estimated relative error on the thermal conductivity of a-SiO$_2$ for a $1\un{ns}$ trajectory (dashed lines) as a function of (a) the number of atoms, (b) the cooling quenching rate. 
+    \caption{Estimated relative error on the thermal conductivity of a-SiO$_2$ for a $1\un{ns}$ trajectory (dashed lines) as a function of (a) the number of atoms, (b) the cooling quenching rate. 
     Dotted lines: sample standard deviation computed over the results of $10$ replicas.
     }
     \label{fig:results-class-kappaerror}
@@ -297,31 +296,50 @@ The quenching rate, instead, does not appear to affect the error on $\kappa$, as
 From this analysis we conclude that size of the system and cooling rate considerably affect the thermal conductivity of BKS silica glass. 
 In order to perform an \abinitio study of the thermal conductivity, we need to select a sample size that can be simulated with AIMD at a reasonable computational cost. 
 We decided to use one of the samples with $N_{\mathrm{nat}}=432$ atoms that were generated using the smallest cooling rate analyzed, $\gamma=6.5\times 10^{11}\un{K/s}$, corresponding to a quenching time of $10\un{ns}$. In the following we dub this sample $\S1$. 
-We first made sure that $\S1$ did not exhibit any coordination defects, then we computed its thermal conductivity, that is equal to $\kappa_\S1 = ... \un{W/mK}$, using a $1\un{ns}$-long trajectory. 
+We first made sure that $\S1$ did not exhibit any coordination defects, then we computed its thermal conductivity, that is equal to $\kappa_\S1 = (2.207 \pm 0.045) \un{W/mK}$, using a $1\un{ns}$-long trajectory. 
 This value differs from the average values obtained for the largest systems analyzed by less than $5\%$ ($\approx 0.1\un{W/mK})$. 
-Further data analysis showed that an error of the order of $..\%$ could be obtained from a trajectory of $100\un{ps}$, which is a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
-
-
-\LEnote{* Da inserire:\\
-SAMPLE SELEZIONATO}
+Further data analysis showed that an error of the order of $12\%$ ($\approx 0.25\un{W/mK}$) could be obtained from a trajectory of $100\un{ps}$, which is a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
 
 
 \subsection{Cepstral analysis}  \label{sec:results-class-cepstral}
-\paragraph{Dependence on cutoff frequency $f^*$}
-(For the chosen sample at experimental density)
-(comparison bw normal and vel-renormalized results)
+The thermal conductivity of each replica was computed with the cepstral analysis described in Sec.~\ref{sec:cepstral-analysis}. 
+The $P^*$ cutoff was chosen using the Akaike Information Criterion (see Sec.~\ref{sec:AIC} without any correction factor, as in Sec.~\ref{sec:cepstral-benchmarks} we saw that this was not necessary for the case of a-SiO$_2$. 
+The heat flux computed by \textsc{LAMMPS} at each time step ($1\un{fs}$) was filtered with a moving average and resampled at a rate of one step every $18\un{fs}$, corresponding to a cutoff frequency $f^*\approx 28\un{THz}$. The resulting spectrum was analyzed by our cepstral analysis code \textsc{ThermoCesptrum} \cite{thermocepstrum}.
+In the following we perform an additional analysis on the dependence of the thermal conductivity of the $\S1$ sample on some of the parameters. 
 
 \begin{figure}[!tb]
     \centering
-    \subfigure[\label{fig:csilica-sample-expdens-fstar-100ps}]{\includegraphics[width=8cm]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_100ps.pdf}}
-    \subfigure[\label{fig:csilica-sample-expdens-fstar-1ns}]{\includegraphics[width=8cm]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_1ns.pdf}}
-    \subfigure[\label{fig:csilica-sample-expdens-fstar-10ns}]{\includegraphics[width=8cm]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_10ns.pdf}}
-    \caption{Dependence of $\kappa$ on the choice of the cutoff frequency $f^*$, estimated from \emph{one} sample of (a) $100\un{ps}$, (b) $1\un{ns}$, and (c) $10\un{ps}$ of the ``original'' and VR heat flux time series. 
-    The original and VR periodograms are reported for reference with grey and black lines, respectively.}
+    \subfigure[\label{fig:csilica-sample-expdens-fstar-100ps}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_100ps.pdf}}
+    \hfill
+    \subfigure[\label{fig:csilica-sample-expdens-fstar-1ns}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_1ns.pdf}} \\
+    \subfigure[\label{fig:csilica-sample-expdens-fstar-10ns}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_expdens_kappa_fstar_VR_10ns.pdf}}
+    \hfill
+    \subfigure[\label{fig:csilica-sample-expdens-psd-VR}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_expdens_psd_VR_10ns.pdf}}
+    \caption{Dependence of $\kappa$ on the choice of the cutoff frequency $f^*$, estimated from \emph{one} sample of (a) $100\un{ps}$, (b) $1\un{ns}$, and (c) $10\un{ps}$ of the ``original'' and VR heat flux time series; (d) periodograms of the original and the VR heat flux time series.}
     \label{fig:csilica-sample-expdens-fstar}
 \end{figure}
-Fig.~\ref{fig:csilica-sample-expdens-fstar} -- stability of $\kappa$ as a function of $f^*$ increases with the length of the trajectory, as its predicted error decreases. The values and errors of $\kappa$ obtained from the VR time series are equivalent to the ones obtained from the original time series, and are slightly more stable with $f^*$. This is probably due to the much smaller power of the power spectrum of the VR heat flux, that may decrease the small artifacts introduced by the low-pass filter applied before resampling. 
-Any frequency in the central region of the spectrum can be taken as $f^*$, hence we choose to set $f^*=28\un{THz}$. Conversely, a $f^*$ too small makes $\kappa$ deviate sensibly, due to the fact that the low-pass filter is not strong enough to avoid aliasing effects that modify the spectrum of the resampled time series; instead, a $f^*$ that is too high ($f^*\gtrsim 60\un{THz}$) induces a bias in $\kappa$, due to the fact the log-periodogram diverges to negative values and we start to have problems of numerical precision.
+
+We first study the value of the thermal conductivity estimator as a function of the cutoff frequency $f^*$ and the length of the trajectory. 
+In Fig.~\ref{fig:csilica-sample-expdens-fstar}(a-c) we report the average $\kappa$ obtained for a $100\un{ps}$, $1\un{ns}$, and $10\un{ns}$ trajectory, respectively. 
+In general, all the $f^*$ in the middle region give compatible results, with more instabilities arising at the lowest frequency values (likely due to increasing aliasing effects that alter the spectrum), that indeed show an increased error and and should be avoided in this case. These fluctuations decrease in longer trajectories, as the statistical error obviously decreases. Besides, a $f^*$ that is too high ($f^*\gtrsim 60\un{THz}$, not shown) also induces a bias in $\kappa$, due to the fact the log-periodogram diverges to negative values and we start to have problems of numerical precision. 
+A $100\un{ps}$ trajectory ultimately gives compatible results with the $10\un{ns}$ one, as reported in Table~\ref{tab:csilica-sample-kappa-cepstral}
+\LEnote{Ricontrollare la seguente: Incidentally, we notice that the error on $\kappa$ estimed by cepstral analysis decays slower than expected (by Eq.~\eqref{eq:sigma*}) with the length of the trajectory. dovuto all'aumento di $P^*$ con $t_\mathrm{run}$, invece di rimanere fermo. forse perche' l'aic pesa di piu' i picchetti dello spettro)}
+
+\begin{table}[!tb]
+    \centering
+    \begin{tabular}{r|cc|c}
+        $t_\mathrm{run}$ & \textbf{standard-HC} & \textbf{VR-HC} & \textbf{$\langle P^* \rangle$} \\
+        $100\un{ps}$ & $2.19 \pm 0.25 (12\%)$  & $2.17 \pm 0.27 (12\%)$  $47-36$\\
+        $1\un{ns}$   & $2.18 \pm 0.15 (9.5\%)$ & $2.18 \pm 0.20 (9.2\%)$ $176-154$ \\
+        $10\un{ns}$  & $2.24 \pm 0.08 (3.5\%)$ & $2.25 \pm 0.07 (3.3\%)$ $448-377$
+    \end{tabular}
+    \caption{Caption}
+    \label{tab:csilica-sample-kappa-cepstral}
+\end{table}
+
+We also analyzed a ``decorrelated'' heat current, obtained by the velocity-renormalization (VR) method described in Sec.~\ref{sec:gauge-renormalization}. As shown in Fig.~\ref{fig:csilica-sample-expdens-psd-VR}, this method reduces the power of the spectrum by a large amount, removing part of the signal that does not contribute to the thermal conductivity, without affecting the low-frequency region, hence the value at zero frequency. 
+This procedure is very useful to reduce the variance of the energy current signal obtained from \abinitio simulations, however here it does not change much the results, nor the statistical error in a significant way, as reported in Table~\ref{tab:csilica-sample-kappa-cepstral}. 
+The number of cepstral coefficients $P^*$ is reduced as the spectrum is smoother, but the error ultimately increases if we use a low $f^*$ , due to the fact that the optimal $P^*$ becomes too low. 
 
 
 
