@@ -3,7 +3,7 @@
 \begin{LEtext}
 The evaluation of transport coefficients in extended systems, such as thermal conductivity or shear viscosity, is known to require impractically long simulations. The Green-Kubo equation, Eq.~\eqref{eq:GK-complete}, expresses the thermal conductivity as the integral of the autocorrelation function of the heat flux, \emph{i.e.} an autocorrelation time. 
 
-Many methods have been formulated to try to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criteria to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that they always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
+Many methods have been formulated to try to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criterion to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that they always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
 
 The recent advances in the quantum simulations of thermal transport reinvigorated the interest in this subject and made it urgent to devise a data-analysis technique to make these simulations affordable, thus paving the way to the \abinitio simulation of heat transport.
 In order to solve this problem, we considered it in the light of the statistical theory of stationary time series, and we devised a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far. This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
@@ -26,7 +26,7 @@ In the following we shall focus on one-component systems, or molecular systems, 
 In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,\footnote{The issue of estimating dynamical properties in the canonical ensemble with thermostats is still matter of debate and is not completely settled. Some preliminary tests on simple systems showed that thermal conductivity is not affected by a well-designed global thermostat. However, we believe that this issue should be a matter of further dedicated studies, that fall outside the scope of this work. Therefore we decide to employ the common practice of computing dynamical properties in the microcanonical ensemble.} 
 via the classical expression, Eq.~\eqref{eq:J-classical} (Eq.~\eqref{eq:J-classical-2body} for 2-body force fields), or the quantum (DFT) one, Eq.~\eqref{eq:DFT-Eflux}.
 
-The heat current autocorrelation function (HCACF), $\langle\mathbf{J}(t)\mathbf{J}(0)\rangle$, can then be estimated as a running average of the time-lagged current products, 
+The heat current autocorrelation function (HCACF), $\langle J(t)J(0)\rangle$, can then be estimated as a running average of the time-lagged current products, 
 \begin{equation}
     \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
 \end{equation}
@@ -45,7 +45,7 @@ In Eq.~\eqref{eq:JtJ0}, the ensemble average has been expressed as a time averag
 	The shaded area surrounding each line indicates the error bars, as estimated from standard block analysis.} 
 \end{figure}
 
-To illustrate some real examples, we have run classical MD simulations using the \textsc{LAMMPS} package \cite{LAMMPS1995} of four paradigmatic systems representatite of different classes of materials, with the following setup:
+To illustrate some real examples, we have run classical MD simulations using the \textsc{LAMMPS} package \cite{LAMMPS1995} of four paradigmatic systems representative of different classes of materials, with the following setup:
 \begin{itemize}
     \item \textbf{liquid Ar}: Lennard-Jones potential as described in Ref.~\cite{Argon-FF}, at a temperature $T\approx 220\un{K}$ and density $\rho=1.55\un{g/cm^3}$, in a cubic supercell containing 864 atoms, with a time step $\Delta t=4\un{fs}$.
     \item \textbf{liquid H$_2$O}: Flexible model as in Ref.~\cite{Water-FF} at a temperature $T\approx 300\un{K}$ and density $\rho=1.0\un{g/cm^3}$, in a cubic supercell containing 180 molecules, with a time step $\Delta t=0.5\un{fs}$.
@@ -81,9 +81,9 @@ The accuracy of the transport coefficient $\kappa$ estimated by a direct integra
     \item[-] \emph{discretization/aliasing error}: the finite sampling interval of the heat current, $\epsilon$, that should be large enough to avoid aliasing effects. The Nyqvist-Shannon sampling theorem \cite{Oppenheim1999} states that the sampling period should be smaller than $\frac{1}{2f_\mathrm{max}}$, where $f_\mathrm{max}$ is the maximum frequency of the heat flux signal $J(t)$.
 \end{itemize}
 Studying the HCACF directly is very difficult, due to the fact that its values are correlated close time-lags. 
-If the fluctuations of $J(t)$ follow a Gaussian process, the variance of the HCACF estimated from a finite simulation time $\mathcal{T}$, that we denote with $\mathcal{C}_\mathcal{T}$, tends to the following limits \cite{Jones2012}:
+If the fluctuations of $J(t)$ follow a Gaussian process, the variance of the HCACF estimated from a finite simulation time $\mathcal{T}$, that we denote with $\mathcal{C}_\mathcal{T}(t)$, tends to the following limits \cite{Jones2012}:
 \begin{equation}
-    \mathrm{var} \left(\mathcal{C}_\mathcal{T}\right) \sim \left\{
+    \mathrm{var} \left(\mathcal{C}_\mathcal{T}(t)\right) \sim \left\{
     \begin{aligned}
         4 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow 0 , \\
         2 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow \infty ,
@@ -104,12 +104,14 @@ where $L^{ij}$ is the true transport coefficient, that is valid when $\mathtt{T}
 	\caption{(a) Heat current autocorrelation function, Eq.~\eqref{eq:JtJ0}, and
     (b) thermal conductivity as a function of the upper integration limit, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}), for three phases of LJ argon. Reproduced from Ref.~\cite{McGaughey2004a}.} \label{fig:argon-gk-phases-examples}
 \end{figure}
-\citet{McGaughey2006,McGaughey2004a} studied the thermal conductivity of LJ argon in different phases: fcc crystal, liquid, and amorphous. In Fig.~\ref{fig:argon-gk-phases-examples} we report the comparisons of the HCACFs of these three phases and their direct GK integrals, Eq.~\eqref{eq:kappa-integralT}. At finite time the HCACFs of solid Ar show the two-stage decay \cite{Ladd1986}, and their extension decreases as the temperature increases, as one would expect due to the decrease of phonons relaxation times. Their integral converges to the correspondent value of thermal conductivity, however the practical determination of $\kappa$ may be quite subjective. The ``first dip'' (FD) method, proposed by \citet{Li1998}, specifies its value by setting the upper limit of integration to be the first time at which the HCACF goes negative. FD may give acceptable results in solid and liquid argon, but it is not suitable to the amorphous phase and in systems with multi-atom unit cell, where the HCACF oscillates wildly around zero before slowly fading out. 
+\citet{McGaughey2006,McGaughey2004a} studied the thermal conductivity of LJ argon in different phases: fcc crystal, liquid, and amorphous. In Fig.~\ref{fig:argon-gk-phases-examples} we report the comparisons of the HCACFs of these three phases and their direct GK integrals, Eq.~\eqref{eq:kappa-integralT}. At finite time the HCACFs of solid Ar show the two-stage decay \cite{Ladd1986}, and their extension decreases as the temperature increases, as one would expect due to the decrease of phonons relaxation times. 
+Their integral converges to the correspondent value of thermal conductivity, however the practical determination of $\kappa$ may be quite subjective. Actually, in the majority of the GK studies reported in the literature, the criteria used to choose an upper limit of integration is not specified, so we guess that they are often based on simple assumption of convergence ``by sight''. 
+A few exceptions are listed in the following. For example, the ``first dip'' (FD) method, proposed by \citet{Li1998}, specifies the upper limit of integration by setting the upper limit of integration to be the first time at which the HCACF goes negative. FD may give acceptable results in solid and liquid argon, but it is not suitable to the amorphous phase and in systems with multi-atom unit cell, where the HCACF oscillates wildly around zero before slowly fading out. 
 
-In the case of unit cells with multiple atoms, where intramolecular vibrations manifest as fast oscillations in the HCACF, again, the EF method is not suited to determine $\kappa$. A rather arbitrary compromise was used by \citet{McGaughey2004b}: the GK integral function, Eq.~\eqref{eq:Lij-integralT}, is filtered with a running average \cite{MovingAverage} and the value at which it looks to converge is chosen. If the convergence is not clear one chooses to stop the integration at the point at which the oscillations reach a minimum (neck). 
+In the case of unit cells with multiple atoms, where intramolecular vibrations manifest as fast oscillations in the HCACF, again, the EF method is not suited to determine $\kappa$. A rather arbitrary compromise was used by \citet{McGaughey2004b}: the GK integral function, Eq.~\eqref{eq:Lij-integralT}, is filtered with a running average \cite{MovingAverage} and the value at which it looks to converge is chosen. If the convergence is not clear one chooses to stop the integration at the point at which the oscillations of $L^{ij}(\mathtt{T})$ reach a minimum (neck). 
 
 Other methods to to perform error analysis have been devised, based on either heuristic or rigorous arguments \cite{Howell2012,Chen2010,Jones2012,Wang_gk2017,Oliveira2017}. All require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Moreover most of them are specifically conceived and tested on crystalline solids, such as silicon, and are not suited to study disordered and complex systems. 
-For example, \citet{Jones2012} proposed a heuristic on-the-fly algorithm to detect the convergence of the block average of $\kappa$, but that needs an empirical estimate of the maximum correlation time first, and thus it is not optimal. A similar empirical criterion has also been proposed by \citet{Wang_gk2017}. \citet{Oliveira2017}, instead, proposed a method that analyses the components of the noise of the GK integral and fits them with integral functions, in order to obtain an estimate of the uncertainty on $\kappa$ of graphite.
+For example, \citet{Jones2012} proposed a heuristic on-the-fly algorithm to detect the convergence of the block average of $\kappa$, but that needs an empirical estimate of the maximum correlation time first, and thus it is not optimal. A similar empirical criterion has also been proposed by \citet{Wang_gk2017}. \citet{Oliveira2017}, instead, proposed a method that analyses the components of the noise of the GK integral and fits them with integral functions, in order to obtain an estimate of the uncertainty on $\kappa$ of graphite. 
 
 
 \subsection{Exponential fit and thermal conductivity decomposition}  \label{sec:exp-fit-decomposition}
@@ -140,7 +142,7 @@ When fast oscillations of the HCACF are present, such as in multi-atom unit cell
 %    \end{aligned}
 %\end{equation}
 %where the subscript ``$\mathrm{op}$'' refers to optical phonon modes. 
-Nevertheless, this fitting procedure is very difficult and it was found to be unsuitable for the case of amorphous silica, that therefore requires either a direct integration or an alternative approach.
+Nevertheless, this fitting procedure is very difficult and it was found to be unsuitable for materials like amorphous silica, that therefore requires either a direct integration or an alternative approach.
 
 
 \subsection{Spectral methods}  \label{sec:spectral-methods}
@@ -161,7 +163,7 @@ As was shown in Sec.~\ref{sec:Einstein}, the Wiener-Khintchine theorem allows on
 \end{equation}
 Extrapolating this limit can be very difficult if the statistical properties of the power spectrum are not taken properly into account, as we will argument in Sec.~\ref{sec:cepstral-analysis}.
 
-Some attempts were made to estimate the thermal conductivity by extrapolating the low-frequency region of the spectrum with one Lorentzian function (see Fig\ref{fig:psd-expfit-examples}) \cite{Lee1991,Volz2000}.
+Some attempts were made to estimate the thermal conductivity by extrapolating the low-frequency region of the spectrum with one Lorentzian function (see Fig.~\ref{fig:psd-expfit-examples}) \cite{Lee1991,Volz2000}.
 % (or two Lorentzian function, \emph{e.g.} \cite{Hirosaki2002}:
 %\begin{equation}
 %    S(\omega) = \frac{1}{\mathcal{T}} \left(\frac{A_1\tau_1}{\sqrt{1+\omega^2\tau_1^2}} + \frac{A_2\tau_2}{\sqrt{1+\omega^2\tau_2^2}} \right) ,
@@ -175,7 +177,7 @@ Furthermore, the small cell size may introduce artificial autocorrelations that 
 \citet{Lee1991} attributed the dip in the heat-current power spectrum of amorphous silicon found at low-frequencies (shown in Fig.~\ref{fig:aSi-expfit}) to this phenomenon, while \citet{Volz2000} attributed it to the apparent divergence of the heat-current power spectrum of crystalline silicon, reported in Fig.~\ref{fig:cSi-expfit}.
 \LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that however does not vanish even when considering much larger sized. ****FIGURA????******}
 
-It is not easy to determine \emph{a priori} at what level the power spectrum is affected by finite-size effects. In any case, let us notice that the size-dependence problem in the estimation of $\kappa$ is also present in other methods, such as the direct integration of the GK equation. In general, one should be careful to verify that the chosen simulation cell is big enough for the thermal conductivity to converge. This will also imply that low-frequency region of the power spectrum is correctly reproduced and does not exhibit unphysical features.  
+It is not easy to determine \emph{a priori} at what level the power spectrum is affected by finite-size effects. In any case, let us notice that the size-dependence problem in the estimation of $\kappa$ is also present in other methods, such as the direct integration of the GK equation. In general, one should be careful to verify that the chosen simulation cell is big enough for the thermal conductivity to converge. This will also imply that low-frequency region of the power spectrum is correctly reproduced and does not exhibit unphysical features. We will come back on this issue in Ch.~\ref{ch:silica}. 
 In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis, with a solid statistical basis.
 
 
@@ -191,7 +193,7 @@ In Sec.~\ref{sec:cepstral-analysis} we are going to present a novel method that 
 
 In Sec.~\ref{sec:exp-fit-decomposition} we saw that one may try to interpret the decay of HCACF in terms of different relaxation times to get insights into the different contributions to the thermal conductivity, though this is not obvious and clear in general. 
 The GK equation is a very general result describing the collective dissipative response of any system to a fluctuation, and it has no intrinsic connection to particular transport mechanisms \cite{Howell2012}. 
-The frequencies of the power spectrum of the HCACF have been interpreted to be related to the phonon-phonon interactions \cite{McGaughey2004a}. Conversely, in the BTE approach the thermal conductivity is computed by integrating over the frequencies of individual phonons. The difference between these two frequencies is equivalent to that between the mean free path and the correspondent phonon wavelength. 
+The frequencies of the power spectrum of the HCACF have been interpreted to be related to the phonon-phonon interactions \cite{McGaughey2004a}. Conversely, in the BTE approach the thermal conductivity is computed by integrating over the frequencies of individual phonons. The difference between these two frequencies is equivalent to that between the mean free path and the corresponding phonon wavelength. 
 
 However, in the light of the gauge invariance principle presented in Sec.~\ref{ch:gauge-invariance}, at this stage it is not very clear how much the HCACF or the power spectrum of the heat current can be interpreted in physical terms. It is evident that different definitions of the microscopic energy density (or atomic energies) will define different energy currents with very different power spectra, the only invariant quantity being the zero-frequency value, \emph{i.e.} the thermal conductivity. 
 \LEnote{**Esempio in Chap 3?**}
@@ -433,7 +435,7 @@ We summarize the steps leading to the estimation of thermal conductivity by the 
 
 
 \subsection{Benchmarks}  \label{sec:cepstral-benchmarks}
-The cepstral analysis method just presented has been benchmarked for the calculation of the thermal conductivity of the four representative systems presented in Sec.~\ref{sec:data-analysis-4systems}: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$.
+The cepstral analysis method just presented has been implemented in a Python package, \textsc{ThermoCepstrum} \cite{thermocepstrum}, and benchmarked for the calculation of the thermal conductivity of the four representative systems presented in Sec.~\ref{sec:data-analysis-4systems}: liquid Ar, liquid H$_2$0, crystalline MgO and amorphous SiO$_2$.
 After equilibration, data were collected in the NVE ensemble for trajectories whose length was chosen so as to represent realistic simulation runs that could be afforded using \emph{ab initio} MD ($\mathcal{T} = 100\un{ps}$ for Ar, H$_2$O, and a-SiO$_2$, and $\mathcal{T} =500\un{ps}$ for MgO). 
 In order to compare our estimates of the transport coefficients and their statistical errors with reliable and statistically significant reference data, in all cases we ran much longer ($\approx 50\un{ns}$) simulations. 
 This allowed us to compare our predicted conductivities with accurate values estimated from the direct integration of the GK equation, Eqs.~\eqref{eq:Lij-integralT} and \eqref{eq:kappa-integralT}, as obtained from a block average \cite{Frenkel2001} performed over the long trajectory (see Sec.~\ref{sec:direct-integration}). 
@@ -519,7 +521,7 @@ Some more comments are in order for MgO. In this case the high thermal conductiv
 By analyzing the trend of the estimate of $\log(\kappa)$ of MgO with the length of the trajectory segment analyzed, $N$, it appears that by increasing $N$ the bias decreases, and the value of $\log(\kappa)$ becomes less and less dependent on the choice of $f^*$, if we set $P^*=P_A^*$. Not surprisingly, this effect is not present in the other analyzed systems. The number of frequencies of the periodogram used for the cepstral analysis is equal to $N/2$, and the minimum frequency available for analysis is $\Delta f = \frac{1}{N\epsilon}$. 
 When the heat flux time series is characterized by a slowly decaying HCACF (a long autocorrelation time) and a sharp peak at $f\approx 0$, like in the case of MgO, a longer trajectory (\emph{i.e.} a higher number of frequencies) is required to adequately sample the low-frequency region. 
 Whether it is possible to define a minimum simulation length necessary to optimize the estimate of $\kappa$ in such critical cases is an issue that should be studied more extensively, possibly by analyzing synthetic analytic stochastic time series that can reproduce similar power spectra. 
-We believe that the Akaike Information Criterion can be improved to perform better in this critical class of systems. 
+We believe that out model selection criterion can be improved to perform better in this critical class of systems. 
 
 For the other cases, for example for a-SiO$_2$, the value of $\kappa$ as a function of the cutoff frequency $f^*$, estimated from a single $100\un{ps}$ trajectory segment, oscillates around an average value that is compatible with the distributions of Fig.~\ref{fig:histograms}. 
 Using a longer trajectory segment decreases the magnitude of these oscillations, making the estimate of $\kappa$ more stable at different $f^*$, which is compatible with the reduced variance of its distribution. 
