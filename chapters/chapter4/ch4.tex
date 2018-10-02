@@ -115,7 +115,7 @@ However, using the gauge invariance principle, it is possible to prove that a sh
 
 
 
-\subsection{Numerical computation}
+\subsection{Numerical computation}  \label{sec:dft-hc-computation}
 \begin{LEtext}
 The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-Eflux}, at time $t$ requires the atomic positions $\{\mathbf{R}\}$ and velocities $\{\mathbf{V}\}$, along with the Kohn-Sham eigenvalues $\varepsilon_v$, eigenfunctions $\phi_v(\mathbf{r})$, the ground-state electron density distributions $n(\mathbf{r}) = \sum_v |\phi_v(\mathbf{r})|^2$, and their time-derivatives. 
 
@@ -128,7 +128,7 @@ The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-Eflux}, at time $t$ re
 The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code maintained by us. 
 In order to compute the energy flux $\mathbf{J}^\smallE$, the following steps are needed: 
 \begin{enumerate}
-    \item One should extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~***REF-SAMPLING*****). 
+    \item One should extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~\ref{sec:results-quantum-current}). 
     \item For each of these time steps, two self-consistent Kohn-Sham self-consistent field calculations are performed with the \textsc{PWscf} code: one at time $t$ and one at time $t+\Delta t$. The atomic coordinates at time $t+\Delta t$ can be extrapolated from those at time $t$, simply as $\mathbf{R}(t+\Delta t) = \mathbf{R}(t) + \mathbf{V}(t) \Delta t$. The value of the finite difference $\Delta t$ is very important, and is much smaller than the time step used to evolve the dynamics with MD. A convergence check should be performed beforehand: an example is Fig.~\ref{fig:dft-curr-timestep-water} for the case of liquid water.
     \item The resulting densities are used to compute the time derivative of the electron density at time $t$, $\dot{n}(t)$, with finite differences: $\dot{n}(t) = (n(t+\Delta t) - n(t))/\Delta t$.
 \end{enumerate}
