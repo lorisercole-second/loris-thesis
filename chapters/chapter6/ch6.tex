@@ -367,12 +367,41 @@ AND THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, X)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 \section{Quantum simulations}  \label{sec:results-quantum}
-QUANTUM
+The $\S1$ sample has been simulated with Car-Parrinello MD using the \texttt{cp.x} code of the \textsc{QuantumEspresso} suite. 
+We used the PBE-GGA exchange-correlation functional \cite{Perdew1996}, **wave functions were expanded in plane waves.. with optimized norm-conserving Vanderbilt pseudopotentials (ONCVP) \cite{Schlipf2015,Hamann2013}. The system contained $432$ atoms ($144$Si, $288$O) and $2304$ electrons. 
+The electron mass was set $400\un{a.u.}$. 
+The system was thermalised for about $5\un{ps}$ at temperature $T_\mathrm{eq}$ in the NVT ensemble using the Nos\'e-Hooveer thermostat \LE{**REF**}, then it was evolved in the microcanonical ensemble for about $t_\mathrm{run}\sim 50\un{ps}$, with a Verlet-integration time step of $\epsilon_\textrm{CP}=15\un{a.u.}\approx0.36\un{fs}$. 
+We verified that the kinetic energy of the electrons and the total energies were not drifting during the whole length of the simulation. 
 
-\subsection{Setup}  \label{sec:results-quantum-setup}
+Four different equilibrium temperatures $T_\mathrm{eq}$ were simulated: $300$, $500$, $1000$, and $1500\un{K}$. For each temperature we actually run two independent simulations with different initial conditions, thus obtaining a total of $\sim 100\un{ps}$ data at each temperature in half the time. 
+Each of the CPMD calculations costed about $140\un{k}$ CPU hours.
+
+\LE{**tabella dati??*}
+
 
 \subsection{Heat current calculation}  \label{sec:results-quantum-current}
-DT HEAT CURRENT
+
+For each AIMD trajectory generated, we proceeded to the computation of the \abinitio heat current, following the procedure described in Sec.~\ref{sec:dft-hc-computation}. 
+The first important parameter to decide is the frequency at which we want to compute the heat current. For this system, we estimate that one single-step calculation of the current costs roughly $60$ CPU hours, so one can easily realize the potential cost of a $100\un{ps}$ trajectory. 
+
+\paragraph{Heat current sampling frequency}
+In fact, the period $\epsilon_\mathrm{HC}$ at which we compute the current determines the Nyqvist frequency of its power spectrum, $f_\mathrm{Ny}$, \emph{i.e.} the maximum frequency reproducible (see Sec.~\ref{sec:cepstral-nyqvist}). 
+Therefore we have to make sure the the maximum frequency of the power spectrum is smaller than $f_\mathrm{Ny}$. Of course, the longer the period, the smaller the number of steps we will need to compute. 
+
+An educated guess can be made from classical MD simulations. Examining the power spectrum of the classical heat current, we estimated that a sampling period $\epsilon_\mathrm{HC} = 30 \epsilon_\mathrm{CP} \approx 10.88\un{fs}$ would give a reasonably low $f_\mathrm{Ny}\approx 45\un{THz}$. 
+If we resample the classical time series at different sampling rates, without applying any preliminary filter, we can observe the effects of aliasing on the power spectrum. After some trials, we verified that sampling rates that lead to a decrease of spectral power $\Delta P$ (the integral of the power spectrum) of less than $1\%$, do not sensibly introduce aliasing effects that may alter the low-frequencies of the spectrum, hence the value of thermal conductivity. A $f_\mathrm{Ny}\approx 40\un{THz}$ ($\Delta P\approx 0.9\%$) does not change the estimated $\kappa$; a $f_\mathrm{Ny}\approx 35\un{THz}$, instead, cuts a tail of the spectrum ($\Delta P\approx 4\%$) and introduces important aliasing effects that ultimately change the value at zero-frequency, and should not be used. 
+
+Notwithstanding these considerations, past experience with other systems suggests us that the \abinitio heat current commonly has a larger variance than the classical one, hence a larger spectral power, that may invalidate the empirical tests just performed. 
+To verify that this was not the case, we decided to compute the \abinitio heat current of a short trajectory every $20$ CP time steps ($\epsilon_\mathrm{HC} = 20 \epsilon_\mathrm{CP} \approx 7.26\un{fs}$), and compare the results for different sampling periods ($20$, $30$, $40$, and $60$ CP time steps). 
+In Fig.~\ref{fig:results-quantum-dt-effect}
+
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
 
 \subsection{Results}  \label{sec:results-quantum-results}
 
