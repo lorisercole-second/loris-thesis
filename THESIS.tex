@@ -19,7 +19,7 @@
 \usepackage[numbers,sort&compress]{natbib}
 %\usepackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}  % bibliography
 %\addbibresource{bibliography.bib}
-\usepackage{showframe}
+%\usepackage{showframe}
 
 \widowpenalty=300  % penalties for widow lines
 \clubpenalty=300
@@ -34,7 +34,7 @@
 %\usepackage{colortbl}
 %\usepackage[margin=10pt,font=small,labelfont=rm,labelsep=endash]{caption}
 %\usepackage{hyperref}
-\usepackage[inner,right]{showlabels} % uncomment color if you comment this
+\usepackage[inner,right]{showlabels}
 
 \renewcommand{\bibfont}{\small}  % customized bibliography style
 %\setlength{\bibsep}{0pt}
@@ -75,7 +75,7 @@
 \def\abinitio{\emph{ab initio} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EDITOR COMMANDS
-%\usepackage[usenames,dvipsnames]{color}
+\usepackage[usenames,dvipsnames]{color}
 \newcommand{\editor}[2]{%
   \expandafter\newcommand\csname #1note\endcsname[1]{%
     \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%

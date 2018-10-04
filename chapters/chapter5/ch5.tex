@@ -161,18 +161,18 @@ As was shown in Sec.~\ref{sec:Einstein}, the Wiener-Khintchine theorem enables o
 \end{equation}
 Estimating this limit can be very difficult if the statistical properties of the power spectrum are not taken properly into account, as we will argument in Sec.~\ref{sec:cepstral-analysis}.
 
-Some attempts were made to estimate the thermal conductivity by extrapolating the low-frequency region of the spectrum with one Lorentzian function (see Fig.~\ref{fig:psd-expfit-examples}) \cite{Lee1991,Volz2000}.
+Some attempts were made by fitting the low-frequency region of the spectrum with one Lorentzian function (see Fig.~\ref{fig:psd-expfit-examples}) \cite{Lee1991,Volz2000}.
 % (or two Lorentzian function, \emph{e.g.} \cite{Hirosaki2002}:
 %\begin{equation}
 %    S(\omega) = \frac{1}{\mathcal{T}} \left(\frac{A_1\tau_1}{\sqrt{1+\omega^2\tau_1^2}} + \frac{A_2\tau_2}{\sqrt{1+\omega^2\tau_2^2}} \right) ,
 %\end{equation}
 %or more simply with $A_2=0$ \cite{Lee1991,Volz2000}. 
-This is the Fourier transform of an exponential correlation function, hence, not suprisingly, this expression is in good agreement with time integration results when the HCACF is well modeled by one exponential, but does not work when a long tail is present in the HCACF and whenever the exponential fit is inappropriate \cite{Schelling2002}. The same applies if we consider the sum of two Lorentzians, \emph{i.e.} the sum of two exponential functions in the time domain \cite{Hirosaki2002}. 
+This is the Fourier transform of an exponential correlation function, hence, not surprisingly, this expression is in good agreement with time integration results when the HCACF is well modeled by one exponential, but does not work when a long tail is present in the HCACF and whenever the exponential fit is inappropriate \cite{Schelling2002}. The same applies if we consider the sum of two Lorentzians, \emph{i.e.} the sum of two exponential functions in the time domain \cite{Hirosaki2002}. 
 
-\citet{Lee1991} and \citet{Volz2000} applied these fits trying to account for finite-size effects. 
+\citet{Lee1991} and \citet{Volz2000} applied these fits in amorphous and crystalline silicon, respectively, speculating that finite-size effects would affect the low-frequency region. 
 The finite size of the simulation cell sets a lower limit to the phonon wavelength that is allowed: only phonons with a wavelength shorter than the cell size are permitted to exist in the simulation domain and can contribute to the thermal conductivity.
 Furthermore, the small cell size may introduce artificial autocorrelations that do not exist in real systems, an effect that will be especially strong for phonons with long mean-free paths. 
-\citet{Lee1991} attributed the dip in the heat-current power spectrum of amorphous silicon found at low-frequencies (shown in Fig.~\ref{fig:aSi-expfit}) to this phenomenon, while \citet{Volz2000} attributed it to the apparent divergence of the heat-current power spectrum of crystalline silicon, reported in Fig.~\ref{fig:cSi-expfit}.
+%\citet{Lee1991} attributed the dip in the heat-current power spectrum of amorphous silicon found at low-frequencies (shown in Fig.~\ref{fig:aSi-expfit}) to this phenomenon, while \citet{Volz2000} attributed it to the apparent divergence of the heat-current power spectrum of crystalline silicon, reported in Fig.~\ref{fig:cSi-expfit}.
 
 \LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that however does not vanish even when considering much larger sizes. ****FIGURA????******}
 
@@ -180,7 +180,7 @@ We believe that it is not easy to determine \emph{a priori} at what level the po
 %In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis with a solid statistical basis.
 
 
-\subsection{Estimation from the Einstein relation}
+\subsection{\LE{Estimation from the Einstein relation}}
 \LEnote{***************}
 
 
@@ -408,7 +408,7 @@ We conclude that the value of the AIC is:
     \mathrm{AIC}(P) = \frac{N}{\sigma_\ell^{2}} \sum_{n=P}^{N/2} \hat{C}_{n}^{2} + 2P . \label{eq:AIC-P}
 \end{equation}
 The value of $P$ that minimizes this expression is the optimal number of parameters in the Akaike sense, $P_A^*$, as defined in Eq.~\eqref{eq:P*}.
-In Fig.~\ref{fig:kappa-convergence-Pstar} the value $P_A^*$ chosen by the AIC for the four systems is indicated.
+\LEnote{In Fig.~\ref{fig:kappa-convergence-Pstar} the value $P_A^*$ chosen by the AIC for the four systems is indicated.}
 
 
 \subsection{Nyqvist frequency}  \label{sec:cepstral-nyqvist}
