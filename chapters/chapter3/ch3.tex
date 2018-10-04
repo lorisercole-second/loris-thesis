@@ -1,29 +1,27 @@
 \chapter{Gauge invariance of heat transport coefficients} \label{ch:gauge-invariance}
 
-\begin{LEtext}
 It has long been thought that the inherent indeterminacy of any quantum mechanical expression for the energy density would hinder the evaluation of thermal transport coefficients from equilibrium \emph{ab initio} molecular dynamics (AIMD), using the Green-Kubo formalism.  
 In classical molecular dynamics this goal is achieved by decomposing the total energy of an extended system into \emph{localized} atomic contributions and by deriving from this decomposition an explicit, and allegedly unique, expression for the energy flux \cite{Irving1950}.
 
-In density-functional theory (DFT), as well as in any other quantum mechanical approach, this definition is not possible, and it has therefore long been thought that ``\emph{the Green-Kubo relation does not serve our purposes} [of computing the thermal conductivity] \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}'' \cite{Stackhouse2010b}. 
+In density-functional theory (DFT), as well as in any other quantum mechanical approach, this decomposition is not possible, and it has therefore long been thought that ``\emph{the Green-Kubo relation does not serve our purposes} [of computing the thermal conductivity] \emph{because in first-principles calculations it is impossible to uniquely decompose the total energy into individual contributions from each atom}'' \cite{Stackhouse2010b}. 
 
-In this chapter, we confute this prejudice thanks to the discovery of a \emph{gauge invariance} principle, that ensures that once an expression for the energy density has been chosen, and an energy flux derived from it, the thermal conductivity resulting from the Green-Kubo formula is well-defined, as any measurable quantity should be. 
-
+In this chapter, we confute this prejudice thanks to the discovery of a \emph{gauge invariance} principle, that ensures that the Green-Kubo formula is well-defined, even though the microscopic quantities whence it is derived are not \cite{Marcolongo2016,Ercole2016}. 
 Energy densities and fluxes are indeed ill-defined, in classical no less than in quantum mechanics, however the transport coefficients derived from them do not depend on their microscopic definition, as long as the last complies with energy \emph{extensivity} and \emph{conservation}. 
-In Section~\ref{sec:micro-illdef}, we first show the nature of this ill-definiteness and we demonstrate it in the case of classical MD simulations, providing a numerical example. We then introduce the concept of gauge invariance of thermal transport coefficients, in Section~\ref{sec:gauge-invariance} and prove it both theoretically and numerically.
-In Section~\ref{sec:MolecularFluids}, we treat the specific case of molecular fluids and give a perspective on how the gauge invariance property may be exploited to define equivalent formulations for the heat currents. These ideas may reveal to be very handy in optimizing the statistical properties of the heat currents: a task especially useful in view of the \emph{ab initio} calculation of thermal conductivity, and that can be carried out using some techniques sketched in Section~\ref{sec:gauge-renormalization}.
-In Section~\ref{sec:carbogno} \LEnote{**SPOSTO IN APPENDICE (o elimino)**} we comment on some of the classical definitions of the energy flux, using the gauge invariance principle. 
+In Section~\ref{sec:micro-illdef}, we show the nature of this indeterminacy and we demonstrate it in the case of classical MD simulations, providing a numerical example. 
+In Section~\ref{sec:gauge-invariance}, we introduce the concept of gauge invariance of thermal transport coefficients and prove it both theoretically and numerically. 
+In Section~\ref{sec:MolecularFluids}, we treat the specific case of molecular fluids and give a perspective on how the gauge invariance property may be exploited to define equivalent formulations for the heat currents. \LE{*** These ideas may reveal to be very handy in optimizing the statistical properties of the heat currents: a task especially useful in view of the \emph{ab initio} calculation of thermal conductivity, and that can be carried out using some techniques sketched in Section~\ref{sec:gauge-renormalization}.}
+%In Section~\ref{sec:carbogno} \LEnote{**SPOSTO IN APPENDICE (o elimino)**} we comment on some of the classical definitions of the energy flux, using the gauge invariance principle. 
 Finally, Section~\ref{sec:gauge-outlook} concludes this chapter by giving some future perspectives. 
-\end{LEtext}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Microscopic ill-definiteness} \label{sec:micro-illdef}
+\section{Microscopic ill-definedness} \label{sec:micro-illdef}
 
-It is often implicitly assumed that the well-definiteness of thermal transport coefficients would stem from the uniqueness of the decomposition of the system's total energy into localized, atomic, contributions. This assumption is manifestly incorrect, as any decomposition leading to the same value for the total energy as Eq.~\eqref{eq:atomic-energies} should be considered as legitimate. The difficulty of partitioning a system's energy into subsystems' contributions is illustrated in Fig.~\ref{fig:energy-partition}, which depicts a system made of two interacting subsystems. When defining the energy of each of the two subsystems, an arbitrary decision has to be made as to how the interaction energy is partitioned. In the case depicted in Fig.~\ref{fig:energy-partition}, for instance, the energy of each of the two subsystems can be defined as $\mathcal{E}(\rOmega_i) = E(\rOmega_i) + \frac{1}{2}(1\pm\lambda)W_{12}$, where $E(\rOmega_i)$ are the energies of the two isolated subsystems, $W_{12}$ their interaction energy, and $\lambda$ an arbitrary constant. In the thermodynamic limit, when all the subsystems' energies are much larger than the interaction between any pairs of them, the value of the $\lambda$ constant is irrelevant. When it comes to defining energy densities (\emph{i.e.} energies of infinitesimal portions of a system) or atomic energies, instead, the magnitude of the interaction between different subsystems is comparable to their energies, which become therefore intrinsically ill-defined.
+It is often implicitly assumed that the well-definedness of thermal transport coefficients would stem from the uniqueness of the decomposition of the system's total energy into localized, atomic, contributions. This assumption is manifestly incorrect, as any decomposition leading to the same value for the total energy as Eq.~\eqref{eq:atomic-energies} should be considered as legitimate. The difficulty of partitioning a system's energy into subsystems' contributions is illustrated in Fig.~\ref{fig:energy-partition}, which depicts a system made of two interacting subsystems. When defining the energy of each of the two subsystems, an arbitrary decision has to be made as to how the interaction energy is partitioned. In the case depicted in Fig.~\ref{fig:energy-partition}, for instance, the energy of each of the two subsystems can be defined as $\mathcal{E}(\rOmega_i) = E(\rOmega_i) + \frac{1}{2}(1\pm\lambda)W_{12}$, where $E(\rOmega_i)$ are the energies of the two isolated subsystems, $W_{12}$ their interaction energy, and $\lambda$ an arbitrary constant. In the thermodynamic limit, when all the subsystems' energies are much larger than the interaction between any pairs of them, the value of the $\lambda$ constant is irrelevant. When it comes to defining energy densities (\emph{i.e.} energies of infinitesimal portions of a system) or atomic energies, instead, the magnitude of the interaction between different subsystems is comparable to their energies, which become therefore intrinsically ill-defined.
 
 \begin{figure}[t]
     \begin{minipage}{0.45\textwidth}
-        \centering \includegraphics[width=5cm]{chapters/chapter3/figures/blob.pdf}
+        \centering \includegraphics[width=4.5cm]{chapters/chapter3/figures/blob.jpg}
     \end{minipage}
     \begin{minipage}{0.45\textwidth}
         \begin{align*}
@@ -84,11 +82,9 @@ We computed different definitions of the energy flux of Eq.~\eqref{eq:gamma-clas
 \end{equation}
 In Fig.~\ref{fig:argon-gauge-acf} we display the resulting macroscopic energy-flux autocorrelation functions, $\langle \mathbf{J}_{\gamma}^{\smallE}(t) \cdot \mathbf{J}_{\gamma}^{\smallE}(0) \rangle$, that dramatically depend on the definition of the $\gamma$ matrix in Eqs.~\eqref{eq:gamma-atomic-energies} and \eqref{eq:gamma-classical-current}.  Notwithstanding, the integrals of all these time correlation functions tend to the same limit at large integration times, as shown in Fig.~\ref{fig:argon-gauge-kappa}.
 
-\begin{LEtext}
-The ill-definiteness of the atomic energies and of the heat current was already noticed by some authors. \citet{Schelling2002} computed the thermal conductivity of Stillinger-Weber \cite{Stillinger1985} silicon and noticed that it was fairly insensitive to the particular definition used, and concluded that the fact that there is no rigorous and unique definition is not a serious impediment to using the GK method. Ten years later, \citet{Howell2012} studied the same system more extensively, and found that the energy decomposition in the three-body interaction term gives a negligible contribution to the computed thermal conductivity, even though he did not recognize the ill-definiteness of the two-body atomic energy term.
+The ill-definition of the atomic energies and of the heat current was already noticed by some authors. \citet{Schelling2002} computed the thermal conductivity of Stillinger-Weber \cite{Stillinger1985} silicon and noticed that it was fairly insensitive to the particular definition used, and concluded that the fact that there is no rigorous and unique definition is not a serious impediment to using the GK method. Ten years later, \citet{Howell2012} studied the same system more extensively, and found that the energy decomposition in the three-body interaction term gives a negligible contribution to the computed thermal conductivity, even though he did not recognize the ill-definition of the two-body atomic energy term.
 
 How is it that different definitions of the energy flux would lead to the same value for the thermal conductivity? The fundamental origin of this conundrum involves two intrinsic properties of the total energy: \emph{extensivity} and \emph{conservation}, that lead us to the discovery of a gauge invariance principle for thermal transport coefficients.
-\end{LEtext}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
@@ -137,12 +133,11 @@ The expectation of the time-lagged products in Eq.~\eqref{eq:L=L'} factorizes in
 
 We summarize the gauge invariance principle with a theorem.
 \begin{theorem}[Gauge invariance] \label{th:gauge-invariance}
-Two energy fluxes that differ by a total time derivative of a bounded function, result in the same thermal conductivity (Onsager coefficient).
+Two energy fluxes that differ by a total time derivative of a bounded function result in the same thermal conductivity (Onsager coefficient).
 \end{theorem}
 
 
 \subsection{Alternative proof}
-\begin{LEtext}
 An alternative proof of the gauge invariance principle of the Onsager coefficients can be obtained using the Lemma described by \citet{Marcolongo2016}.
 
 \begin{lemma}[\citeauthor{Marcolongo2016}] \label{th:aris-theorem}
@@ -161,7 +156,7 @@ The Einstein-Helfand relation (Eq.~\eqref{eq:Einstein-Helfand-Lij}) correspondin
 \end{equation}
 where $\mathbfcal{D}^X(\mathcal{T})=\int_0^{\mathcal{T}} \mathbf{J}^X(t) dt$ is the displacement associated with the flux $\mathbf{J}^X$. It follows that:
 \begin{equation}
-    L^{C} = L^{A} + L^{B} + \lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\textbf{}}.
+    L^{C} = L^{A} + L^{B} + \lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\mathcal{T}}.
 \end{equation}
 Canonical averages of products of phase-space functions can be seen as scalar products:\footnote{Let us consider two random variables, $X$ and $Y$, and $Z=(X+aY)^2$, where $a\in \mathbb{R}$ is a constant. By definition $Z$ is not negative, and $0\leq \langle Z \rangle = \langle X^2 \rangle + a^2 \langle Y^2 \rangle + 2a \langle XY \rangle$. If we take $a = -\frac{\langle XY \rangle}{\langle Y^2 \rangle}$, we obtain the Schwartz inequality
 \begin{equation} \label{eq:schwartz-ineq}
@@ -192,8 +187,8 @@ for any $\mathcal{T}>0$. By letting $\mathcal{T}\rightarrow\infty$, Eq.~\eqref{e
 \end{proof}
 
 \smallskip
-Thanks this theorem, if we define $\mathbf{J}'(t)$ as in Eq.~\eqref{eq:macroscopic_flux_gauge}, we shall have that $\left| \kappa' - \kappa - \kappa_{\dot{\mathbf{P}}} \right| \leq 2 \sqrt{\kappa \kappa_{\dot{\mathbf{P}}}}$. Since $\mathbf{\dot{P}}$ is a bounded function and using the Einstein-Helfan relation (Eq.~\ref{eq:Einstein-Helfand-Lij}), we have that $\kappa_{\dot{\mathbf{P}}} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle |\dot{\mathbf{P}}| \right\rangle}{\mathcal{T}} = 0$, hence $\kappa = \kappa'$. 
-\end{LEtext}
+Thanks this theorem, if we define $\mathbf{J}'(t)$ as in Eq.~\eqref{eq:macroscopic_flux_gauge}, we shall have that $\left| \kappa' - \kappa - \kappa_{\dot{\mathbf{P}}} \right| \leq 2 \sqrt{\kappa \kappa_{\dot{\mathbf{P}}}}$. Since $\mathbf{\dot{P}}$ is a bounded function and using the Einstein-Helfand relation (Eq.~\ref{eq:Einstein-Helfand-Lij}), we have that $\kappa_{\dot{\mathbf{P}}} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle |\dot{\mathbf{P}}| \right\rangle}{\mathcal{T}} = 0$, hence $\kappa = \kappa'$. 
+
 
 
 \section{Molecular fluids}  \label{sec:MolecularFluids}
@@ -203,7 +198,7 @@ Let us consider a molecule of chemical formula $A_{N_A} B_{N_B}\cdots$, where $A
 \begin{equation}
   \mathbf{J}^X = \frac{1}{N_X}\sum_{n\in X} \mathbf{V}_n. \label{eq:JX}
 \end{equation}
-If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation requires that $\sum_X M_X N_X \mathbf{J}^X = 0$ in the center-of-mass reference frame. The flux $\mathbf{J}^{XY} = \mathbf{J}^{X}-\mathbf{J}^{Y}$ is the total time derivative of a bounded vector, because its integral is the sum over all the molecules of the difference between the average atomic positions of either species within a same molecule, which is obviously bounded if molecules do not dissociate. As any number flux $\mathbf{J}^X$ can be expressed as a linear combination of the total momentum and of several $\mathbf{J}^{XY}$ fluxes, each of them is the total time derivative of a bounded vector. Therefore, by the gauge invariance theorem, the Onsager coefficient coupling any of these atomic fluxes with any other or with the energy flux vanishes. We conclude that energy is the only conserved quantity relevant for heat transport in a molecular fluid, and that the energy-flux autocorrelation function directly yields the thermal conductivity, as in Eq.~\eqref{eq:GK}.
+If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation requires that $\sum_X M_X N_X \mathbf{J}^X = 0$ in the center-of-mass reference frame. The flux $\mathbf{J}^{XY} = \mathbf{J}^{X}-\mathbf{J}^{Y}$ is the total time derivative of a bounded vector, because its integral is the sum over all the molecules of the difference between the average atomic positions of either species within a same molecule, which is obviously bounded if molecules do not dissociate. As any number flux $\mathbf{J}^X$ can be expressed as a linear combination of the total momentum and of several $\mathbf{J}^{XY}$ fluxes, each of them is the total time derivative of a bounded vector. Therefore, by the gauge invariance theorem, the Onsager coefficient coupling any of these atomic fluxes with any other or with the energy flux vanishes. We conclude that energy is the only relevant conserved quantity relevant for heat transport in a molecular fluid, and that the energy-flux autocorrelation function directly yields the thermal conductivity, as in Eq.~\eqref{eq:GK}.
 
 
 \section{Formation and self-energy contributions in heat currents}  \label{sec:gauge-renormalization}
@@ -211,19 +206,16 @@ If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation re
 \LEnote{** Ma forse questa sezione va spostata nel cap.5 (data analysis) ?***}
 
 
-\section{Comment on the classical definition of heat flux in solids}  \label{sec:carbogno}
-\LEnote{*** dimostrazione semplice con teorema di Aris che corrente ``Leyla'' = corrente di calore, e non vale per quella ``di Carbogno'' *** SE HO TEMPO, SPOSTO IN APPENDICE (o elimino)***}
+%\section{Comment on the classical definition of heat flux in solids}  \label{sec:carbogno}
+%\LEnote{*** dimostrazione semplice con teorema di Aris che corrente ``Leyla'' = corrente di calore, e non vale per quella ``di Carbogno'' *** SE HO TEMPO, SPOSTO IN APPENDICE (o elimino)***}
 
 
 
 \section{Outlook}  \label{sec:gauge-outlook}
-\begin{LEtext}
 The discovery of the gauge invariance principle provides the theoretical foundation for the formulation of a microscopic theory of adiabatic heat transport in the framework of density functional theory (DFT). The first such formulation is presented in Chapter~\ref{ch:dft-heat}. 
 
-Furthermore, this principle opens the possibility of designing the definition of the local energy (both in terms of atomic energies or energy densities), so as to optimize the convergence of the thermal conductivity estimator.
-The Marcolongo-Schwartz theorem, Eq.~\eqref{eq:aris-theorem}, ensures that if a flux $\mathbf{J}^B$ does not contribute to the conductivity (\emph{i.e.} it has a vanishing GK integral, $L^B=0$), it is possible to the define a new flux $\mathbf{J}^C=\mathbf{J}^A+\mathbf{J}^B$ that will yield the same conductivity of $\mathbf{J}^A$. Even though $L^C=L^A$, the statistical properties of two such equivalent currents need not be the same, in that the fluctuations of their correlation functions will be different, and the resulting GK integral, Eq.~\eqref{eq:GK-complete} will depend differently on the upper limit of integration, as it was the case in the example shown in Fig.~\ref{fig:argon-gauge}.
+Furthermore, this principle opens the wat to designing the definition of the local energy (both in terms of atomic energies or energy densities), so as to optimize the convergence of the thermal conductivity estimator.
+Lemma~\ref{th:aris-theorem}, Eq.~\eqref{eq:aris-theorem}, ensures that if a flux $\mathbf{J}^B$ does not contribute to the conductivity (\emph{i.e.} it has a vanishing GK integral, $L^B=0$), it is possible to the define a new flux $\mathbf{J}^C=\mathbf{J}^A+\mathbf{J}^B$ that will yield the same conductivity of $\mathbf{J}^A$. Even though $L^C=L^A$, the statistical properties of two such equivalent currents need not be the same, in that the fluctuations of their correlation functions will be different, and the resulting GK integral, Eq.~\eqref{eq:GK-complete} will depend differently on the upper limit of integration, as it was the case in the example shown in Fig.~\ref{fig:argon-gauge}.
 We shall see that in the particular case of DFT thermal transport, for some peculiar systems, the natural definition of energy density and flux may make the estimate of the thermal conductivity very difficult, due to the large statistical fluctuations of the correlation functions. In this cases, the gauge invariance principle can come to the rescue.
 
-Besides, the general concept of gauge invariance of heat conductivity will likely apply to other transport properties as well, such as ionic conduction, viscosity, and many others, and/or simulation methodologies, such as those based on a neural-network representation of interatomic potentials, which hold the promise of a strong and long-lasting impact on molecular simulations. 
-\end{LEtext}
-\LEnote{**CIT. Martin per gauge invariance viscosity?**}
+Besides, the general concept of gauge invariance of heat conductivity will likely apply to other transport properties as well, such as ionic conduction, viscosity, and many others \cite{Chetty1992}, and/or simulation methodologies, such as those based on a neural-network representation of interatomic potentials, which hold the promise of a strong and long-lasting impact on molecular simulations. 

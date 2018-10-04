@@ -49,7 +49,7 @@ Instead, the full vibrational spectrum is not well described classically, but it
 
 
 \paragraph{Vitreous silica}
-Vitreous silica (and silicate glasses in general) has been the subject of significant research efforts in the last decades, due to its many technological applications that range from thermal insulation to laser engineering, semiconductor fabrication, and optical communication.
+Vitreous silica (a-SiO$_2$, and silicate glasses in general) has been the subject of significant research efforts in the last decades, due to its many technological applications that range from thermal insulation to laser engineering, semiconductor fabrication, and optical communication.
 In particular, thanks to its excellent UV transparency, mechanical stability, and chemical durability, silica can be used in many optical applications, such as the diffractive elements and the protective windows of the optics assemblies of inertial confinement fusion facilities. In these facilities, extremely intense nanosecond laser pulses are used and can seriously challenge the durability the optical glasses. It is indeed well established that the small defects or impurities of the glass may cause local lattice heating and melting, resulting in damage craters that will rapidly degrade its optical performance \cite{Miller2004,Canaud2004,Miller2010,Chambonneau2014,Kuzuu1999,Stuart1995,Wong2006,Carr2010,Saito2000}. Moreover, these local damages can be mitigated by using pulsed laser treatments that increase the damage sites to temperatures of $2000-5000\un{K}$ in $10^{-9}$ down to $10^{-12}\un{s}$ and partially restore the desired optical properties \cite{Soules2011}. 
 The interpretation of these types of damage processes require the study of thermal properties and the prediction of the thermal conductivity of silica glass, especially in these extreme conditions that experiments cannot probe.
 
@@ -58,7 +58,7 @@ To cite an example, borosilicate glasses (BSG) are broadly used to vitrify and i
 Predicting the thermal conductivity of silica also represents the first step towards the prediction of the thermal conductivity of more complicated glasses such as BSG, whose components are characterized by a complex chemistry that more is difficult to model. 
 
 
-\paragraph{The problem of computing thermal conductivity}
+\paragraph{Computing thermal conductivity}
 
 Notwithstanding its fundamental importance, ``\emph{thermal conductivity has proven to be one of the most difficult transport coefficients to calculate}'' \cite{Evans1990} and its simulation is still today a conceptual, no less than practical, challenge to our materials modeling capabilities. 
 In order to compute $\kappa$, one needs a microscopic theory that describes the conduction of heat carriers, \emph{i.e.} electrons and lattice vibrations (phonons). Hereafter we will focus only on lattice vibrations, the only ones contributing to heat transport in \emph{insulators} (the electrons following adiabatically in their ground state), to which we restrict our attention. 
@@ -69,16 +69,16 @@ About thirty years later, Green and Kubo (GK) independently expressed the therma
 \end{equation}
 where the brackets indicate ensamble averages, thus allowing its computation from simple equilibrium molecular dynamics (MD) simulations. 
 
-In the meantime, a few decades ago, our abilities to understand and predict the properties of materials were boosted by the advent of density functional theory (DFT) \LE{[***REF***]}, which allows computing interactions entirely from quantum mechanics, thus freeing us from the need to leverage prior experimental knowledge, in order to perform MD simulations. 
+In the meantime, a few decades ago, our abilities to understand and predict the properties of materials were boosted by the advent of density functional theory (DFT) \cite{Hohenberg1964,Kohn1965,Martin2008}, which allows computing interactions entirely from quantum mechanics, thus freeing us from the need to leverage prior experimental knowledge, in order to perform MD simulations. 
 
 Recent developments allowed the implementation of the BTE from first principles, thus making it the state of the art technique to compute $\kappa$ of bulk crystalline materials (\emph{e.g.} Si, Ge, diamond \cite{Broido:2007iu,Ward2009}) and nanostructures (\emph{e.g.} graphene and 2D materials \cite{Fugallo2014}). \emph{Ab initio} BTE also provides insights into the mechanisms of heat transport, by breaking down the contributions to $\kappa$ into single carrier properties. 
 Nonetheless, the applicability of the BTE approach is limited to periodic materials at low temperatures, where the harmonic approximation of normal modes applies or anharmonic effects are very limited, and it cannot be straightforwardly applied to disordered systems, such as glasses and liquids, were phonons are not even defined, and for which MD is a natural choice. 
 
-On the other hand, MD is set to overcome these limitations: it allows to study non-periodic and highly anharmonic systems in a straightforward way and to compute their thermal conductivity accounting for full anharmonicity. The only inputs required are the atomic structure and an appropriate interatomic potential, which can be constructed empirically, \emph{e.g.} by fitting previous experimental or \abinitio results using force fields or modern neural networks (classical MD), or directly by first principles DFT calculations (\abinitio MD, AIMD). 
+On the other hand, MD is set to overcome these limitations: it allows to study non-periodic and highly anharmonic systems in a straightforward way and to compute their thermal conductivity accounting for full anharmonicity. The only inputs required are the atomic structure and an appropriate interatomic potential, which can be constructed empirically, \emph{e.g.} by fitting previous experimental or \abinitio results using force fields or modern neural networks (classical MD), or directly by first-principles DFT calculations (\abinitio MD, AIMD). 
 Once one has these ingredients, $\kappa$ can be computed from equilibrium MD (EMD) or non-equilibrium MD (NEMD) simulations. The latter directly exploits the Fourier law, Eq.~\eqref{eq:Fourier-law}, and applies straightforwardly to finite systems and interfaces, but suffers from severe practical difficulties, such as finite-size and non-linear effects, that have to be carefully accounted for. 
 Instead, we focus on EMD simulations, from which the thermal conductivity can be computed directly via the GK equation, Eq.~\eqref{eq:GK-intro}, that only requires an expression for the \emph{heat current}. 
 For classical empirical potentials, such expression can be readily obtained as a sum of atomic contributions, containing the atomic coordinates, velocities, and forces. 
-On the contrary, a corresponding expression in the framework of DFT was not considered possible until very recently, when it was formulated successfully for the first time \cite{Marcolongo2016}.
+On the other hand, a corresponding expression in the framework of DFT was not considered possible until very recently, when it was formulated successfully for the first time \cite{Marcolongo2016}.
 Indeed, despite its rigour and simplicity, the GK theory has long been deemed incompatible with DFT, because the total energy cannot be decomposed into individual localized atomic contributions, thus making the heat current ill-defined. 
 
 This conceptual prejudice hindered the development of the GK theory in AIMD simulations for many years. It was only a few years ago that the spurious nature of this belief was recognized through the discovery of a \emph{gauge invariance principle} for transport coefficients \cite{Marcolongo2016,Ercole2016}. 
@@ -86,23 +86,26 @@ This principle ensures the value of thermal conductivity ultimately estimated th
 However, the problem of univocally defining the atomic energies exists also in classical MD simulations and was recognized in the past, although applications of the GK equation resorted on what was considered their most straightforward definition, without formally justifying this choice. 
 
 On the other hand, despite these important discoveries, experience from classical MD simulations indicates that the practical implementation of the GK theory usually requires very long trajectories to estimate $\kappa$, thus making expensive quantum simulations unfeasible. 
-Several expedients have been used in the last twenty years to determine the convergence of the integral in Eq.~\eqref{eq:GK-intro} from trajectories of finite-length, for different classes of systems, yet it is very surprising that none of these is able to estimate $\kappa$ and its statistical error in an efficient and reliable way. Most of these methods are designed and tested on specific classes of systems, such as crystalline solids (for which, besides, the BTE is the preferable method), but do not work for liquids, disordered or strongly anharmonic systems, or they require extremely long MD simulations. 
-We address this problem using an innovative data-analysis method based on the \emph{spectral analysis} of stationary time series \cite{Ercole2017}. Using this method it is possible to obtain an asymptotically unbiased and consistent estimator for $\kappa$ (\emph{i.e.} the bias and statistical error go to zero in the limit of long simulations). We benchmark it numerically on four different classes of materials and we find that relatively short MD simulations, of the order of one to a few hundreds of picoseconds, are sufficient to obtain a very good statistical error on $\kappa$, of about $\sim 10\%$. 
-This achievement finally demonstrates the feasibility of \abinitio GK simulations of thermal transport and, along with the gauge invariance principle, it paves the way to their application to previously intractable materials, such as fluids, crystals under extreme conditions, and amorphous solids. 
+Several expedients have been used in the last twenty years to determine the convergence of the integral in Eq.~\eqref{eq:GK-intro} from trajectories of finite-length, yet it is very surprising that none of these is able to estimate $\kappa$ and its statistical error in an efficient and reliable way. Most of these methods are designed and tested on specific classes of systems, such as crystalline solids (for which, besides, the BTE is the preferable method), but do not work for liquids, disordered or strongly anharmonic systems, or they require extremely long MD simulations. 
+We addressed this problem using an innovative data-analysis method based on the \emph{spectral analysis} of stationary time series \cite{Ercole2017}, that allows a rigorous estimation of $\kappa$ with good statistical accuracy from optimally short MD trajectories, for different classes of materials. 
+%it is possible to obtain an asymptotically unbiased and consistent estimator for $\kappa$ (\emph{i.e.} the bias and statistical error go to zero in the limit of long simulations). We benchmark it numerically on four different classes of materials and we find that relatively short MD simulations, of the order of one to a few hundreds of picoseconds, are sufficient to obtain a very good statistical error on $\kappa$, of about $\sim 10\%$. 
+
+These two achievements finally demonstrate the feasibility of \abinitio GK simulations of thermal transport and pave the way to their application to previously intractable materials, such as fluids, crystals under extreme conditions, and glasses. 
 
 
 \medskip
-\begin{LEtext}
+
 \paragraph{Purpose of this Thesis}
-In this thesis we aim to calculate for the first time the thermal conductivity of silica glass at different temperatures by applying the \abinitio Green-Kubo theory of thermal transport. \LE{***}
-As we mentioned above, to make this possible we first need to solve some conceptual and methodological problems that involve the bottom-up definition of a heat current, and the estimation of the thermal conductivity from relatively short MD trajectories. 
-We show how it is possible to overcome these hurdles through a gauge invariance principle for thermal transport coefficients, and a rigorous data-analysis protocol. We discuss the problem of simulating an amorphous system with MD, and by means of classical MD simulations we study the effects of sample preparation on the value of thermal conductivity. 
-We then use these results to prepare and run a few first-principles simulations to compute the \abinitio thermal conductivity of a-SiO$_2$ at different termperatures using DFT. 
+In this thesis we aim to calculate for the first time the thermal conductivity of silica glass at different temperatures, by applying the \abinitio Green-Kubo theory of thermal transport. 
+We first show how it is possible the overcome the conceptual and methodological problems mentioned above, that involve the bottom-up definition of a heat current and the estimation of the thermal conductivity from optimally short MD trajectories. 
+For this scope, we present the gauge invariance principle for thermal transport coefficients and an innovative data-analysis protocol for transport coefficients. 
+We then introduce the problem of simulating an amorphous system with MD, and by means of classical MD simulations we study the effects of sample preparation on the value of thermal conductivity of a-SiO$_2$. 
+We use these results a starting point to run a few first-principles simulations aimed to compute the thermal conductivity of silica at different temperatures using DFT. 
 
 %In the this thesis we present a first application of the \abinitio Green-Kubo theory and the other methodological advances presented. 
 %Starting from a classical study, in which we study the effects of many simulation parameters on the thermal conductivity, we then compute $\kappa$ using first-principles simulations at different temperature conditions, and compare the results with experiments. 
 
-\smallskip
+\medskip
 This thesis is organized as follows. 
 
 Chapter~\ref{ch:green-kubo} introduces the Green-Kubo theory of heat transport. 
@@ -110,29 +113,32 @@ Starting from a light review of the theory of hydrodynamic variables and linear 
 
 In Chapter~\ref{ch:gauge-invariance} we present the problem of defining atomic energies and energy densities in interacting systems. We show that there is no unique way to define the heat current, nevertheless the resulting thermal conductivity is well-defined. We prove this statement by numerical simulations and by theory, introducing the principle of gauge invariance of thermal transport coefficients. 
 
-In Chapter~\ref{ch:dft-heat}, after briefly reviewing some of the most recent first-principles simulation techniques of thermal transport, we show how one can derive an \abinitio expression for the energy current in the framework of density functional theory. 
+In Chapter~\ref{ch:dft-heat}, after briefly reviewing some of the most recent first-principles simulation techniques of thermal transport, we show how one can derive and compute an \abinitio expression for the energy current in the framework of density functional theory. 
 
 Chapter~\ref{ch:data-analysis} is entirely devoted to the practical evaluation of the thermal conductivity from the GK equation. We briefly review all the analysis methods found in the literature, and comment upon their weak points. 
-We thus introduce a new technique to evaluate transport coefficients, based on the so-called \emph{cepstral analysis} of time series, and we benchmark it with classical MD simulations.
+We thus introduce a new technique to evaluate transport coefficients, based on the so-called \emph{cepstral analysis} of time series, and we benchmark it with classical MD simulations for different classes of materials.
 \LEnote{**discorsi rinormalizzazione**}
 
-Chapter~\ref{ch:silica} contains a first study of the thermal conductivity of a-SiO$_2$ using the \abinitio GK theory. 
-We simulate this material with classical MD using a widely used force field and we study the dependence of $\kappa$ on the size of the system and the quenching rate used in the virtual vitrification process. 
-We then select an optimal system size and simulate one sample with AIMD, and we compute its thermal conductivity at four different temperatures. We finally compare the results of classical and \abinitio simulations with experiments.
+In chapter~\ref{ch:silica} we study the thermal conductivity of a-SiO$_2$ using the \abinitio GK theory. 
+We discuss the aspects involved in the atomistic simulation of glass and we simulate silica with classical MD using a popular force field. In particular, we study the dependence of $\kappa$ on the size of the system and the quenching rate used in the virtual vitrification process. 
+We then select an optimal system size and simulate one sample with AIMD. 
+We compute its thermal conductivity at four different temperatures, and we finally compare the simulation results with experiments. 
 
 Chapter~\ref{ch:conclusions} finally contains our conclusions.
 
 \smallskip
-Some parts of Chapter~\ref{ch:green-kubo}, \ref{ch:gauge-invariance}, and \ref{ch:data-analysis} were extracted and adapted from the following papers that I have (co-)authored:
+Some parts of Chapter~\ref{ch:green-kubo}, \ref{ch:gauge-invariance}, and \ref{ch:data-analysis} were adapted from the following papers that I have (co-)authored:
 
 \LEnote{***LISTA ARTICOLI***}
 %\begin{list}
 %    \item \fullcite{Ercole2016}
+%    \item \fullcite{Ercole2017}
+%    \item \fullcite{Baroni2018}
+%    \item \fullcite{Bertossa2018}
 %\end{list}
 
 
 
-\end{LEtext}
 
 
 

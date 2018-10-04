@@ -1,51 +1,49 @@
-\chapter{Data analysis}  \label{ch:data-analysis}
+\chapter{Estimation of heat transport coefficients}  \label{ch:data-analysis}
 
-\begin{LEtext}
 The evaluation of transport coefficients in extended systems, such as thermal conductivity or shear viscosity, is known to require impractically long simulations. The Green-Kubo equation, Eq.~\eqref{eq:GK-complete}, expresses the thermal conductivity as the integral of the autocorrelation function of the heat flux, \emph{i.e.} an autocorrelation time. 
 
-Many methods have been formulated to try to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criterion to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that they always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
+Many methods have been formulated to estimate its value from finite-length MD simulations: direct time-integration methods, fitting with exponential functions, and spectral methods; however, few of them provide a rigorous criterion to estimate the accuracy resulting from a given MD trajectory. Different classes of systems require different approaches to error analysis, but it is widely believed that they always require so long simulation times as to be unaffordable with accurate but expensive AIMD techniques \citep{Carbogno:2017gc}. 
 
-The recent advances in the quantum simulations of thermal transport reinvigorated the interest in this subject and made it urgent to devise a data-analysis technique to make these simulations affordable, thus paving the way to the \abinitio simulation of heat transport.
-In order to solve this problem, we considered it in the light of the statistical theory of stationary time series, and we devised a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far. This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
+The recent advances in the quantum simulations of thermal transport reinvigorated the interest in this subject and made it urgent to devise a data-analysis technique to make these calculations affordable, thus paving the way to the \abinitio simulation of heat transport.
+In order to solve this problem, we considered it in the light of the statistical theory of stationary time series, and we devised a data-analysis protocol leading to an asymptotically unbiased and consistent estimate of transport coefficients (\emph{i.e.} the bias and the statistical error can be made both arbitrarily small in the limit of long simulation times) and requiring shorter simulations than used so far \cite{Ercole2017}. 
+This protocol, based on the \emph{cepstral analysis} of time series, avoids any \emph{ad-hoc} fitting procedure and naturally provides an accurate estimate of the statistical error, thus lending itself to an easy implementation and automated use. 
 While motivated by heat transport applications, our approach naturally applies to \emph{any} other transport properties that can be expressed, in a GK framework, in terms of time integrals of suitable autocorrelation functions, such as, \emph{e.g.}, ionic conductivities, viscosities, and tracer diffusivity, to name but a few. 
 
 In Section~\ref{sec:data-analysis-methods} of this chapter we review some of the techniques found in the literature to estimate the Green-Kubo integral and we illustrate some of their criticalities, along with some physical interpretations that have been proposed. 
-Then, in Section~\ref{sec:cepstral-analysis}, we reformulate the problem in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from ``\emph{cepstral analysis}'', in the case of solids and one-component fluids. We validate this method with extensive benchmarks on the calculation of the thermal conductivity of different classes of materials. 
+In Section~\ref{sec:cepstral-analysis}, we reformulate the problem in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from cepstral analysis in solids and one-component fluids. We validate this method with extensive benchmarks on the calculation of the thermal conductivity of different classes of materials. 
 In Section~\ref{sec:data-analysis-multicomponent} we show how to extend the theory to the case of multi-component fluids. 
-We conclude the chapter with an outlook of possible future developments. 
+Section~\ref{sec:data-analysis-outlook} closes this chapter with an outlook of possible future prospects. 
 
 \LEnote{***RENORMALIZATION / DECORRELATION METHODS ?? ***}
-\end{LEtext}
 
 
 %\newpage
 \section{Estimation and interpretation of the Green-Kubo integral} \label{sec:data-analysis-methods}
 
-\begin{LEtext}
 In the following we shall focus on one-component systems, or molecular systems, where the heat flux corresponds to the energy flux. 
 In order to estimate the thermal conductivity from EMD with the GK approach, one starts by computing the energy current $\mathbf{J}$ from a MD trajectory in the microcanonical ensemble,\footnote{The issue of estimating dynamical properties in the canonical ensemble with thermostats is still matter of debate and is not completely settled. Some preliminary tests on simple systems showed that thermal conductivity is not affected by a well-designed global thermostat. However, we believe that this issue should be a matter of further dedicated studies, that fall outside the scope of this work. Therefore we decide to employ the common practice of computing dynamical properties in the microcanonical ensemble.} 
 via the classical expression, Eq.~\eqref{eq:J-classical} (Eq.~\eqref{eq:J-classical-2body} for 2-body force fields), or the quantum (DFT) one, Eq.~\eqref{eq:DFT-Eflux}.
 
-The heat current autocorrelation function (HCACF), $\langle J(t)J(0)\rangle$, can then be estimated as a running average of the time-lagged current products, 
+Thanks to ergodicity, an ensemble average is equivalent to a time average \cite{Frenkel2001}, that is an average over different starting times of a single trajectory. The heat current autocorrelation function (HCACF), $\langle J(t)J(0)\rangle$, can thus be estimated as a running average of time-lagged current products:
 \begin{equation}
     \langle J^i(t) J^j(0)\rangle \sim \frac{1}{\mathcal{T}-t} \int_0^{\mathcal{T}-t} J^i(\tau+t) J^j(\tau) \, d\tau , \label{eq:JtJ0}
 \end{equation}
 where $\mathcal{T}$ is the length of the MD trajectory, and $J^i$ indicates any Cartesian component of $\mathbf{J}_i$. 
-In Eq.~\eqref{eq:JtJ0}, the ensemble average has been expressed as a time average, \emph{i.e.} the average over different starting times of one single trajectory. Of course, if a dynamical system is ergodic, the ensemble average is equal to the time average \cite{Frenkel2001}, however, the calculation of dynamical properties, such as thermal conductivity, requires a minimum trajectory to compute time-correlation functions. On the computational point of view, ensemble averaging, \emph{i.e.} averaging over different initial configurations, exhibits similar overall cost with respect to simple time averaging, but it may significantly accelerate the calculation by exploiting parallel machines \cite{Gordiz2015}. This point can be particularly relevant when dealing with expensive AIMD simulations.
+However, the calculation of dynamical properties, such as thermal conductivity, requires a minimum trajectory to compute time-correlation functions. On the computational point of view, it was shown that ensemble averaging, \emph{i.e.} averaging over different initial configurations, exhibits similar overall cost with respect to simple time averaging, but it may significantly accelerate the calculation by exploiting parallel machines \cite{Gordiz2015}. This point can be particularly relevant when dealing with expensive AIMD simulations.
 
 
 \subsection{Example: four paradigmatic systems}  \label{sec:data-analysis-4systems}
 \begin{figure}[!tb]
     \begin{center}
-        \subfigure[\label{fig:acf-examples}]{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
-        \subfigure[\label{fig:kappa-examples}]{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
+        \subfigure[\label{fig:acf-examples}]{\LE{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********}} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_acf.pdf}}
+        \subfigure[\label{fig:kappa-examples}]{\LE{****************ESEMPI ARGON - ACQUA - SILICA - MGO ***********}} %{\includegraphics[width=10cm]{chapters/chapter5/figures/handbook_argon_egauge_kappa.pdf}}
     \end{center}
 	\caption{(a) Time correlation function of the energy current, Eq.~\eqref{eq:JtJ0}, and (b) the thermal conductivity as a function of the upper limit of integration, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}), computed from MD trajectories for Ar, H$_2$O, MgO, and a-SiO$_2$,
 	The green and red lines are computed from two different $100\un{ps}$ trajectories; the blue line is computed from a $1\un{ns}$ trajectory.
 	The shaded area surrounding each line indicates the error bars, as estimated from standard block analysis.} 
 \end{figure}
 
-To illustrate some real examples, we have run classical MD simulations using the \textsc{LAMMPS} package \cite{LAMMPS1995} of four paradigmatic systems representative of different classes of materials, with the following setup:
+To illustrate some concepts in this Section, we provide a few examples. We have run classical MD simulations \cite{LAMMPS1995} of four paradigmatic systems representative of different classes of materials, using the \textsc{LAMMPS} package and the following setup:
 \begin{itemize}
     \item \textbf{liquid Ar}: Lennard-Jones potential as described in Ref.~\cite{Argon-FF}, at a temperature $T\approx 220\un{K}$ and density $\rho=1.55\un{g/cm^3}$, in a cubic supercell containing 864 atoms, with a time step $\Delta t=4\un{fs}$.
     \item \textbf{liquid H$_2$O}: Flexible model as in Ref.~\cite{Water-FF} at a temperature $T\approx 300\un{K}$ and density $\rho=1.0\un{g/cm^3}$, in a cubic supercell containing 180 molecules, with a time step $\Delta t=0.5\un{fs}$.
@@ -77,23 +75,22 @@ The evaluation of transport coefficients thus requires averaging over multiple t
 The accuracy of the transport coefficient $\kappa$ estimated by a direct integration of Eq.~\eqref{eq:Lij-integralT} is subject to three possible sources of errors:
 \begin{itemize}
     \item[-] \emph{averaging error}: the finite simulation length $\mathcal{T}$ over which the HCACF is computed, Eq.~\eqref{eq:JtJ0}.
-    \item[-] \emph{truncation error}: the upper limit of integration $\mathtt{T}$ used in the estimation of $L^{ij}$, Eq.~\eqref{eq:Lij-integralT}, that should be much greater than the characteristic decay time of the correlation.
+    \item[-] \emph{truncation error}: the upper limit of integration $\mathtt{T}$ used in the estimation of $L^{ij}$, Eq.~\eqref{eq:Lij-integralT}, that should be much larger than the characteristic decay time of the correlation, but much smaller thatn the simulation length $\mathcal{T}$. 
     \item[-] \emph{discretization/aliasing error}: the finite sampling interval of the heat current, $\epsilon$, that should be large enough to avoid aliasing effects. The Nyqvist-Shannon sampling theorem \cite{Oppenheim1999} states that the sampling period should be smaller than $\frac{1}{2f_\mathrm{max}}$, where $f_\mathrm{max}$ is the maximum frequency of the heat flux signal $J(t)$.
 \end{itemize}
-Studying the HCACF directly is very difficult, due to the fact that its values are correlated close time-lags. 
-If the fluctuations of $J(t)$ follow a Gaussian process, the variance of the HCACF estimated from a finite simulation time $\mathcal{T}$, that we denote with $\mathcal{C}_\mathcal{T}(t)$, tends to the following limits \cite{Jones2012}:
-\begin{equation}
-    \mathrm{var} \left(\mathcal{C}_\mathcal{T}(t)\right) \sim \left\{
-    \begin{aligned}
-        4 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow 0 , \\
-        2 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow \infty ,
-    \end{aligned} \right.
-\end{equation}
-where $\tilde\tau = \frac{\int_0^\infty \langle \mathcal{C}_\mathcal{T}(t) \rangle^2 dt}{\langle \mathcal{C}_\mathcal{T}(0) \rangle^2}$. The variance of the transport coefficient estimator computed from Eq.~\eqref{eq:Lij-integralT} with a cutoff $\mathtt{T}$ thus satisfies the relation:
-\begin{equation}
-    \mathrm{var} \left(L^{ij}(\mathtt{T})\right) < 4 \left(L^{ij}\right)^2 \frac{\mathtt{T}}{\mathcal{T}} ,
-\end{equation}
-where $L^{ij}$ is the true transport coefficient, that is valid when $\mathtt{T}$ and $\mathcal{T}$ are much larger than the characteristic decay of the correlation \cite{Jones2012}.
+%Studying the HCACF directly is very difficult, due to the fact that its values are correlated close time-lags. If the fluctuations of $J(t)$ follow a Gaussian process, the variance of the HCACF estimated from a finite simulation time $\mathcal{T}$, that we denote with $\mathcal{C}_\mathcal{T}(t)$, tends to the following limits \cite{Jones2012}:
+%\begin{equation}
+%    \mathrm{var} \left(\mathcal{C}_\mathcal{T}(t)\right) \sim \left\{
+%    \begin{aligned}
+%        4 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow 0 , \\
+%        2 \frac{\tilde\tau}{\mathcal{T}} \langle \mathcal{C}_\mathcal{T}(0) \rangle^2 , \quad &\text{for }t\rightarrow \infty ,
+%    \end{aligned} \right.
+%\end{equation}
+%where $\tilde\tau = \frac{\int_0^\infty \langle \mathcal{C}_\mathcal{T}(t) \rangle^2 dt}{\langle \mathcal{C}_\mathcal{T}(0) \rangle^2}$. The variance of the transport coefficient estimator computed from Eq.~\eqref{eq:Lij-integralT} with a cutoff $\mathtt{T}$ thus satisfies the relation:
+%\begin{equation}
+%    \mathrm{var} \left(L^{ij}(\mathtt{T})\right) < 4 \left(L^{ij}\right)^2 \frac{\mathtt{T}}{\mathcal{T}} ,
+%\end{equation}
+%where $L^{ij}$ is the true transport coefficient, that is valid when $\mathtt{T}$ and $\mathcal{T}$ are much larger than the characteristic decay of the correlation \cite{Jones2012}.
 
 \begin{figure}[!tb]
     \begin{center}
@@ -104,13 +101,14 @@ where $L^{ij}$ is the true transport coefficient, that is valid when $\mathtt{T}
 	\caption{(a) Heat current autocorrelation function, Eq.~\eqref{eq:JtJ0}, and
     (b) thermal conductivity as a function of the upper integration limit, Eqs.~(\ref{eq:Lij-integralT}-\ref{eq:kappa-integralT}), for three phases of LJ argon. Reproduced from Ref.~\cite{McGaughey2004a}.} \label{fig:argon-gk-phases-examples}
 \end{figure}
+
 \citet{McGaughey2006,McGaughey2004a} studied the thermal conductivity of LJ argon in different phases: fcc crystal, liquid, and amorphous. In Fig.~\ref{fig:argon-gk-phases-examples} we report the comparisons of the HCACFs of these three phases and their direct GK integrals, Eq.~\eqref{eq:kappa-integralT}. At finite time the HCACFs of solid Ar show the two-stage decay \cite{Ladd1986}, and their extension decreases as the temperature increases, as one would expect due to the decrease of phonons relaxation times. 
 Their integral converges to the corresponding value of thermal conductivity, however the practical determination of $\kappa$ may be quite subjective. Actually, in the majority of the GK studies reported in the literature, the criteria used to choose an upper limit of integration is not specified, so we guess that they are often based on simple assumption of convergence ``by sight''. 
-A few exceptions are listed in the following. For example, the ``first dip'' (FD) method, proposed by \citet{Li1998}, specifies the upper limit of integration by setting the upper limit of integration to be the first time at which the HCACF goes negative. FD may give acceptable results in solid and liquid argon, but it is not suitable to the amorphous phase and in systems with multi-atom unit cell, where the HCACF oscillates wildly around zero before slowly fading out. 
+A few exceptions are listed in the following. For example, the ``first dip'' (FD) method, proposed by \citet{Li1998}, specifies the upper limit of integration by setting the upper limit of integration to be the first time at which the calculated HCACF goes negative. FD may give acceptable results in solid and liquid argon, but it is not suitable to the amorphous phase and in systems with multi-atom unit cell, where the HCACF oscillates wildly around zero before slowly fading out. 
 
 In the case of unit cells with multiple atoms, where intramolecular vibrations manifest as fast oscillations in the HCACF, again, the EF method is not suited to determine $\kappa$. A rather arbitrary compromise was used by \citet{McGaughey2004b}: the GK integral function, Eq.~\eqref{eq:Lij-integralT}, is filtered with a running average \cite{MovingAverage} and the value at which it looks to converge is chosen. If the convergence is not clear one chooses to stop the integration at the point at which the oscillations of $L^{ij}(\mathtt{T})$ reach a minimum (neck). 
 
-Other methods to to perform error analysis have been devised, based on either heuristic or rigorous arguments \cite{Howell2012,Chen2010,Jones2012,Wang_gk2017,Oliveira2017}. All require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Moreover most of them are specifically conceived and tested on crystalline solids, such as silicon, and are not suited to study disordered and complex systems. 
+Other methods to to perform error analysis have been devised, based on either heuristic or rigorous arguments \cite{Howell2012,Chen2010,Jones2012,Wang_gk2017,Oliveira2017}. All require an estimate of an optimal value for the upper limit of integration, which determines a bias in the estimate, and which is in general difficult to obtain. Moreover most of them are specifically conceived and tested on simple crystalline solids, such as silicon, and are not suited to study disordered and complex systems. 
 For example, \citet{Jones2012} proposed a heuristic on-the-fly algorithm to detect the convergence of the block average of $\kappa$, but that needs an empirical estimate of the maximum correlation time first, and thus it is not optimal. A similar empirical criterion has also been proposed by \citet{Wang_gk2017}. \citet{Oliveira2017}, instead, proposed a method that analyses the components of the noise of the GK integral and fits them with integral functions, in order to obtain an estimate of the uncertainty on $\kappa$ of graphite. 
 
 
@@ -153,15 +151,15 @@ Nevertheless, this fitting procedure is very difficult and it was found to be un
         \subfigure[\label{fig:cSi-expfit}]{\includegraphics[height=5cm]{chapters/chapter5/figures/Volz-cSi-fit.pdf}}
     \end{center}
 	\caption{
-	(a) Power spectrum of the heat current of amorphous silicon (solid lines) and the extrapolation required to obtain $\kappa$ (dashed lines). Reproduced from Ref.~\cite{Lee1991}. 
-	(b) Power spectrum of the heat current of crystalline silicon (dashed line) and extrapolation required to obtain $\kappa$ (solid line). $t_\mathrm{cr}$ is an estimate of the time required for phonons to propagate across the simulation domain ballistically: \citet{Volz2000} argue that for frequencies lower than this mark, phonons will be affected by artificial correlations due to the finite size of the cell. Reproduced from Ref.~\cite{Volz2000}. 
+	(a) Power spectrum of the heat current of amorphous silicon (solid lines) and Lorentzian fit used to obtain $\kappa$ (dashed lines). Reproduced from Ref.~\cite{Lee1991}. 
+	(b) Power spectrum of the heat current of crystalline silicon (dashed line) and fit used to obtain $\kappa$ (solid line). $t_\mathrm{cr}$ is an estimate of the time required for phonons to propagate across the simulation domain ballistically: \citet{Volz2000} argue that for frequencies lower than this mark, phonons will be affected by artificial correlations due to the finite size of the cell and PBC. Reproduced from Ref.~\cite{Volz2000}. 
 	} \label{fig:psd-expfit-examples}
 \end{figure}
-As was shown in Sec.~\ref{sec:Einstein}, the Wiener-Khintchine theorem allows one to express the heat conductivity in terms of the zero-frequency value of the power spectrum of the energy-flux (see Eqs.~(\ref{eq:Wiener-Khintchine}-\ref{eq:GK-S0})):
+As was shown in Sec.~\ref{sec:Einstein}, the Wiener-Khintchine theorem enables one to express the heat conductivity in terms of the zero-frequency value of the power spectrum of the energy-flux (see Eqs.~(\ref{eq:Wiener-Khintchine}-\ref{eq:GK-S0})):
 \begin{equation}
     \kappa = \frac{\rOmega}{2k_B T^2} S (\omega=0). \label{eq:kappa-S0}
 \end{equation}
-Extrapolating this limit can be very difficult if the statistical properties of the power spectrum are not taken properly into account, as we will argument in Sec.~\ref{sec:cepstral-analysis}.
+Estimating this limit can be very difficult if the statistical properties of the power spectrum are not taken properly into account, as we will argument in Sec.~\ref{sec:cepstral-analysis}.
 
 Some attempts were made to estimate the thermal conductivity by extrapolating the low-frequency region of the spectrum with one Lorentzian function (see Fig.~\ref{fig:psd-expfit-examples}) \cite{Lee1991,Volz2000}.
 % (or two Lorentzian function, \emph{e.g.} \cite{Hirosaki2002}:
@@ -171,14 +169,15 @@ Some attempts were made to estimate the thermal conductivity by extrapolating th
 %or more simply with $A_2=0$ \cite{Lee1991,Volz2000}. 
 This is the Fourier transform of an exponential correlation function, hence, not suprisingly, this expression is in good agreement with time integration results when the HCACF is well modeled by one exponential, but does not work when a long tail is present in the HCACF and whenever the exponential fit is inappropriate \cite{Schelling2002}. The same applies if we consider the sum of two Lorentzians, \emph{i.e.} the sum of two exponential functions in the time domain \cite{Hirosaki2002}. 
 
-The rationale behind these fits given by \citet{Lee1991} and \cite{Volz2000} were finite-size effects. 
-The finite size of the simulation cell sets a lower limit to the phonon wavelength that is allowed. Only phonons with a wavelength shorter than the cell size are permitted to exist in the simulation domain and can contribute to the thermal conductivity.
-Furthermore, the small cell size may introduce artificial autocorrelations that do not exist in real systems, an effect that will be especially strong for long-wavelength phonons with long mean-free paths. 
+\citet{Lee1991} and \citet{Volz2000} applied these fits trying to account for finite-size effects. 
+The finite size of the simulation cell sets a lower limit to the phonon wavelength that is allowed: only phonons with a wavelength shorter than the cell size are permitted to exist in the simulation domain and can contribute to the thermal conductivity.
+Furthermore, the small cell size may introduce artificial autocorrelations that do not exist in real systems, an effect that will be especially strong for phonons with long mean-free paths. 
 \citet{Lee1991} attributed the dip in the heat-current power spectrum of amorphous silicon found at low-frequencies (shown in Fig.~\ref{fig:aSi-expfit}) to this phenomenon, while \citet{Volz2000} attributed it to the apparent divergence of the heat-current power spectrum of crystalline silicon, reported in Fig.~\ref{fig:cSi-expfit}.
-\LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that however does not vanish even when considering much larger sized. ****FIGURA????******}
 
-It is not easy to determine \emph{a priori} at what level the power spectrum is affected by finite-size effects. In any case, let us notice that the size-dependence problem in the estimation of $\kappa$ is also present in other methods, such as the direct integration of the GK equation. In general, one should be careful to verify that the chosen simulation cell is big enough for the thermal conductivity to converge. This will also imply that low-frequency region of the power spectrum is correctly reproduced and does not exhibit unphysical features. We will come back on this issue in Ch.~\ref{ch:silica}. 
-In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis, with a solid statistical basis.
+\LEnote{**?In our experience, the power spectrum of amorphous silicon does have a shape similar to Fig.~\ref{fig:aSi-expfit}, with a dip at low-frequencies that however does not vanish even when considering much larger sizes. ****FIGURA????******}
+
+We believe that it is not easy to determine \emph{a priori} at what level the power spectrum is affected by finite-size effects. In any case, let us notice that the size-dependence problem in the estimation of $\kappa$ is also present in other methods, such as the direct integration of the GK equation. In general, one should be careful to verify that the chosen simulation cell is big enough for the thermal conductivity to converge. This will also imply that low-frequency region of the power spectrum is correctly reproduced and does not exhibit unphysical features. We will come back on this issue in Ch.~\ref{ch:silica}. 
+%In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis with a solid statistical basis.
 
 
 \subsection{Estimation from the Einstein relation}
@@ -186,21 +185,18 @@ In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} t
 
 
 \subsection{Final remarks}  \label{sec:data-analysis-remarks}
-
 Many methods have been formulated to estimate the thermal conductivity from the GK equation, but none of them is fully satisfactory. Some of them are optimized to the specific case of crystalline solids or simple liquids, and may be a good choice, however they do not really help much when dealing with amorphous solids. 
 Different classes of systems require different approaches to error analysis: in some cases these methods fail to provide rigorous criteria to estimate the accuracy resulting from a given MD trajectory, but in general all of them always require very long simulation times, thus making \abinitio simulations unaffordable. 
-In Sec.~\ref{sec:cepstral-analysis} we are going to present a novel method that will be able to give an answer to both of these problems, providing us with an efficient and accurate estimator that will allow us to tackle the study of thermal conductivity of disordered systems with equilibrium AIMD simulations. 
+In next section we are going to present a novel data-analysis method that will be able to tackle both these problems and to provide us with an efficient and accurate estimator of $\kappa$. This will finally enable us to undertake the study of thermal conductivity of glasses with equilibrium AIMD simulations. 
 
 In Sec.~\ref{sec:exp-fit-decomposition} we saw that one may try to interpret the decay of HCACF in terms of different relaxation times to get insights into the different contributions to the thermal conductivity, though this is not obvious and clear in general. 
 The GK equation is a very general result describing the collective dissipative response of any system to a fluctuation, and it has no intrinsic connection to particular transport mechanisms \cite{Howell2012}. 
 The frequencies of the power spectrum of the HCACF have been interpreted to be related to the phonon-phonon interactions \cite{McGaughey2004a}. Conversely, in the BTE approach the thermal conductivity is computed by integrating over the frequencies of individual phonons. The difference between these two frequencies is equivalent to that between the mean free path and the corresponding phonon wavelength. 
 
-However, in the light of the gauge invariance principle presented in Sec.~\ref{ch:gauge-invariance}, at this stage it is not very clear how much the HCACF or the power spectrum of the heat current can be interpreted in physical terms. It is evident that different definitions of the microscopic energy density (or atomic energies) will define different energy currents with very different power spectra, the only invariant quantity being the zero-frequency value, \emph{i.e.} the thermal conductivity. 
-\LEnote{**Esempio in Chap 3?**}
+However, in the light of the gauge invariance principle presented in Ch.~\ref{ch:gauge-invariance}, at this stage it is not very clear how much the HCACF or the power spectrum of the heat current can be interpreted in physical terms. It is evident that different definitions of the microscopic energy density (or atomic energies) will define different energy currents with very different power spectra, the only invariant quantity being their zero-frequency value, \emph{i.e.} the thermal conductivity. 
 Whether and how a particular definition can be linked to physical quantities is not yet completely understood. Therefore, extreme caution should be used when making physical interpretations out of a HCACF. 
 
-In conclusion, although the GK method yields a direct estimate of the thermal conductivity, it provides only very indirect information about the mechanisms of heat transport. We believe that different approaches, such as phonon-level methods, \emph{e.g.} methods based on a normal-modes analysis \cite{Esfarjani2011} may be able to bring better insights into the individual contributions to thermal conductivity, especially in complex or disordered systems. 
-\end{LEtext}
+In conclusion, although the GK method yields a direct estimate of the thermal conductivity, it provides only very indirect information about the mechanisms of heat transport. We believe that different approaches, such as phonon-level methods, \emph{e.g.} methods based on a normal-modes analysis \cite{Esfarjani2011}, may be able to bring better insights into the individual contributions to thermal conductivity, especially in complex or disordered systems. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,7 +205,7 @@ In conclusion, although the GK method yields a direct estimate of the thermal co
 In practice, MD gives access to a discrete sample of the flux process (a \emph{time series}), $J_n = J(n \epsilon)$, $0 \leq n \leq N-1$, where $\epsilon$ is the sampling period of the flux and $N$ the length of the time series, that we assume to be even. 
 
 
-\subsection{Periodogram}
+\subsection{Periodogram}  \label{sec:cepstral-periodogram}
 Let us define the discrete Fourier transform of the flux time series as:
 \begin{equation}
   \tilde{J}_{k}=\sum_{n=0}^{N-1} \mathrm{e}^{ 2\pi i\frac{kn}{N}} J_n, \label{eq:Jk}
@@ -221,7 +217,7 @@ The \emph{sample spectrum} $\hat S_k$, aka \emph{periodogram} in the statistics 
 \end{equation}
 and, for large $N$, it is an unbiased estimator of the power spectrum of the process, as defined in Eq.~\eqref{eq:Wiener-Khintchine}, evaluated at $\omega_k=2\pi\frac{k}{N\epsilon}$, namely: $\langle \hat S_k \rangle = S(\omega_k)$. The reality of the $\hat J$'s implies that $\tilde J_k=\tilde J^*_{N-k}$ and $\hat S_k=\hat S_{N-k}$, so that periodograms are usually reported for $0\leq k\leq \frac{N}{2}$ and their Fourier transforms evaluated as discrete cosine transforms.
 
-The space autocorrelations of conserved currents are usually short-ranged. Therefore, in the thermodynamic limit the corresponding fluxes can be seen as sums of (almost) independent identically distributed stochastic variables, so that, according to the central-limit theorem, their equilibrium distribution is Gaussian. A slight generalization of this argument allows us to conclude that any conserved-flux process, like the heat flux, is Gaussian as well. The flux time series is in fact a multivariate stochastic variable that, in the thermodynamic limit, results from the sum of (almost) independent variables, thus tending to a multivariate normal deviate. This implies that at equilibrium the real and imaginary parts of the $\tilde J_k$'s defined in Eqs.~\eqref{eq:Jk} are zero-mean normal deviates that, in the large-$N$ limit, are uncorrelated among themselves and have variances proportional to the power spectrum evaluated at $\omega_k$. For $k=0$ or $k=\frac{N}{2}$, $\tilde J_k$ is real and $\sim \mathcal{N}\left (0, \frac{N}{\epsilon}S(\omega_k) \right )$; for $k\notin\left\{ 0,\frac{N}{2}\right\}$, $\mathfrak{Re}\tilde{J}_k$ and $\mathfrak{Im}\tilde{J}_k$ are independent and both  $\sim \mathcal{N}\left (0, \frac{N}{2 \epsilon}S(\omega_k) \right )$, where $\mathcal{N} (\mu,\sigma^2)$ indicates a normal deviate with mean $\mu$ and variance $\sigma^2$. We conclude that in the large-$N$ limit the sample spectrum of the heat-flux time series reads:
+The space autocorrelations of conserved currents are usually short-ranged. Therefore, in the thermodynamic limit the corresponding fluxes can be seen as sums of (almost) independent identically distributed stochastic variables, so that, according to the central-limit theorem, their equilibrium distribution is Gaussian. A slight generalization of this argument leads us to conclude that any conserved-flux process, like the heat flux, is Gaussian as well. The flux time series is in fact a multivariate stochastic variable that, in the thermodynamic limit, results from the sum of (almost) independent variables, thus tending to a multivariate normal deviate. This implies that at equilibrium the real and imaginary parts of the $\tilde J_k$'s defined in Eqs.~\eqref{eq:Jk} are zero-mean normal deviates that, in the large-$N$ limit, are uncorrelated among themselves and have variances proportional to the power spectrum evaluated at $\omega_k$. For $k=0$ or $k=\frac{N}{2}$, $\tilde J_k$ is real and $\sim \mathcal{N}\left (0, \frac{N}{\epsilon}S(\omega_k) \right )$; for $k\notin\left\{ 0,\frac{N}{2}\right\}$, $\mathfrak{Re}\tilde{J}_k$ and $\mathfrak{Im}\tilde{J}_k$ are independent and both  $\sim \mathcal{N}\left (0, \frac{N}{2 \epsilon}S(\omega_k) \right )$, where $\mathcal{N} (\mu,\sigma^2)$ indicates a normal deviate with mean $\mu$ and variance $\sigma^2$. We conclude that in the large-$N$ limit the sample spectrum of the heat-flux time series reads:
 \begin{equation}
 \hat{S}_{k} = S(\omega_k) \,\xi_{k} \,, \label{eq:periodogram-distribution}
 \end{equation}
@@ -245,10 +241,10 @@ for $k \notin \{ 0,\frac{N}{2} \}$.
 Eqs.~\eqref{eq:periodogram-distribution} and \eqref{eq:mean-periodogram} show that ${^{\ell\!}}{\hat S_0}$ is an unbiased estimator of the zero-frequency value of the power spectrum, $\langle {^{\ell\!}}{\hat S_0} \rangle = S(0)$, and through Eq.~\eqref{eq:kappa-S0}, of the transport coefficients we are after.
 However, this estimator is not consistent, \emph{i.e.} its variance does not vanish in the large-$N$ limit. This is so because a longer time series increases the number of discrete frequencies at which the power spectrum is sampled, rather than its accuracy at any one of them.
 
-\begin{figure}[!htb]
+\begin{figure}[!tb]
     \centering
     \includegraphics[width=\textwidth]{chapters/chapter5/figures/periodograms.pdf}
-    \caption{Sample power spectra of the heat flux computed from MD trajectories for Ar, H$_2$O, a-SiO$_2$ ($100\un{ps}$), and MgO ($500\un{ps}$), obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$ (gray line, see text). The x-axis is frequencies $f=\omega/2\pi$. The solid lines in color correspond to a moving average performed over a narrow frequency window of width $1\un{THz}$, usefult to reveal the main features of the spectrum. The vertical arrows indicate the cutoff frequencies, $f^*$, used for the subsequent cepstral analysis (see text). The inset in the MgO panel is a magnification of the low-frequency region of the spectrum. Reproduced from Ref.~\cite{Ercole2017}.
+    \caption{Sample power spectra of the heat flux computed from MD trajectories for Ar, H$_2$O, a-SiO$_2$ ($100\un{ps}$), and MgO ($500\un{ps}$), obtained directly from Eq.~\eqref{eq:mean-periodogram}, with $\ell=3$ (gray line, see text). The x-axis is frequencies $f=\omega/2\pi$. The solid lines in color correspond to a moving average performed over a narrow frequency window of width $1\un{THz}$, usefult to reveal the main features of the spectrum. The vertical arrows indicate the cutoff frequencies, $f^*$, used for the subsequent cepstral analysis (see Sec.~\ref{sec:cepstral-nyqvist}). The inset in the MgO panel is a magnification of the low-frequency region of the spectrum. Reproduced from Ref.~\cite{Ercole2017}.
     }
     \label{fig:periodograms}
 \end{figure}
@@ -256,9 +252,10 @@ However, this estimator is not consistent, \emph{i.e.} its variance does not van
 Fig.~\ref{fig:periodograms} displays the periodograms of the heat fluxes of the four systems presented in Sec.~\ref{sec:data-analysis-4systems} (liquid Ar, liquid H$_2$O, crystalline MgO, and amorphous SiO$_2$), obtained from a $100\un{ps}$ ($500\un{ps}$ for MgO) classical MD trajectory in the NVE ensemble and averaged over the three Cartesian components, showing the extremely noisy behavior of the periodogram as an estimator of the spectrum. 
 A consistent estimate of the value of the power spectrum at any frequency can be obtained by segmenting a time series into several blocks of equal length and then averaging over the sample spectra computed for each of them. When the length of the trajectory grows large, so does the number of blocks, thus making the variance of the average arbitrarily small. In practice, the determination of the optimal block size is a unwieldy process that leads to an inefficient determination of the length of the trajectory needed to achieve a given overall accuracy. 
 Equivalently, a moving average \cite{MovingAverage} of the periodogram would consistently reduce the statistical noise, as happens in Fig.~\ref{fig:periodograms}, but its \emph{multiplicative} nature in Eq.~\eqref{eq:periodogram-distribution} makes it difficult to disentangle the noise from the signal and may introduce a bias. 
-Here we adopt a different approach that allows us to obtain a consistent estimate of the zero-frequency value of the power spectrum from the statistical analysis of a \emph{single} trajectory sample (\emph{i.e.} no block analysis is needed) and such that the estimate of the trajectory length necessary to achieve a given accuracy is optimal.
+Here we adopt a different approach enabling us to obtain a consistent estimate of the zero-frequency value of the power spectrum from the statistical analysis of a \emph{single} trajectory sample (\emph{i.e.} no block analysis is needed) and such that the estimate of the trajectory length necessary to achieve a given accuracy is optimal.
 
-\subsection{Log-periodogram}
+
+\subsection{Log-periodogram}  \label{sec:cepstral-log-periodogram}
 Spectral density estimation from finite empirical time series is the subject of a vast literature in the statistical sciences, embracing both parametric and non-parametric methods \cite{Stoica2005}. In the following we propose a semi-parametric method to estimate the power spectrum of a stochastic process, based on a Fourier representation of the logarithm of its power spectrum (the ``log-spectrum''). The advantage of dealing with the log-spectrum, instead of with the power spectrum itself, is twofold. First and foremost, the noise affecting the former is \emph{additive}, instead of multiplicative, thus making it simple and expedient to apply linear filters: limiting the number of components of the Fourier representation of the log-spectrum acts as a low-pass filter that systematically reduces the power of the noise and yields a consistent estimator of the log-spectrum at any given frequency. Second, as a bonus, the logarithm is usually smoother than its argument. Therefore, the Fourier representation of the logarithm of the power spectrum is more parsimonious than that of the spectrum itself.
 
 \begin{figure}
@@ -286,7 +283,7 @@ The variance of the $^{\ell\!}\lambda$ variables is:
 where $\psi'(z)$ is the tri-gamma function \cite{PolyGamma}. 
 
 
-\subsection{Cepstrum and \emph{lif}tering}
+\subsection{\emph{Ceps}trum and \emph{lif}tering}
 
 \begin{figure}[!tb]
     \centering
@@ -310,10 +307,9 @@ A generalized central-limit theorem for Fourier transforms of stationary time se
 where $^{{\ell\!}}{\mu}_{n}$ are independent zero-mean \emph{normal} deviates with variances $\left\langle {^{{\ell\!}}{\mu}_{n}^2}  \right\rangle$ $=\frac{1}{N}\sigma_\ell^2$ for $n\notin\left\{ 0,\frac{N}{2}\right\}$ and $\left\langle ^{{\ell\!}}{\mu}_{n}^{2}\right\rangle =\frac{2}{N}\sigma_{\ell}^{2}$
 otherwise.
 This result can be easily checked explicitly by using the definition of the discrete Fourier transform; the non-trivial extra information provided by the central-limit theorem is the asymptotic independence and normality of the $^{\ell}\mu$'s. Similarly to the sample power spectrum, the cepstral coefficients are real, periodic, and even: $\hat C_{n} = \hat C_{N-n}$. 
-\begin{LEtext}
-In some sense, the cepstrum can be interpreted as a sort of correlation function in a pseudo-time domain. However, it differentiates from the original HCACF for the fact its coefficients are mutually independent and normally distributed, whereas the HCACF values at close time-lags are correlated. 
-The word ``cepstrum'' was coined to distinguish it from the spectrum of a signal, and its coefficients essentially give information about the rate of change in the different spectrum bands. This concept has found many applications in voice recognition, pitch detection, characterization of seismic and radar echoes, and more. 
-\end{LEtext}
+
+In some sense, the cepstrum can be interpreted as a sort of correlation function in a pseudo-time domain. However, it differs from the original HCACF for the fact its coefficients are statistically independent and normally distributed, whereas the HCACF values at close time-lags are correlated. 
+The word ``\emph{ceps}trum'', obtained by reversing the first four letters of ``spectrum'', was coined to distinguish it from the power spectrum of a signal, and its coefficients essentially give information about the rate of change in the different spectrum bands. This concept has found many applications in voice recognition, pitch detection, characterization of seismic and radar echoes, and more. 
 
 
 \paragraph{A thermal conductivity estimator}
@@ -332,9 +328,7 @@ Inspection of Eq.~\eqref{eq:L0*} shows that $^{\ell\!}\hat{L}_{0}^{*}$ is a norm
 	\sigma_\ell^{*}(P^{*},N)^{2} &= \frac{4P^{*}-2}{N} \sigma_{\ell}^{2} \,. \label{eq:sigma*}
 \end{align}
 Using Eq.~\eqref{eq:kappa-S0}, we see that the logarithm of the conductivity can be estimated from the cepstral coefficients of the flux time series through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}), and that the resulting estimator is always normal with a variance that depends on the specifc system \emph{only} through the number of these coefficients, $P^*$. Notice that the absolute error on the logarithm of the conductivity directly and nicely yields the relative error on the conductivity itself.
-\begin{LEtext}
-In a sense, $P^*$ can be interpreted like an upper limit of integration of a correlation function in a pseudo-time domain. Again, the actual differences are the well-behaved statistical properties of the cepstral coefficients, opposed to the HCACF's ones.
-\end{LEtext}
+%In a sense, $P^*$ can be interpreted like an upper limit of integration of a correlation function in a pseudo-time domain. Again, the actual differences are the well-behaved statistical properties of the cepstral coefficients, opposed to the HCACF's ones.
 
 The value of $P^{*}$ is a property of the stochastic process underlying the time series, and is therefore independent of $N$: for any given value of $P^{*}$ the variance $\sigma_{\ell}^{*2}$ tends to zero in the large-$N$ limit, and $^\ell\hat{L}^*_0-\rLambda_{\ell}$ is thus a consistent estimator of $\log(S_{0})$. In general, all the cepstral coefficients are different from zero and assuming that many of them actually vanish introduces a bias. 
 The efficacy of this approach obviously depends on our ability to estimate the number of coefficients necessary to keep the bias introduced by the truncation to a value smaller than the statistical error (that increases with $P^*$), while maintaining the magnitude of the latter at a prescribed acceptable level. 
@@ -348,24 +342,31 @@ The choice of $P^*$ is the subject of \emph{model selection} theory, another vas
     Filtered low-frequency region of the power spectrum of \LEnote{******} obtained by limiting the number of cepstral coefficients to various values of $P^*$, Eq.~\eqref{eq:filtered-psd}. $P^*=7$ is the cutoff value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}. Grey: the unfiltered periodogram obtained from Eq.~\eqref{eq:periodogram-def}.
     }  \label{fig:filtered-psds}
 \end{figure}
-\begin{figure}[!tb]
-    \centering
-    %\includegraphics[width=8cm]{chapters/chapter5/figures/kappa_convergence.pdf}
-    \caption{
-    Thermal conductivity of \LEnote{******} estimated from Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}) as a function of the cutoff, $P^*$. The colored bands indicate one standard deviation as estimated from theory. The vertical dashed line indicates the value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}, $P_A^*$.
-    }  \label{fig:kappa-convergence-Pstar}
-\end{figure}
+%\begin{figure}[!tb]
+%    \centering
+%    \includegraphics[width=8cm]{chapters/chapter5/figures/kappa_convergence.pdf}
+%    \caption{
+%    \LEnote{** RIMUOVERE?? **}
+%    Thermal conductivity of \LEnote{******} estimated from Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}) as a function of the cutoff, $P^*$. The colored bands indicate one standard deviation as estimated from theory. The vertical dashed line indicates the value suggested by the Akaike's information criterion, Eq.~\eqref{eq:AIC-P}, $P_A^*$.
+%    }  \label{fig:kappa-convergence-Pstar}
+%\end{figure}
 
 In Fig.~\ref{fig:filtered-psds} we report the low-frequency region of the spectrum of the four analysed systems obtained by limiting the number of cepstral coefficients to $P^*$:
 \begin{equation}
     ^\ell\hat{S}_k^* = \exp\left[ 2\sum_{n=1}^{P^*-1} {}^\ell\hat{C}_n \mathrm{e}^{2\pi i \frac{k n}{N}} + {}^\ell\hat{C}_0 - {}^\ell\rLambda\right], \label{eq:filtered-psd}
 \end{equation}
-thus showing the filtering effect of this choice.
-Finally, Fig.~\ref{fig:kappa-convergence-Pstar} shows the value of thermal conductivities obtained through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}).
+thus showing the filtering effect (actually, ``\emph{lif}tering'' effect, playing on the anagram theme) of this choice.
+%Finally, Fig.~\ref{fig:kappa-convergence-Pstar} shows the value of thermal conductivities obtained through Eqs.~(\ref{eq:L0*}-\ref{eq:sigma*}).
 
 
-\begin{LEtext}
-\paragraph{Mean of periodograms vs Mean of $L_0$ estimators}
+\paragraph{Single estimate or multiple estimates?}
+\begin{figure}
+    \centering
+    %\includegraphics{}
+    \LEnote{***** FIGURA CONVERGENZA STIMA **********}
+    \caption{Caption}
+    \label{fig:cesptral-mean-estimators}
+\end{figure}
 When estimating the value of $L_{0}$ from $\ell$ multiple samples of a same process, one has two options:
 \begin{description}
     \item[(a)] compute the mean periodogram ${^{\ell\!}}\hat{S}_k$, Eq.~\eqref{eq:mean-periodogram}, and then compute ${^{\ell\!}}\hat{L}_0^*$ from Eq.~\eqref{eq:L0*}. This leads to Eq.~\eqref{eq:sigma*}:
@@ -379,13 +380,15 @@ When estimating the value of $L_{0}$ from $\ell$ multiple samples of a same proc
         \mathrm{var}\left( \frac{1}{\ell} \sum_{i=1}^\ell {^{1\!}}\hat{L}_0^{*i} \right) = \frac{1}{\ell} \sigma_1^* \left(P^*,\frac{N}{\ell}\right)^2 .
     \end{equation}
 \end{description}
-The ratio of the corresponding variances is $\frac{\sigma_{1}^{2}}{\ell\sigma_{\ell}^{2}} = \frac{\pi^2}{6\ell\psi'(\ell)} > 1$: we conclude that it is more convenient to perform the average over the periodograms (a) instead of on the final estimator (b).
+\LE{In Fig.~\ref{fig:cesptral-mean-estimators} we plot }
+the ratio of the corresponding variances, that is $\frac{\sigma_{1}^{2}}{\ell\sigma_{\ell}^{2}} = \frac{\pi^2}{6\ell\psi'(\ell)} > 1$: we conclude that it is more convenient to perform the average over the periodograms (a) instead of on the final estimator (b).
 
-The dependence of $\sigma_{\ell}$ on $\ell$, displayed in Fig.~\ref{fig:polygamma}, gives us a leverage to reduce the variance of the estimate of $L_{0}$, essentially for free. Suppose one partitions each of the $\ell$ time series of $N$ elements into $m$ segments of $N/m$ elements. When the segments are long enough, the sample average evaluated for each of them has the same variance as the value obtained from the entire trajectory, \emph{i.e.} $\sigma_\ell^{*}(P^{*},N/m)^{2}/m = \sigma_\ell^{*}(P^{*},N)^{2}$, thus providing no improvement. If instead one evaluates ${L}_{0}$ from the mean periodogram averaged over the $\ell \times m$ segments, the corresponding variance would be $\sigma_{\ell m}^2(P^*,N/m)$, which is a decreasing function of $m$ (see Fig.~\ref{fig:polygamma}) and tends to $\frac{4P^{*}-2}{\ell N}$ for $\ell m\gg 1$. In practice the asymptotic behavior $\sigma_{\ell}^{2} = \psi'(\ell) \approx 1/\ell$ is reached for $\ell \gtrsim 6$ ($6\sigma_{6}^{2}\approx 1.09$), and we propose to use $m=6$ segments when only one time series is available ($\ell=1$), thus reducing the standard deviation by a factor $\sqrt{\frac{\sigma_{1}^{2}}{6\sigma_{6}^{2}}}\approx 1.23$. When three times series are available, such as in the simulation of thermal transport in isotropic materials ($\ell=3$), the advantage of segmenting the trajectory by choosing \emph{e.g.} $m=2$ segments would be marginal ($\sqrt{\frac{3\sigma_{3}^{2}}{6\sigma_{6}^{2}}} \approx 1.04$), and we choose therefore to keep $m=1$. 
-\end{LEtext}
+The dependence of $\sigma_{\ell}$ on $\ell$ (displayed in Fig.~\ref{fig:polygamma}) gives us a leverage to reduce the variance of the estimate of $L_{0}$, essentially for free. Suppose one partitions each of the $\ell$ time series of $N$ elements into $m$ segments of $N/m$ elements. When the segments are long enough, the sample average evaluated for each of them has the same variance as the value obtained from the entire trajectory, \emph{i.e.} $\sigma_\ell^{*}(P^{*},N/m)^{2}/m = \sigma_\ell^{*}(P^{*},N)^{2}$, thus providing no improvement. If instead one evaluates ${L}_{0}$ from the mean periodogram averaged over the $\ell \times m$ segments, the corresponding variance would be $\sigma_{\ell m}^2(P^*,N/m)$, which is a decreasing function of $m$ (see Fig.~\ref{fig:polygamma}) and tends to $\frac{4P^{*}-2}{\ell N}$ for $\ell m\gg 1$. In practice the asymptotic behavior $\sigma_{\ell}^{2} = \psi'(\ell) \approx 1/\ell$ is reached for $\ell \gtrsim 6$ ($6\sigma_{6}^{2}\approx 1.09$), and we propose to use $m=6$ segments when only one time series is available ($\ell=1$), thus reducing the standard deviation by a factor $\sqrt{\frac{\sigma_{1}^{2}}{6\sigma_{6}^{2}}}\approx 1.23$. When three times series are available, such as in the simulation of thermal transport in isotropic materials ($\ell=3$), the advantage of segmenting the trajectory by choosing \emph{e.g.} $m=2$ segments would be marginal ($\sqrt{\frac{3\sigma_{3}^{2}}{6\sigma_{6}^{2}}} \approx 1.04$), and we choose therefore to keep $m=1$. 
 
 
 \subsection{Akaike Information Criterion}  \label{sec:AIC}
+We summarize here the AIC, a simple model selection criterion to choose an optimal value of $P^*$, in an automatable way and without any subjective criterion. 
+
 Given a model depending on $P$ parameters, $\theta = \{\theta_{1}, \theta_{2}, \cdots \theta_{P}\}$, the AIC \cite{Claeskens2008,Akaike1974} is a sample statistic defined as
 \begin{equation}
     \mathrm{AIC}(P) =-2\max_{\theta}\log\mathcal{L}(\theta,P)+2P,\label{eq:AIC}
@@ -516,27 +519,29 @@ In order to estimate the bias introduced by limiting the number of cepstral coef
 In Fig.~\ref{fig:kappa_vs_fstar} we report the dependence of the optimal number of cepstral coefficients, $P_A^*$, as a function of the cutoff frequency, $f^*$, along with the dependence of the resulting estimate of $\log(\kappa/\kappa_{\mathrm{ref}})$. $P_A^*$ increases (roughly linearly) with $f^*$. Notwithstanding, the estimated value of the heat conductivity, as well as its variance, is fairly insensitive on the precise value of $f^*$ as long as the latter is large enough as to encompass the lowermost prominent feature of the spectrum. 
 Some more comments are in order for MgO. In this case the high thermal conductivity, due to the strong harmonic character of slowly decaying phonon modes, manifests in the form of a narrow peak centered at $f=0$, followed by a broad plateau that carries little spectral weight. This feature determines a more pronounced increase in the number of significant cepstral coefficients as $f^*$ increases and a corresponding increase of the bias when keeping $P^*$ at the value given by the AIC. In this case, the AIC is a less reliable indicator of the number of cepstral coefficients necessary to keep the bias low. By increasing this number by a factor of two or more, the bias decreases, as indicated by the results reported in lighter colors in Fig.~\ref{fig:kappa_vs_fstar}, and eventually vanishes, as shown in Fig.~\ref{fig:L-vs-P}.
 
-\begin{LEtext}
-\paragraph{Trend with simulation length}
-By analyzing the trend of the estimate of $\log(\kappa)$ of MgO with the length of the trajectory segment analyzed, $N$, it appears that by increasing $N$ the bias decreases, and the value of $\log(\kappa)$ becomes less and less dependent on the choice of $f^*$, if we set $P^*=P_A^*$. Not surprisingly, this effect is not present in the other analyzed systems. The number of frequencies of the periodogram used for the cepstral analysis is equal to $N/2$, and the minimum frequency available for analysis is $\Delta f = \frac{1}{N\epsilon}$. 
-When the heat flux time series is characterized by a slowly decaying HCACF (a long autocorrelation time) and a sharp peak at $f\approx 0$, like in the case of MgO, a longer trajectory (\emph{i.e.} a higher number of frequencies) is required to adequately sample the low-frequency region. 
-Whether it is possible to define a minimum simulation length necessary to optimize the estimate of $\kappa$ in such critical cases is an issue that should be studied more extensively, possibly by analyzing synthetic analytic stochastic time series that can reproduce similar power spectra. 
-We believe that out model selection criterion can be improved to perform better in this critical class of systems. 
 
-For the other cases, for example for a-SiO$_2$, the value of $\kappa$ as a function of the cutoff frequency $f^*$, estimated from a single $100\un{ps}$ trajectory segment, oscillates around an average value that is compatible with the distributions of Fig.~\ref{fig:histograms}. 
-Using a longer trajectory segment decreases the magnitude of these oscillations, making the estimate of $\kappa$ more stable at different $f^*$, which is compatible with the reduced variance of its distribution. 
+\paragraph{Trend with simulation length}
+The estimate of $\kappa$ of Ar, H$_2$O, and a-SiO$_2$ obtained from a \emph{single} trajectory segment of $100\un{ps}$ is very good. As a function of the cutoff frequency $f^*$, $\log(\kappa)$ oscillates around an average value that is compatible with the distributions of Fig.~\ref{fig:histograms}. 
+Using a longer trajectory segment the magnitude of these oscillations decreases, making the estimate of $\kappa$ more stable at different $f^*$, which is compatible with the reduced variance of its distribution. 
+In the case of MgO, instead, it appears that by increasing the trajectory length $N$ the bias decreases, and the value of $\log(\kappa)$ becomes less and less dependent upon the $f^*$ choice, if we set $P^*=P_A^*$. 
+The number of frequencies used for the cepstral analysis is equal to $N/2$, and the frequency resolution is $\Delta f = \frac{1}{N\epsilon}$. 
+In a crystalline system like MgO, the long-living phonon modes manifest themselves as a slowly decaying HCACF (\emph{i.e.} a long autocorrelation time) and a sharp peak at $f\approx 0$ in the spectrum. In order to adequately sample the low-frequency region, a longer trajectory is thus required. 
+Whether it is possible to define a minimum simulation length necessary to optimize the estimate of $\kappa$ in such critical cases is an issue that should be studied more extensively, possibly by analyzing synthetic analytic stochastic time series that can reproduce similar power spectra. 
+We believe that our model selection criterion can be improved to perform better in this critical class of systems. 
+
 There are two filtering operations that can possibly introduce some spurious effect into the estimate of $\kappa$. 
 The first is the low-pass filter applied to the time series before resampling, usually a moving average, that is a rectangular window. 
-The type of filter used in these instance will affect the highest frequencies of the spectrum of the resampled heat current (due to aliasing effects and to an effect called \emph{spectral leakage}). 
-The second effect happens when we cut off the cepstrum at $P^*$. Setting a hard cutoff at $P^*$ will result in a low-filtered signal that is the result of the original log-periodogram convolved with a rectangular window. This may not be the optimal choice and the estimated log-periodogram will be affected by this, in a certain measure. 
-Therefore, both these filtering operations may add some subtle effects to the estimate of $\kappa$ and should be studied more carefully, in the future. 
-\end{LEtext}
+The type of filter used in this instance will affect the highest frequencies of the spectrum of the resampled heat current (due to aliasing effects and to an effect called \emph{spectral leakage}). 
+The second effect happens when we cut off the cepstrum at $P^*$. Setting a hard cutoff at $P^*$ will result in a low-filtered signal equal to the original log-periodogram convolved with a sinc function (the Fourier transform of a rectangular window). This may not be the optimal choice and the estimated log-periodogram will be affected by this, in a certain measure. 
+Therefore, both these filtering operations may add some subtle effects to the estimate of $\kappa$ and should be studied more extensively, in the future. 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Multi-component fluids}  \label{sec:data-analysis-multicomponent}
-%\LEnote{******* TENERE/TOGLIERE/SPOSTARE IN APPENDICE? *********}\\
 In Sec.~\ref{sec:multi-component} we have seen that in a fluid made of $Q$ atomic species there are in general $Q$ macroscopic fluxes interacting with each other through Onsager's phenomenological equations, Eq.~\eqref{eq:onsager}, not counting the different Cartesian components that do not interact amongst themselves because of space isotropy. A MD simulation thus samples $Q$ stochastic processes, one for each interacting flux, that we suppose to be stationary. These processes can be thought of as different components of a same multivariate process. 
+Therefore, we can easily generalize the cepstral analysis method presented in Sec.~\ref{sec:cepstral-analysis} to these systems \cite{Bertossa2018}.
+
 
 \subsection{Cepstral analysis}  \label{sec:cepstral-multicomponent}
 As in Sec.~\ref{sec:cepstral-analysis}, for the sake of generality we suppose to have $\ell$ independent samples of such a process, described by a multivariate time series of length $N$: $\{ ^{p\!}{J}^i_n \}$; $p=1,\dots \ell$; $i=1,\dots Q$; $n=0,\dots N-1$. Stationarity implies that $\langle {J}^i_n\rangle $ does not depend on $n$ and that $\langle {J}^i_n {J}^j_m \rangle$ only depends on $n-m$. We will further assume that $\langle {J}^i_n\rangle =0 $ and that $\langle {J}^i_n {J}^j_0 \rangle$ is an even function of $n$, which is the case when ${J}^i$ and ${J}^j$ have the same signature under time-reversal. By combining Eq.~\eqref{eq:multi_kappa} with Eq.~\eqref{eq:GK-S0}, we see that in order to evaluate the thermal conductivity in the multi-component case we need an efficient estimator for $\left ( S^{-1}_0\right )^{11}$, where $S^{kl}_0=S^{kl}(\omega=0)$ is the zero-frequency cross-spectrum of the relevant fluxes, ordered in  such a way that the energy one is the first.
@@ -639,17 +644,13 @@ and its statistical error as
 
 
 \section{Outlook}  \label{sec:data-analysis-outlook}
-
-\begin{LEtext}
-Although a large variety of methods has been formulated in the literature, none of them seem to provide a sufficiently rigorous and accurate estimator of the thermal conductivity, that can be applied to different classes of materials and especially to disordered systems. 
-The cepstral analysis method introduced in this chapter promises to be a very powerful tool to estimate the thermal conductivity, from relatively short MD runs, in a more rigorous way than done so far by other methods. 
+Although a large variety of methods has been formulated in the literature, none of them seems to provide a sufficiently rigorous and accurate estimator of the thermal conductivity that can be applied to different classes of materials and especially to disordered systems. 
+The cepstral analysis method introduced in this chapter promises to be a very powerful tool to estimate the thermal conductivity from relatively short MD runs, in a more rigorous way than done so far by other methods. 
 Its implementation is straightforward and its use robust, as the only parameter to be determined is the optimal number of cepstral coefficients, using \emph{e.g.} the Akaike's information criterion.
-The most impressive results are achieved for disordered systems, \emph{e.g.} liquids and amorphous solids, and multi-atom cells, where a low conductivity results from large cancellations in the integral of a highly oscillatory time auto-correlation function, where all the traditional methods fail or give very subjective results. In these systems, simulation times of the order of $100\un{ps}$ seem sufficient to obtain accuracies of the order of $10\%$ in the estimated thermal conductivities. 
+The most impressive results are achieved for disordered systems, \emph{e.g.} liquids and amorphous solids, where a low conductivity results from large cancellations in the integral of a highly oscillatory HCACF, for which all the traditional methods fail or give very subjective results. In these systems, simulation times of the order of $100\un{ps}$ seem sufficient to obtain accuracies of the order of $10\%$ in the estimated thermal conductivities. 
 
 The performance is less spectacular in periodic crystals, where slowly-decaying strongly-harmonic phonon modes require longer simulation times and the ensuing sharp peak in the low-frequency region of the power spectrum requires a larger number of cepstral coefficients than predicted by the optimization of the AIC. Even so, simulation times of the order of a few hundred picoseconds seem sufficient to achieve a comparable accuracy. In the latter case, it is possible that a combination of the methodology introduced here with specialized techniques based on normal-mode analysis, such as that presented in Ref.~\cite{Carbogno:2017gc}, will result in further improvements. 
 Leveraging more general (possibly non-Fourier) representations of the log-spectrum of the currents to be analyzed, and replacing the optimization of the AIC with more sophisticated and possibly more efficient approaches, such as \emph{e.g.} weighted multi-model inference techniques \cite{Burnham2004,Claeskens2008}, may also assist in this and other difficult cases. 
 Finally, we expect that our methodology will impact on the simulation of any transport phenomena to which the Green-Kubo theory applies, such as ionic conduction, viscosity, and many others: benchmarks on these properties should be performed. 
 
 This achievement also overcomes the last hurdle towards the quantum simulation of heat transport, which has been considered out of its scope until very recently, due to the long trajectories usually required, and will be particularly important to study strongly anharmonic and/or disordered systems. 
-
-\end{LEtext}
