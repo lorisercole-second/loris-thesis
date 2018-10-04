@@ -17,7 +17,7 @@ Finally, Section~\ref{sec:gauge-outlook} concludes this chapter by giving some f
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Microscopic ill-defineteness} \label{sec:micro-illdef}
+\section{Microscopic ill-definiteness} \label{sec:micro-illdef}
 
 It is often implicitly assumed that the well-definiteness of thermal transport coefficients would stem from the uniqueness of the decomposition of the system's total energy into localized, atomic, contributions. This assumption is manifestly incorrect, as any decomposition leading to the same value for the total energy as Eq.~\eqref{eq:atomic-energies} should be considered as legitimate. The difficulty of partitioning a system's energy into subsystems' contributions is illustrated in Fig.~\ref{fig:energy-partition}, which depicts a system made of two interacting subsystems. When defining the energy of each of the two subsystems, an arbitrary decision has to be made as to how the interaction energy is partitioned. In the case depicted in Fig.~\ref{fig:energy-partition}, for instance, the energy of each of the two subsystems can be defined as $\mathcal{E}(\rOmega_i) = E(\rOmega_i) + \frac{1}{2}(1\pm\lambda)W_{12}$, where $E(\rOmega_i)$ are the energies of the two isolated subsystems, $W_{12}$ their interaction energy, and $\lambda$ an arbitrary constant. In the thermodynamic limit, when all the subsystems' energies are much larger than the interaction between any pairs of them, the value of the $\lambda$ constant is irrelevant. When it comes to defining energy densities (\emph{i.e.} energies of infinitesimal portions of a system) or atomic energies, instead, the magnitude of the interaction between different subsystems is comparable to their energies, which become therefore intrinsically ill-defined.
 
@@ -85,7 +85,7 @@ We computed different definitions of the energy flux of Eq.~\eqref{eq:gamma-clas
 In Fig.~\ref{fig:argon-gauge-acf} we display the resulting macroscopic energy-flux autocorrelation functions, $\langle \mathbf{J}_{\gamma}^{\smallE}(t) \cdot \mathbf{J}_{\gamma}^{\smallE}(0) \rangle$, that dramatically depend on the definition of the $\gamma$ matrix in Eqs.~\eqref{eq:gamma-atomic-energies} and \eqref{eq:gamma-classical-current}.  Notwithstanding, the integrals of all these time correlation functions tend to the same limit at large integration times, as shown in Fig.~\ref{fig:argon-gauge-kappa}.
 
 \begin{LEtext}
-The ill-definetess of the atomic energies and of the heat current was already noticed by some authors. \citet{Schelling2002} computed the thermal conductivity of Stillinger-Weber \cite{Stillinger1985} silicon and noticed that it was fairly insensitive to the particular definition used, and concluded that the fact that there is no rigorous and unique definition is not a serious impediment to using the GK method. Ten years later, \citet{Howell2012} studied the same system more extensively, and found that the energy decomposition in the three-body interaction term gives a negligible contribution to the computed thermal conductivity, even though he did not recognize the ill-definiteness of the two-body atomic energy term.
+The ill-definiteness of the atomic energies and of the heat current was already noticed by some authors. \citet{Schelling2002} computed the thermal conductivity of Stillinger-Weber \cite{Stillinger1985} silicon and noticed that it was fairly insensitive to the particular definition used, and concluded that the fact that there is no rigorous and unique definition is not a serious impediment to using the GK method. Ten years later, \citet{Howell2012} studied the same system more extensively, and found that the energy decomposition in the three-body interaction term gives a negligible contribution to the computed thermal conductivity, even though he did not recognize the ill-definiteness of the two-body atomic energy term.
 
 How is it that different definitions of the energy flux would lead to the same value for the thermal conductivity? The fundamental origin of this conundrum involves two intrinsic properties of the total energy: \emph{extensivity} and \emph{conservation}, that lead us to the discovery of a gauge invariance principle for thermal transport coefficients.
 \end{LEtext}
@@ -155,7 +155,7 @@ Let $\mathbf{J}^A$ and $\mathbf{J}^B$ be two macroscopic fluxes defined for the 
 \end{lemma}
 
 \begin{proof}
-The Einstein-Helfand relation (Eq.~\eqref{eq:Einstein-Helfand-Lij}) correspondent to a flux $\mathbf{J}^X$ states that 
+The Einstein-Helfand relation (Eq.~\eqref{eq:Einstein-Helfand-Lij}) corresponding to a flux $\mathbf{J}^X$ states that 
 \begin{equation}
     L^{X} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle|\mathbfcal{D}^X(\mathcal{T})|^2\right\rangle} {\mathcal{T}},
 \end{equation}
@@ -171,7 +171,7 @@ therefore, thanks to the Cauchy-Schwartz inequality, we have that $\lim_{\mathca
 \end{proof}
 
 \begin{proof}[Proof (alternative)]
-Alternatively, we can express the Onsager coefficients as the zero-frequency value of the correspondent power spectrum (or cross spectrum), as in Eq.~\eqref{eq:GK-S0}, \emph{i.e.} $L^{X} \propto S^{XX}(\omega=0)$. We obtain:
+Alternatively, we can express the Onsager coefficients as the zero-frequency value of the corresponding power spectrum (or cross spectrum), as in Eq.~\eqref{eq:GK-S0}, \emph{i.e.} $L^{X} \propto S^{XX}(\omega=0)$. We obtain:
 \begin{align}
     S^{CC}(\omega=0) &= \int_{-\infty}^\infty \langle J^C(t) J^C(0) \rangle dt \nonumber\\
         &=\int_{-\infty}^\infty \left(\langle J^A(t) J^A(0) \rangle + \langle J^B(t) J^B(0) \rangle + 2\langle J^A(t) J^B(0) \rangle \right) dt  \nonumber\\

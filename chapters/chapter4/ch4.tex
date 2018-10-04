@@ -18,7 +18,7 @@ In this chapter we start by summarizing the most recent \emph{ab initio} methods
 \section{First-principles simulation methods}
 \LEnote{** IN PARTE INTRODUCO BREVEMENTE IN CAP.1, MA QUESTO E' MOLTO PIU' DETTAGLIATO **}
 
-In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems: the main ones are the \emph{Boltzmann's transport equation} (BTE)  %\emph{non-equilibrium Green's functions} (NEGF), 
+In insulators heat transport is determined by the dissipative dynamics of atoms, the electrons following adiabatically in their ground state, a regime often referred to as atomic or \emph{adiabatic heat conduction}. Different approaches are available to model heat conduction in these systems (for a recent review see Ref.~\cite{Fugallo2018}): the main ones are the \emph{Boltzmann's transport equation} (BTE)  %\emph{non-equilibrium Green's functions} (NEGF), 
 and \emph{molecular dynamics} (MD), both in its non-equilibrium and equilibrium flavors. 
 %
 %\emph{Non-equilibrium Green's functions} (NEGF) \cite{Wang2008} are designed to compute the conductance of open systems, such as nanoscale devices and interfaces, but they do not apply to bulk conduction. 
@@ -95,7 +95,7 @@ where  $\hat v_0$ is the bare, possibly non-local, (pseudo-) potential acting on
 are the projections over the empty-state manifold of the action of the position operator over the $v$-th occupied orbital, Eq.~\eqref{eq:r-times-phi}, and of its adiabatic time derivative \cite{Giannozzi2017}, Eq.~ \eqref{eq:phi-dot}; $\hat P_v$ and $\hat P_c = 1 - \hat P_v$ being the projector operators over the occupied- and empty-states manifolds, respectively. Both these functions are well defined in PBC and can be computed, explicitly or implicitly, using standard density-functional perturbation theory \cite{Baroni2001}.
 
 
-\subsection{Electronic current}
+\subsection{Electronic current}  \label{sec:dft-electronic-curr}
 \begin{LEtext}
 The current $\mathbf{J}^\smallKS$, Eq.\eqref{eq:DFT-KS}, is not manifestly invariant with respect to the arbitrary choice of the zero of the one-electron energy levels: a shift of this zero by a quantity $\Delta\epsilon$ results in a shift of the energy flux by $\Delta \mathbf{J}^{el}$, where $\mathbf{J}^{el}$ is the adiabatic electronic current \cite{Thouless1983}:
 \begin{equation}
@@ -106,9 +106,9 @@ that can be derived from the continuity equation for the electronic density:
 \nabla\cdot \bm j^{el}(\bm r,t) =- \dot{n}^{el}(\bm r,t).    
 \end{equation}
 The electronic current is the difference between the total charge current (defined as the atom's Born charge times its velocity and summed over the atoms) and its ionic component (here defined considering the nucleus plus the valence electrons). 
-In the specific case of one-component systems and molecural systems that are electric insulators, the total charge current and the electronic flux $\mathbf{J}^{el}$ are non-diffusive, as well as the ionic one, \emph{i.e.} they do not contribute to thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}. 
-In multi-component systems and conductors, this is not the case. 
-However, using the gauge invariance principle, it is possible to prove that a shift in the zero energy level adds a non-diffusive contribution, even for multi-component systems. 
+In the specific case of one-component systems and molecular systems that are electric insulators, the total charge current and the electronic flux $\mathbf{J}^{el}$ are non-diffusive, as well as the ionic one, \emph{i.e.} they do not contribute to thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}. 
+In multi-component systems this is not the case. 
+Starting from Eq.~\eqref{eq:multi_kappa}, it can be proved that a shift in the zero-energy level adds a possibly diffusive contribution to the energy current, which however does not affect the thermal conductivity. 
 %In insulators the first is by definition non-diffusive, while the second vanishes in the center of mass of mono-atomic and molecular systems, because of momentum conservation (see Sec.~\ref{sec:multi-component}). Therefore, the electronic flux $\mathbf{J}^{el}$ is non-diffusive in insulators, \emph{i.e.} it does not contribute to the thermal conductivity, lifting the apparent indeterminacy of Eq.~\eqref{eq:DFT-KS}.
 \end{LEtext}
 %\LEnote{** PRECISAZIONE: $\mathbf{J}^{el}$ e' non diffusiva solo in sistemi a 1 componente, giusto?? in un fluido multi-componente la corrente elettronica e' uguale a quella di massa direi ***}
@@ -125,7 +125,7 @@ The computation of the DFT energy flux, Eq.~\eqref{eq:DFT-Eflux}, at time $t$ re
     \caption{Convergence of the DFT energy of liquid water as a function of the timestep $\Delta t$ used to compute finite-differences.}
     \label{fig:dft-curr-timestep-water}
 \end{figure}
-The calculation is performed within the \textsc{Quantum Espresso} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code maintained by us. 
+The calculation is performed within the \textsc{Quantum ESPRESSO} code suite \cite{Giannozzi2009,Giannozzi2017} in a specialized post-processing code maintained by us. 
 In order to compute the energy flux $\mathbf{J}^\smallE$, the following steps are needed: 
 \begin{enumerate}
     \item One should extract a sufficient number of time steps from a AIMD trajectory (the sampling frequency should be high enough to avoid aliasing problems: a deeper discussion on this is reported in Sec.~\ref{sec:results-quantum-current}). 

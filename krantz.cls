@@ -172,7 +172,8 @@
 \newcommand\RunningHeadFont{\fontsize{10}{12}\itshape\selectfont}
 \newcommand\NameFont{\fontsize{10}{12}\itshape\selectfont}
 \newcommand\AffiliationFont{\fontsize{8}{10}\selectfont}
-\newcommand\FigCapFont{\fontsize{10}{12}\bfseries\selectfont}
+\newcommand\FigTitleFont{\fontsize{10}{12}\bfseries\selectfont}
+\newcommand\FigCapFont{\fontsize{10}{12}\selectfont}
 \newcommand\FigCapBIFont{\fontsize{10}{12}\bfseries\itshape\selectfont}
 \newcommand\TableColHeadFont{\fontsize{10}{12}\bfseries\selectfont}
 \newcommand\TableTitleFont{\fontsize{10}{12}\selectfont}
@@ -1008,7 +1009,7 @@
   \vskip\abovecaptionskip
   \sbox\@tempboxa{#1: #2}%
   \ifdim \wd\@tempboxa >\hsize
-    {\FigCapFont #1}\par #2\par
+    {\FigTitleFont #1}\par {\FigCapFont #2}\par
   \else
     \global \@minipagefalse
 %    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%

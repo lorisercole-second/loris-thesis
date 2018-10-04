@@ -19,7 +19,14 @@
 \usepackage[numbers,sort&compress]{natbib}
 %\usepackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}  % bibliography
 %\addbibresource{bibliography.bib}
+\usepackage{showframe}
 
+\widowpenalty=300  % penalties for widow lines
+\clubpenalty=300
+\usepackage[]{caption}
+\renewcommand{\captionfont}{\fontsize{10}{12}\selectfont}
+\renewcommand{\captionlabelfont}{\bfseries\fontsize{10}{12}\selectfont}
+\captionsetup{width=0.9\textwidth}
 \usepackage{bm}
 \usepackage{url}
 %\usepackage[labelfont={small,bf},textfont=small]{caption}
@@ -27,7 +34,7 @@
 %\usepackage{colortbl}
 %\usepackage[margin=10pt,font=small,labelfont=rm,labelsep=endash]{caption}
 %\usepackage{hyperref}
-\usepackage[inner,right]{showlabels}
+\usepackage[inner,right]{showlabels} % uncomment color if you comment this
 
 \renewcommand{\bibfont}{\small}  % customized bibliography style
 %\setlength{\bibsep}{0pt}
@@ -37,8 +44,8 @@
 
 \makeindex
 
-\newtheorem*{theorem}{Theorem}
-\newtheorem*{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
 %\newtheorem{exercise}{Exercise}[chapter]
 %\newtheorem{example}{Example}
 %\newtheorem{definition}{Definition}
@@ -68,7 +75,7 @@
 \def\abinitio{\emph{ab initio} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EDITOR COMMANDS
-\usepackage[usenames,dvipsnames]{color}
+%\usepackage[usenames,dvipsnames]{color}
 \newcommand{\editor}[2]{%
   \expandafter\newcommand\csname #1note\endcsname[1]{%
     \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%
@@ -92,7 +99,7 @@
 
 \frontmatter
 
-\title{THESIS\\
+\title{ab initio Green-Kubo Simulations of Silica Glass\\
 %{\Large(Sottotitolo)}
 }
 \author{Loris Ercole}
@@ -119,6 +126,9 @@
 \include{chapters/chapter5/ch5}  % Data analysis
 \include{chapters/chapter6/ch6}  % Silica
 \include{chapters/chapter7/ch7}  % Conclusions
+
+\appendix
+\include{chapters/appendix/appendix}   % Appendix
 
 \bibliographystyle{unsrtnat}
 \bibliography{bibliography}
