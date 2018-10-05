@@ -1,23 +1,40 @@
 \chapter{Thermal conductivity simulations of Silica glass}  \label{ch:silica}
 
-The simulation of an amorphous system such as a-SiO$_2$ with classical MD and the estimation of its thermal conductivity require a few ingredients. 
-First of all, we need a good interatomic force field that faithfully reproduces the structural and dynamical properties of the glass. Both will be important to correctly predict the thermal conductivity.
+\LEnote{Thermal conductivity simulations for Silica glasses??}
+
+The calculation of the lattice thermal conductivity of a material using equilibrium MD simulations requires a good interatomic \emph{force field}, a sample of adequate \emph{size}, and a sufficient \emph{simulation length}. 
+A good interatomic force field should faithfully reproduce the structural and dynamical properties of the material, as both will be important to correctly predict the thermal conductivity. 
+An adequately large size is required to account for all the vibrational contributions to heat transport: if the system is too small, the long-wavelength modes will be neglected or severely affected, thus altering the value of thermal conductivity estimated via the GK equation. 
+A sufficiently long simulation is needed to converge the GK estimate within a target statistically accuracy. 
+
+The simulation of amorphous systems such as silica glass, though, presents additional challenges. The structure of an amorphous solid is a non-equilibrium configuration, with extremely long relaxation times. 
+In order to generate it, one can perform a virtual \emph{quenching} experiment: the system is melted at high temperature and then cooled gradually down to a target equilibrium temperature, where it is then equilibrated and data can be collected. 
+This procedure is in all respects a simulated annealing experiment looking for the most stable configuration in an extremely rough free energy landscape. 
+The quenching protocol adopted will affect the final structural and vibrational properties of the sample, hence we expect the thermal conductivity to be affected by its details as well. 
+
+Very few studies have attempted to compute the thermal conductivity of a-SiO$_2$ with classical MD simulations and no \abinitio study was ever performed. Almost all of them were carried out with non-equilibrium methods, where strong finite-size effects are accounted for with difficulty, whereas only one of them was performed at equilibrium via the GK equation. 
+These facts demonstrate the practical difficulties involved in the numerical estimation of $\kappa$ and the lack of a reliable method to do so, as we discussed in Chapter~\ref{ch:data-analysis}. 
+
+%The simulation of an amorphous system such as a-SiO$_2$ with classical MD and the estimation of its thermal conductivity require a few ingredients. 
+%First of all, we need a good interatomic force field that faithfully reproduces the structural and dynamical properties of the glass. Both will be important to correctly predict the thermal conductivity.
 %and will be briefly discussed in Sec.~\ref{sec:silica-force-field}.
-Second, we need to choose a system size and generate the amorphous structure, a process that is usually performed by melting and equilibrating the system at high temperatures, followed by a cooling phase in which it is gradually brought to the target temperature. At this point the system is equilibrated and data can start to be collected. This ``quenching'' protocol also affects the final structural and vibrational properties of the sample, hence we expect the thermal conductivity to be affected by its details. We shall introduce both these points in Section~\ref{sec:silica-classical} of this chapter. 
+%Second, we need to choose a system size and generate the amorphous structure, a process that is usually performed by melting and equilibrating the system at high temperatures, followed by a cooling phase in which it is gradually brought to the target temperature. At this point the system is equilibrated and data can start to be collected. 
+%This ``quenching'' protocol also affects the final structural and vibrational properties of the sample, hence we expect the thermal conductivity to be affected by its details. We shall introduce both these points in Section~\ref{sec:silica-classical} of this chapter. 
 
-In Sec.~\ref{sec:results-class} we will present the method and the results of our classical simulations of vitreous silica using the ``BKS'' potential. The dependency of the computed thermal conductivity on many of the simulation parameters, such as sample size and quenching protocol, will be discussed.
-Then, one \LEnote{*(a few)*} sample of silica will be chosen and its thermal conductivity studied as a function of the temperature. 
+In this chapter we apply the \abinitio GK theory and many of the methods discussed in the previous chapters to the calculation of the thermal conductivity of silica glass. 
+In Section~\ref{sec:silica-classical} we review the classical and \abinitio studies of a-SiO$_2$ available in the literature, pointing out how the force field, the sample size, and the preparation protocol affect its structural, vibrational, and thermal properties. 
+We find that although the structural properties are described fairly well by classical potentials, the vibrational properties are poorly accounted for and thus call for an \abinitio approach. 
+In Section~\ref{sec:results-simulations}, we first use classical simulations to study the dependency of the computed thermal conductivity on many of the simulation parameters, such as the sample size and quenching protocol, and to determine the feasibility of \abinitio simulations. 
+Then, we choose one sample of silica and we simulate it with Car-Parrinello MD at four different temperatures. The trajectory thus generated is used to compute the \abinitio heat flux and the thermal conductivity, making use of many of the concepts and techniques discussed so far. Finally, we compare our classical and \abinitio results with experiments. 
 
-All this classical study will be instrumental in determining the feasibility of \abinitio calculations of thermal conductivity of a-SiO$_2$, using the DFT formulation of the heat flux that was presented in Chapter~\ref{ch:dft-heat}. One classical sample will be selected and simulated with Car-Parrinello MD at four different temperatures. The trajectory thus generated will be used to compute the \abinitio heat current and thermal conductivity making use of many of the concepts and techniques so far discussed. The simulation details and results will be presented in Sec.~\ref{sec:results-quantum}.
+%All this classical study will be instrumental in determining the feasibility of \abinitio calculations of thermal conductivity of a-SiO$_2$, using the DFT formulation of the heat flux that was presented in Chapter~\ref{ch:dft-heat}. One classical sample will be selected and simulated with Car-Parrinello MD at four different temperatures. The simulation details and results will be presented in Sec.~\ref{sec:results-quantum}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Classical simulations of a-SiO$_2$}  \label{sec:silica-classical}
 
 \subsection{BKS force field}  \label{sec:silica-force-field}
-
 \LEnote{* FIGURA? *}
-
 The structure of amorphous silica is made of SiO$_4$ tetrahedral units, where silicon is at the center, bonded to 4 oxygen atoms located at the vertices. Each oxygen, in turn, bridges the tetrahedral vertices, bonding between two silicon centers. The variation in orientation of adjacent tetrahedra makes the medium- and long-range structures disordered, forming a typical glass network.
 
 One of the most successful and broadly adopted force fields for a-SiO$_2$ is the so-called BKS potential \cite{Silica-BKS-1990}. 
@@ -34,7 +51,6 @@ In the following, and partly in Sec.~\ref{sec:silica-quenching}, we are going to
 
 
 \paragraph{Structural properties}
-
 Si-O bonds are generally considered to have partial ionic and covalent character. The BKS potential is spherical, therefore it does not describe the directional nature of the covalent bond, but it can anyway achieve the tetrahedral structure through a strictly repulsive interaction between oxygen atoms. We can expect that the bond's directionality could be better described by other more sophisticated potentials or by \abinitio methods, yet the BKS' abilities in predicting the amorphous structure of silica glass are very remarkable. 
 
 For example, \citet{Tian2017} compared the structures of silica obtained from different force fields, \emph{e.g.} BKS and ReaxFF. They quenched a fully melted silica box of density $\rho=2.2\un{g/cm^3}$ from $5000\un{K}$ to $300\un{K}$ at $5\times 10^{12}\un{K/s}$ in the NVT ensemble. 
@@ -46,58 +62,70 @@ Nevertheless, the quenching process largely influences the macroscopic and micro
 
 
 \paragraph{Vibrational properties}
-
 \begin{figure}[!tb]
     \centering
-    \includegraphics[width=8cm]{chapters/chapter6/figures/Sarnthein_Car_abinitio_VDOS_silica-2.jpg}
+    \subfigure[\label{fig:silica-vdos-classical}]{\includegraphics[width=7cm]{chapters/chapter6/figures/Tian_VDOS_silica.pdf}}
+    \subfigure[\label{fig:silica-vdos-abinitio}]{\includegraphics[width=6cm]{chapters/chapter6/figures/Sarnthein_Car_abinitio_VDOS_silica-2.jpg}}
     \caption{
-    Effective vibrational density of states of an a-SiO$_2$ sample of $72$ atoms at experimental density $2.20\un{g/cm^3}$, computed from AI-CPMD simulations within the local density approximation (solid line), compared to neutron scattering data (circles). Reproduced from Ref.~\cite{Sarnthein1997}.}
-    \label{fig:silica-vdos-abinitio}
-\end{figure}
-\begin{figure}[!tb]
-    \centering
-    \includegraphics{chapters/chapter6/figures/Tian_VDOS_silica.pdf}
-    \caption{
-    Total and partial VDOS of a-SiO$_2$ computed for the (a) BKS and (b) ReaxFF, and compared with the (c) first-principles results of \citet{Bhattarai2016}. Adapted from Ref.~\cite{Tian2017}.}
-    \label{fig:silica-vdos-classical}
+    (a) Total and partial VDOS of a-SiO$_2$ computed for the BKS and ReaxFF, and compared with the first-principles results of \citet{Bhattarai2016}. Adapted from Ref.~\cite{Tian2017}.
+    (b) Effective VDOS of an a-SiO$_2$ sample of $72$ atoms at experimental density $2.20\un{g/cm^3}$, computed from AI-CPMD simulations within the local density approximation (solid line) and compared to neutron scattering data (circles). Reproduced from Ref.~\cite{Sarnthein1997}.}
 \end{figure}
 
 Besides the structure of the generated sample, what determine the thermal conductivity of the system are its vibrational properties, that are determined by the interaction potential and can be analyzed by the vibrational density of states (VDOS).
 Experimentally, the VDOS obtained from neutron scattering shows three significant peaks at about $400$, $800$, and $1100\un{cm^{-1}}$, that represent the rocking, bending, and stretching modes respectively \cite{Galeener1983}, as shown in Fig.~\ref{fig:silica-vdos-abinitio}.
 
-First principles simulations have shown to successfully reproduce all the principle peaks of the VDOS. \citet{Sarnthein1997} studied a sample of $72$ atoms of a-SiO$_2$ obtained by a quench from the melt with AIMD at experimental density ($2.20\un{g/cm^3}$), within the local density approximation of DFT, and computed the VDOS by diagonalization of the dynamical matrix. Their results, reported in Fig.~\ref{fig:silica-vdos-abinitio}, are in very good agreement with the experiments. The same calculation has been reproduced more recently by \citet{Bhattarai2016} using a $648$-atom model of a-SiO$_2$ (see Fig.~\ref{fig:silica-vdos-classical}). 
-
-Conversely, classical force fields struggle to correctly reproduce the features of the VDOS of a-SiO$_2$. In Fig.~\ref{fig:silica-vdos-classical} we report the VDOS obtained for the BKS and ReaxFF potentials \cite{Tian2017}, compared to \abinitio calculations \cite{Bhattarai2016}. 
+Classical force fields struggle to correctly reproduce the features of the VDOS of a-SiO$_2$. In Fig.~\ref{fig:silica-vdos-classical} we report the VDOS obtained for the BKS and ReaxFF potentials \cite{Tian2017}, compared to \abinitio calculations \cite{Bhattarai2016}. 
 The low-frequency band is dominated by O contributions and agrees well with the results of first-principles simulations and experiments, even though it wrongly elongates up to $600\un{cm^{-1}}$ using the BKS potential. For this model, the modes in the $400-500\un{cm^{-1}}$ range do not agree well with experiment, a sign suggesting that BKS struggles to reproduce correctly the forces over intermediate-range distances \cite{Vollmayr1996,Benoit2002}. 
 The intermediate-frequency band of \abinitio simulations is dominated by Si contributions and presents an isolated peak at about $800\un{cm^{-1}}$, but this is not reproduced by the BKS potential, while ReaxFF does not account correctly for the contributions of Si and O atoms. 
 The high-frequency band, that corresponds to Si-O stretching vibrations, is well reproduced by the BKS potential, but is notably missing in ReaxFF. 
 
+On the other hand, first-principles simulations have shown to successfully reproduce all the main peaks of the VDOS. \citet{Sarnthein1997} studied a sample of $72$ atoms of a-SiO$_2$ obtained by a quench from the melt with AIMD at experimental density ($2.20\un{g/cm^3}$), within the local density approximation of DFT, and computed the VDOS by diagonalization of the dynamical matrix. Their results, reported in Fig.~\ref{fig:silica-vdos-abinitio}, are in very good agreement with the experiments. The same calculation has been reproduced more recently by \citet{Bhattarai2016} using a $648$-atom model of a-SiO$_2$ (see Fig.~\ref{fig:silica-vdos-classical}). 
+
 The vibrational excitations of silica include very localized modes and collective ones (most modes with frequencies below $22\un{THz}$ have a collective nature, while the ones at higher frequencies are more localized). Compared to the \abinitio description, the BKS does not reproduce well the nature of modes in the intermediate frequency range \cite{Benoit2002}. Since the BKS model was designed to optimize the elastic constants of a small silica cluster and a crystal, it is not very surprising that it performs well at very high and low frequencies, but it is not reliable at intermediate frequencies. 
 
-Therefore we can expect that ReaxFF will provide more realistic predictions of thermal conductivity at room temperature, where thermal conduction is mainly contributed by acoustic-like phonon vibrations whose frequencies are typically below $400\un{cm^{-1}}$ \cite{Bhattarai2016}, whereas the BKS potential will probably be more suitable to study high-temperatures cases, where the contribution of stretching vibrations to thermal conduction increases significantly \cite{Tian2017}. 
+Therefore we can expect that ReaxFF would provide more realistic predictions of thermal conductivity at room temperature, where thermal conduction is mainly contributed by acoustic-like phonon vibrations whose frequencies are typically below $400\un{cm^{-1}}$ \cite{Bhattarai2016}, whereas the BKS potential will probably be more suitable to study high-temperatures cases, where the contribution of stretching vibrations to thermal conduction increases significantly \cite{Tian2017}. 
+
+
+\paragraph{Thermal conductivity}
+Many studies of the thermal conductivity of a-SiO$_2$ are based on NEMD simulations, that are strongly size dependent due to scattering of phonons with the heat sink, and thus require the study of its convergence at large cell sizes. 
+For example, \citet{Tian2017} simulated a-SiO$_2$ with the BKS potential at $T=300\un{K}$, $\rho=2.2\un{g/cm^3}$, and obtained a value of thermal conductivity of $\kappa=(2.27 \pm 0.06)\un{W/mK}$ at the maximum size simulated, whereas \citet{Coquil2011} obtained $\kappa= (2.10 \pm 0.10)\un{W/mK}$, to be compared with an experimental value of $\kappa_\mathrm{exp}\approx 1.3 - 1.4 \un{W/mK}$
+
+An extrapolation technique is needed to estimate the convergence of $\kappa$ as a function of the length of the simulation cell in the direction of the applied heat flux (or temperature gradient), $L_z$. According to the kinetic theory: $\kappa = \frac{1}{3} c_v v_s \,l$, where $c_v$ is the lattice specific heat at constant volume, $v_s$ is the sound velocity, and $l$ is the mean-free path of the phonons. The thermal conductivity can be obtained by linear fitting $1/\kappa$ vs $1/L_z$ and extrapolating the value at $1/L_z=0$ \cite{Schelling2002}. 
+Despite being broadly applied in the literature, this method has to be used with extreme care. Indeed, if the distribution of phonon mean-free paths cannot be approximated by its average value, the linear dependence of $1/\kappa$ on $1/L_z$ is no longer valid, as higher-order terms are not negligible, as \citet{Sellan2010} ascertained studying Ar and Si crystals. If the considered system sizes are smaller than the largest bulk mean-free paths that dominate the thermal transport, then the linear relationship may not work and the thermal conductivity can be severely underestimated. 
+In the case of amorphous silica, the maximum phonon mean-free path is quite short (between $\sim 20$ and $\sim 6\un{\angstrom}$, depending on temperature \cite{Yu2006}), a fact that may explain why \citet{Tian2017} find the linear fit to work well in this case, allowing them to extrapolate a value of $\kappa=2.5\un{W/mK}$ for the BKS and Teter potentials, and of $1.28\un{W/mK}$ for the ReaxFF potential, at $300\un{K}$. Therefore, the ReaxFF potential seems to best reproduce the experimental value at this temperature. 
+
+%\paragraph{Equilibrium MD studies}
+\LEnote{**PARAGRAFO DA RIVEDERE. Devo guardare questo articolo**}
+Few studies have been performed using EMD, probably due to the difficulty in estimating the thermal conductivity from the GK equation, as we already described in Sec.~\ref{sec:data-analysis-methods}.
+\citet{McGaughey2004b} was estimated the thermal conductivity of a system of $576$ atoms (\LE{$\rho=***$ at $T\sim \un{K}$}), obtaining a thermal conductivity of $1.96\un{W/mK}$. 
+The GK method is much less affected by finite-size effets, and can simulate the bulk with much smaller systems, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
+\LE{**celle usate da McGaughey??**}
+Tests for the convergence of $\kappa$ with the cell size should always be performed, and will be carried out for a-SiO$_2$ in Sec.~\ref{sec:results-class-quench}.
+
+\LEnote{******Kinetic theory methods???? ***??}
 
 
 
-\subsection{Sample size and preparation}  \label{sec:silica-size}
-In contrast to crystals, glasses have a completely disordered and non-periodic structure, therefore we should understand what is the minimum sample size that one should simulate to ensure that the distribution of structures is well represented. This is of particular importance in view of performing AIMD simulations, in which the computationally affordable sizes are of the order of a few hundreds of atoms at most. Previous studies have tried to survey this limit. 
+\subsection{Sample size}  \label{sec:silica-size}
+In contrast to crystals, glasses have a completely disordered and non-periodic structure, therefore we should understand what is the minimum sample size that one should simulate to ensure that the distribution of structures at the various relevant length scales is well represented. This is of particular importance in view of performing AIMD simulations, in which the computationally affordable sizes are of the order of a few hundreds of atoms at most. Previous studies have tried to survey this limit. 
 
+\paragraph{Structural properties}
 Few have been performed using \abinitio techniques and all involved a small sample of $\sim 70$ atoms ($\sim 25$ SiO$_2$ units). In the first \abinitio simulation of a-SiO$_2$, \citet{Sarnthein1995a} performed a quench from the melt completely by CPMD, obtaining a first model of vitreous silica. Even though good agreement with experiments was found for some structural, vibrational and electronic properties \cite{Sarnthein1995a,Sarnthein1995b,Sarnthein1997}, a very fast quenching rate (of the order of $10^{15}\un{K/s}$) was used, due to the high computational cost, that may have strongly influenced the results. In Sec.~\ref{sec:silica-quenching} we will debate more this issue. 
 Some years later, \citet{Benoit2000} combined classical MD with CPMD: samples generated with the BKS potential (with a quenching rate $\sim 10^{13}\un{K/s}$) were then equilibrated in CPMD. It was shown that the structural properties thus obtained were weakly modified with respect to the classical calculations, thus validating the structural model generated with the BKS potential. Besides, these results were even in better agreement with experiments with respect to previous studies performed completely in CPMD, which is probably due to the slower quenching employed. 
 Other five years later, \citet{VanGinhoven2005} studied a set of small silica samples of $72$ atoms generated by the BKS potential and optimized by DFT, and showed that by creating multiple small samples it is possible to achieve a good statistical sampling of structural features consistent with larger simulated glass systems. An ensemble of small samples is necessary to capture the statistical distribution of structures of silica glass, \emph{i.e.} all the possible arrangements of its medium range structures. 
 
-In spite of the reliability of BKS with regard to structural properties, as mentioned in the previous Section, the vibrational properties reproduced by this classical force field are strongly modified by using an \abinitio treatment of the forces \cite{Benoit2002}, therefore we do not expect it to be reliable in this respect. 
-Furthermore, it is not yet clear how much the thermal conductivity is affected by the size of the sample. Even if we average over a set of small samples, it is possible that $\kappa$ intrinsically requires larger size cells to converge. Finite-size effects in cells with PBC may be relevant and influence the computed $\kappa$. 
+\paragraph{Thermal conductivity}
+In spite of the reliability of BKS with regard to structural properties, as mentioned in the previous section, the vibrational properties reproduced by this classical force field are strongly modified by using an \abinitio treatment of the forces \cite{Benoit2002}, therefore we do not expect it to be reliable in this respect. 
+Furthermore, it is not yet clear how much the thermal conductivity is affected by the size of the sample. Even if we average over a set of small samples, it is possible that finite-size effects may be relevant and influence the value of $\kappa$ we compute, that thus would require larger size cells to converge. 
 Therefore, a preliminary study on this point should be performed before attempting an \abinitio computation of the thermal conductivity of a-SiO$_2$. We will present the results of this study in Sec.~\ref{sec:results-class-quench}.
 
 
 
-\subsection{Quenching}  \label{sec:silica-quenching}
-
-The properties of the simulated glass may sensibly depend on the quenching protocol adopted to generate the virtual sample. 
-When a supercooled liquid is cooled down so much that the relaxation times of the system exceed the time scale of the (virtual) experiment, the system will be in a nonequilibrium state and undergo a glass transition, provided it does not crystallize. The obtained glass is a nonequilibrium structure whose properties will generally depend on its production history. The \emph{quenching rate} at which it was cooled will determine its macroscopic and, in particular, microscopic properties \cite{Vollmayr1996}. 
+\subsection{Sample preparation (quenching)}  \label{sec:silica-quenching}
+The properties of the simulated glass may depend sensibly on the quenching protocol adopted to generate the virtual sample. 
+When a supercooled liquid is cooled down so much that the relaxation times of the system exceed the time scale of the (virtual) experiment, the system will be in a non-equilibrium state and undergo a glass transition, provided it does not crystallize. The obtained glass is a nonequilibrium structure whose properties will generally depend on its production history. The \emph{quenching rate} at which it was cooled will determine its macroscopic and, in particular, microscopic properties \cite{Vollmayr1996}. 
 For example, the glass transition temperature computed by simulations is significantly higher than the glass transition temperature observed in the laboratory. 
 The time scales reachable by computer simulations are many orders of magnitude shorter than the typical time scales of laboratory experiments, hence the minimum quenching rates attainable in classical MD simulations are of the order of $10^{11}-10^{13}\un{K/s}$, a rate that can only be replicated experimentally by strong laser pulses or ion bombardment \cite{Soules2011}.
-
 
 \paragraph{Macroscopic properties}
 \citet{Vollmayr1996} extensively studied the effects of quenching rate on the properties of BKS amorphous silica. They used a sample of $\sim 1000$ atoms at zero pressure, melted at $7000\un{K}$ and then cooled down to $0\un{K}$ at different temperature rates $\gamma$, ranging from $10^{12}$ to $10^{15}\un{K/s}$. More recently, \citet{Lane2015} extended their study, reaching cooling rates down to $5\times 10^{9}\un{K/s}$ with microsecond MD simulations of $\sim 13000$ atoms.
@@ -119,49 +147,29 @@ The density $\rho$ of the final sample also depends on the quenching rate: at te
 This behavior is unusual: in most glasses density increases as cooling rates are slowed. It can be explained by observing the trend at higher temperatures, where the density reaches a maximum at $T\sim 4800\un{K}$ that does not depend on $\gamma$: this ``density anomaly'' is also observed in experiments, at a much lower temperature of $1820\un{K}$. This discrepancy can be attributed to the BKS potential \LEnote{and to the finite size of the simulation domain.}  
 Furthermore, the thermal expansion coefficient at constant pressure, $\alpha_p = \frac{1}{V} \left.\frac{\partial V}{\partial T}\right|_p = -\frac{1}{\rho} \left.\frac{\partial \rho}{\partial T}\right|_p$, increases with $\gamma$.
 
-\paragraph{Microscopic properties}
+\paragraph{Structural properties}
 Microscopic properties are even more affected by the quenching rate. 
 By analysing the radial distribution function (RDF) between different species it is possible to observe that a small cooling rate makes the structural order at short and intermediate distances increase, \emph{i.e.} the RDF peaks and minima are sharpened and the structure is more relaxed. However, the location of the RDF's peaks is very little affected by $\gamma$ (\emph{i.e.} the Si-O tetrahedra do not change much their size with $\gamma$) and compares quite well with experiment, thus making BKS a good potential to reproduce the short- and medium-range structure of a-SiO$_2$. 
 Since the size of Si-O tetrahedra does not change much their size with $\gamma$, the variation of density with the changes in the cooling rate is due to relative arrangement of neighboring tetrahedra. 
 This can be observed in variations of the distributions of angles and rings. The O-Si-O angle distribution sharpens by decreasing $\gamma$ and approaches the ideal tetrahedron angle of $109.47^\circ$; the Si-O-Si angle distribution, instead, does not sharpen but shifts to larger angle values, indicating a more open arrangement of tetrahedra, which is consistent with the observed lower density; rings of size $6$ becomes more frequent with decreasing $\gamma$, indicating that the local structure of the system approaches the one of $\beta$-crystobalite. 
 The study of coordination numbers of each atom type shows that local order increases fast with decreasing cooling rate: for example, the number of Si atoms that are 4-fold coordinated with O atoms increases from $95\%$ to $99.5\%$ by decreasing the cooling rate from $10^{15}\un{K/s}$ to $10^{13}\un{K/s}$, and even further at $10^{10}\un{K/s}$, indicating a gradually decreasing number of coordination defects. 
-Finally, the two high-frequency peaks of VDOS depend on the quench rate in that their height increases significantly by decreasing $\gamma$, hence improving the agreement with experiment. 
-The low- and mid-frequency bands obtained with the BKS, are quite featureless and do not change very much with $\gamma$, thus remaining quite in discordance with experimental results. 
 
+\paragraph{Vibrational properties and thermal conductivity}
+The two high-frequency peaks of VDOS depend on the quenching rate in that their height increases significantly by decreasing $\gamma$, hence improving the agreement with experiment. 
+The low- and mid-frequency bands obtained with the BKS, are quite featureless and do not change very much with $\gamma$, thus remaining quite in discordance with experimental results. 
+To our knowledge, a study of the dependence of thermal conductivity of a-SiO$_2$ on the quenching rate has never been realised, and should be performed before attempting a first-principles calculation. In Sec.~\ref{sec:results-class-quench} we will present this study. 
+
+\medskip
 In conclusion, even though these studies have been performed using the BKS potential and not with DFT (for obvious computational reasons), it is very reasonable to assume their results will also hold for AIMD simulations of amorphous silica. 
 The demonstrated structure predictions capabilities of the BKS potential and the very large range of time scales analyzed leads us to conclude that a reliable a-SiO$_2$ structure can only be obtained by a ``slow'' quenching protocol with classical MD. 
-However, to our knowledge a study of the dependence of thermal conductivity of a-SiO$_2$ on the quenching rate has never been attempted, and should be performed attempting a first-principles calculation. In Sec.~\ref{sec:results-class-quench} we will present this study. 
-
-
-
-\subsection{Thermal conductivity: previous studies}  \label{sec:silica-kappa-studies}
-\paragraph{Non-Equilibrium MD studies}
-Many studies of the thermal conductivity of a-SiO$_2$ are based on NEMD simulations, that are strongly size dependent due to scattering of phonons with the heat sink, and thus require the study of its convergence at large cell sizes. 
-For example, \citet{Tian2017} simulated a-SiO$_2$ with the BKS potential at $T=300\un{K}$, $\rho=2.2\un{g/cm^3}$, and obtained a value of thermal conductivity of $\kappa=(2.27 \pm 0.06)\un{W/mK}$ at the maximum size simulated, whereas \citet{Coquil2011} obtained $\kappa= (2.10 \pm 0.10)\un{W/mK}$. 
-
-An extrapolation technique is needed to estimate the convergence of $\kappa$ as a function of the length of the simulation cell in the direction of the applied heat flux (or temperature gradient), $L_z$. According to the kinetic theory: $\kappa = \frac{1}{3} c_v v \,l$, where $c_v$ is the lattice specific heat at constant volume, $v$ is the sound velocity, and $l$ is the mean-free path of the phonons. The thermal conductivity can be obtained by linear fitting $1/\kappa$ vs $1/L_z$ and extrapolating the value at $1/L_z=0$ \cite{Schelling2002}. 
-Despite being broadly applied in the literature, this method has to be used with extreme care. Indeed, if the distribution of phonon mean-free paths cannot be approximated by its average value, the linear dependence of $1/\kappa$ on $1/L_z$ is no longer valid, as higher-order terms are not negligible, as \citet{Sellan2010} ascertained studying Ar and Si crystals. If the considered system sizes are smaller than the largest bulk mean-free paths that dominate the thermal transport, then the linear relationship may not work and the thermal conductivity can be severely underestimated.
-
-In the case of amorphous silica, the maximum phonon mean-free path is quite short ($\sim 6\un{\angstrom}$ \cite{Yu2006}), a fact that may explain why \citet{Tian2017} find the linear fit to work well in this case, allowing them to extrapolate a value of $\kappa=2.5\un{W/mK}$ for the BKS and Teter potentials, and of $1.28\un{W/mK}$ for the ReaxFF potential, at $300\un{K}$. Therefore, the ReaxFF potential seems to best reproduce the experimental value of $\kappa_{exp}\approx 1.3-1.4\un{W/mK}$ at this temperature. 
-
-
-\paragraph{Equilibrium MD studies}
-\LEnote{**PARAGRAFO DA RIVEDERE. Devo guardare questo articolo**}
-Few studies have been performed using EMD, probably due to the difficulty in estimating the thermal conductivity from the GK equation, as we already described in Sec.~\ref{sec:data-analysis-methods}.
-\citet{McGaughey2004b} was estimated the thermal conductivity of a system of $576$ atoms (\LE{$\rho=***$ at $T\sim \un{K}$}), obtaining a thermal conductivity of $1.96\un{W/mK}$. 
-The GK method is much less affected by finite-size effets, and can simulate the bulk with much smaller systems, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
-\LE{**celle usate da McGaughey??**}
-Tests for the convergence of $\kappa$ with the cell size should always be performed, and will be carried out for a-SiO$_2$ in Sec.~\ref{sec:results-class}.
-
-
-\paragraph{Lattice methods????}
-\LEnote{******ANYTHING***??}
+AIMD simulations can be then used to optimize the structure, generate a trajectory and finally a heat current ready to be analyzed. 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Classical simulations: Results}  \label{sec:results-class}
+\section{Quantum simulations}  \label{sec:results-simulations}
 
+\subsection{Classical preliminaries: force field}  \label{sec:results-class-force-field}
 \begin{figure}[!tb]
     \centering
     \includegraphics[]{chapters/chapter6/figures/BKSW.pdf}
@@ -231,7 +239,7 @@ The thermal conductivity was estimated from $t_{\mathrm{run}} = 1\un{ns}$ of tra
 %\end{itemize}
 
 
-\subsection{Thermal conductivity: size and quenching rate dependence}  \label{sec:results-class-quench}
+\subsection{Sample preparation: size and quenching rate dependence of $\kappa$}  \label{sec:results-class-quench}
 In order to study the convergence of lattice thermal conductivity with the size of the system and the quenching rate, we considered cells containing $72$, $144$, $288$, $432$, $576$, $864$, $1152$, $2304$, $5184$, and $10800$ atoms. For each cell size we analyzed the data obtained from $10$ independent replicas with different initial conditions. 
 For each replica, we considered $10$ different quenching times: $t_{\mathrm{quench}} = 5$, $10$, $25$, $50$, $100$, $250$, $500\un{ps}$, $1$, $5$, and $10\un{ns}$, that correspond to quenching rates $\gamma$ ranging from $1.3\times 10^{15}$ to $6.5\times 10^{11}\un{K/s}$.
 We computed the thermal conductivity $\kappa$ of each of these systems, from a trajectory of $t_\mathrm{run}=1\un{ns}$, using \emph{cepstral analysis}. More technical details on this procedures are reported in Sec.~\ref{sec:cepstral-analysis}. 
@@ -266,7 +274,7 @@ We should however point out that this value is remarkably lower (approximately t
     Circles are the results of $10$ independent replicas simulated with the same quenching protocol. The solid line is a weighted average computed over the replicas and weighted using the errors estimated from cepstral analysis. Three different error limits are indicated. 
     Dashed area: standard deviation of the weighted mean. 
     Dashed lines: statistical error estimated for a \emph{single} trajectory of $1\un{ns}$. 
-    Dotted lines: sample standard deviation of the single values of $\kappa$. 
+    \LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
     }
     \label{fig:results-class-kappa-vs-quench}
 \end{figure}
@@ -278,8 +286,8 @@ Therefore, a quenching rate $\gamma \lesssim 10^{13}\un{K/s}$ seems to be the re
 
 In Fig.~\ref{fig:results-class-kappa-vs-size} and \ref{fig:results-class-kappa-vs-quench} the error on the weighted average is indicated as a thin shaded area surrounding the solid line. Two other lines are reported. The dashed lines delimit the average error that we expect to obtain from a single trajectory sample of $t_{\mathrm{run}}=1\un{ns}$ (it is about the error on the weighted averaged times $\sqrt{10}$). 
 We observe that in general the single calculations of $\kappa$ ($10$ replicas for each abscissa, represented by single circles), fall mostly inside this error bars, for the medium and large systems. For the smaller systems, the fluctuations of the single values become bigger, probably due to larger differences in their structures, in addition to the intrinsically larger fluctuations due to the smaller size. 
-The fluctuations of $\kappa$ can also be quantified by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed (even though this value, estimated from a very small sample, should be taken as indicative).
-The trend of the relative error estimated for a $1\un{ns}$ trajectory as a function of the number of atoms is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size} for $4$ selected quenching rates. The estimated relative error decreases as $\sim 1/\sqrt{N_\mathrm{nat}}$, \LEnote{suggesting that it is influenced by the fluctuations of ... the energy?? in the NVE ensemble, that decrease with the same trend.}
+\LEcancel{The fluctuations of $\kappa$ can also be quantified by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed (even though this value, estimated from a very small sample, should be taken as indicative).}
+The trend of the relative error estimated for a $1\un{ns}$ trajectory as a function of the number of atoms is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size}, for $4$ selected quenching rates, and seems to decrease as $\sim 1/\sqrt{N_\mathrm{nat}}$. 
 The quenching rate, instead, does not appear to affect the error on $\kappa$, as shown in Fig.~\ref{fig:results-class-kappaerror-vs-quench}. 
 
 \begin{figure}[!tb]
@@ -288,7 +296,7 @@ The quenching rate, instead, does not appear to affect the error on $\kappa$, as
     \hfill
     \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_QTIME.pdf}}
     \caption{Estimated relative error on the thermal conductivity of a-SiO$_2$ for a $1\un{ns}$ trajectory (dashed lines) as a function of (a) the number of atoms, (b) the cooling quenching rate. 
-    Dotted lines: sample standard deviation computed over the results of $10$ replicas.
+    \LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
     }
     \label{fig:results-class-kappaerror}
 \end{figure}
@@ -299,6 +307,7 @@ We decided to use one of the samples with $N_{\mathrm{at}}=432$ atoms that were 
 We first made sure that $\S1$ did not exhibit any coordination defects, then we computed its thermal conductivity, that is equal to $\kappa_\S1 = (2.207 \pm 0.045) \un{W/mK}$, using a $1\un{ns}$-long trajectory. 
 This value differs from the average values obtained for the largest systems analyzed by less than $5\%$ ($\approx 0.1\un{W/mK})$. 
 Further data analysis showed that an error of the order of $12\%$ ($\approx 0.25\un{W/mK}$) could be obtained from a trajectory of $100\un{ps}$, a simulation length reasonably affordable with CPMD, hence making this bias in the thermal conductivity negligible. 
+
 
 
 \subsection{Cepstral analysis}  \label{sec:results-class-cepstral}
@@ -344,43 +353,40 @@ The number of cepstral coefficients $P^*$ is reduced as the spectrum is smoother
 
 
 
-\subsection{Pressure-Volume dependence}
-The dependence of $\kappa$ of a-SiO$_2$ on the pressure can be neglected for the range of temperatures considered later ($300-1500\un{K}$). 
+\subsection{Pressure-Volume dependence of $\kappa$}
+The dependence of $\kappa$ of a-SiO$_2$ on the pressure can be safely neglected for the range of temperatures considered later ($300-1500\un{K}$). 
 Silica glass has a anomalously low thermal expansion coefficient, with an experimental value of $\alpha = \frac{1}{V}\left(\frac{\partial V}{\partial T}\right)_T \approx 5.5\times 10^{-7} \un{K^{-1}}$ at $300\un{K}$, about $20$ times smaller than that of crystalline forms of silica. 
 The relative variation in density from $300\un{K}$ to $1500\un{K}$ can be estimated to be $\frac{\Delta\rho}{\rho} \approx 7\times 10^{-4}$.
-Using the experimental bulk modulus $K=-V\frac{dP}{dV}=\rho\frac{dP}{d\rho}\approx 36.7\un{GPa}$ experimental density at $300\un{K}$, $\rho=2.202\un{g/cm^3}$, we can expect a consequent variation in pressure of about $\Delta P \approx 30\un{MPa}$, quite negligible. 
+Using the experimental bulk modulus $K=-V\frac{dP}{dV}=\rho\frac{dP}{d\rho}\approx 36.7\un{GPa}$ and experimental density at $300\un{K}$, $\rho=2.202\un{g/cm^3}$, we can expect a consequent variation in pressure of about $\Delta P \approx 30\un{MPa}$, quite negligible. 
 Experimental measures of thermal conductivity of silica at high pressures estimate a variation of $\kappa$ with pressure of the order of $5\%/\mathrm{GPa}$ \cite{Andersson1992}, hence we can safely neglect this effect. 
 
 In classical simulations these values may change slightly, but we do not expect significant differences. 
 In the preliminary phases of this work we also performed quenching simulations at constant pressure, in the NPT ensemble. 
-We found, in accordance to the previous studies discussed in Sec.~\ref{sec:silica-quenching}, that the density of the sample increases with the quenching rate. A slow quenching leads to lower densities, closer to the experiment. The average equilibrium density obtained from the slowest quench at zero pressure exhibits is equal to $\rho_{P=0}=2.31\un{g/cm^3}$, slightly larger than the experimental one. We can attribute this discrepancy to a combined effect of the BKS potential and of the relatively fast quenching rate. 
+We found, in accordance with previous studies discussed in Sec.~\ref{sec:silica-quenching}, that the density of the sample increases with the quenching rate. A slow quenching leads to lower densities, closer to the experiment. The average equilibrium density obtained from the slowest quench at zero pressure is equal to $\rho_{P=0}=2.31\un{g/cm^3}$, slightly larger than the experimental one. We can attribute this discrepancy to a combined effect of the BKS potential and of the relatively fast quenching rate. 
 The thermal expansion coefficient is $5$ times larger than experiment, with a value of $\alpha\approx 2.8\times 10^{-6} \un{K^{-1}}$. 
-Finally, the thermal conductivities obtained from a quench in the NPT ensemble show up to $10\%$ larger values compared to the quenches at fixed volume, for the fastest quenching rates and smallest sizes, and of similar values for the slowest rates (plots are reported in Appendix~\ref{ch:appendix-npt-results}). The slightly higher densities (up to $\approx 2.5\un{g/cm^3}$) that are obtained using very fast quenching rates are probably the reason of this difference. 
-We decide therefore to fix the density to the experimental value and to equilibrate our simulations in the NVT ensemble, as previously done by many other authors.
+Finally, the thermal conductivities obtained from quenches in the NPT ensemble show values that are up to $10\%$ larger than those obtained by quenches at fixed volume, for the fastest quenching rates and smallest sizes, and of similar values for the slowest rates (plots obtained from the NPT simulations are reported in Appendix~\ref{ch:appendix-npt-results}). 
+The slightly higher densities (up to $\approx 2.5\un{g/cm^3}$) that are obtained using very fast quenching rates are probably the reason of this difference. 
+We decide therefore to set the density at the experimental value and to equilibrate our simulations in the NVT ensemble, as previously done by many authors.
 
 \LEnote{Eventualmente grafici $\rho(\gamma)$}
 
 
-\subsection{Temperature dependence}
-AND THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, X)
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-\section{Quantum simulations}  \label{sec:results-quantum}
+\subsection{Quantum simulations}  \label{sec:results-simulations-quantum}
 The $\S1$ sample has been simulated with Car-Parrinello MD using the \texttt{cp.x} code of the \textsc{Quantum ESPRESSO} suite \cite{Giannozzi2009,Giannozzi2017}. 
-We used the PBE-GGA exchange-correlation functional \cite{Perdew1996}, wave functions were expanded in plane waves with a kinetic-energy cutoff of $952\un{eV}$ and using the optimized norm-conserving Vanderbilt pseudopotentials (ONCVP) \cite{Schlipf2015,Hamann2013}. The cutoff was chosen so as to convergence of energies and forces. 
+We used the PBE-GGA exchange-correlation functional \cite{Perdew1996}, wave functions were expanded in plane waves with a kinetic-energy cutoff of $70\un{Ry}$ and using the optimized norm-conserving Vanderbilt pseudopotentials (ONCVP) \cite{Schlipf2015,Hamann2013}. The cutoff was chosen so as to convergence of energies and forces. 
 The system contained $432$ atoms ($144\,$Si, $288\,$O) and $2304$ electrons. A time step of $\epsilon_\textrm{CP} = 15\un{a.u.} \approx 0.36\un{fs}$ and a fictitious electron mass of $400\un{a.u.}$ were used to integrate the equations of motion. 
 We verified that the kinetic energy of the fictitious electronic degrees of freedom and the total energies were not drifting during the whole length of the simulation. 
-The system was thermalised for about $5\un{ps}$ at temperature $T_\mathrm{eq}$ in the NVT ensemble using the Nos\'e-Hooveer thermostat \cite{Nose1984,Hoover1985}, then it was evolved in the microcanonical ensemble for about $t_\mathrm{run}\approx 52\un{ps}$. 
+The system was thermalised for about $5\un{ps}$ at temperature $T_\mathrm{eq}$ in the NVT ensemble using the Nos\'e-Hoover thermostat \cite{Nose1984,Hoover1985}, then it was evolved in the microcanonical ensemble for about $t_\mathrm{run}\approx 52\un{ps}$. 
 
-Four different equilibrium temperatures $T_\mathrm{eq}$ were simulated: $300$, $500$, $1000$, and $1500\un{K}$. For each temperature we actually ran two independent simulations with different initial conditions, thus obtaining a total of $\approx 105\un{ps}$ data at each temperature in half the time. 
+Four different equilibrium temperatures $T_\mathrm{eq}$ were simulated: $300$, $500$, $1000$, and $1500\un{K}$. For each temperature we actually ran two independent simulations with different initial conditions, thus obtaining a total of $\approx 105\un{ps}$ worth of data at each temperature, in half the time. 
 Each of the CPMD calculations costed about $140\un{k}$ CPU hours.
 
 \LE{**tabella dati??*}
 
 
-\subsection{Heat current calculation}  \label{sec:results-quantum-current}
-
+%\subsection{Heat current calculation}  \label{sec:results-quantum-current}
+\medskip
 For each AIMD trajectory generated, we proceeded to the computation of the \abinitio heat current, following the procedure described in Sec.~\ref{sec:dft-hc-computation}. 
 The first important parameter to decide is the frequency at which we want to compute the heat current. For this system, we estimated that one single-step calculation of the current costs roughly $60$ CPU hours, so one can easily estimate the potential cost of a $100\un{ps}$ trajectory. 
 
@@ -390,11 +396,11 @@ In fact, the time period $\epsilon_\mathrm{HC}$ over which we compute the curren
 
 An educated guess can be made from classical MD simulations. By examining the power spectrum of the classical heat current, we estimated that a sampling period $\epsilon_\mathrm{HC} = 30 \epsilon_\mathrm{CP} \approx 10.88\un{fs}$ would give a reasonably low $f_\mathrm{Ny}\approx 45\un{THz}$. 
 If we resample the classical time series at different sampling rates, without applying any preliminary filter, we can observe the effects of aliasing on the power spectrum. 
-After some trials, we verified that sampling rates leading to a decrease of spectral power $\Delta P$ (the integral of the power spectrum) of less than $1\%$ do not sensibly introduce aliasing effects that may alter the low-frequencies of the spectrum, hence the value of thermal conductivity. A value $f_\mathrm{Ny}\approx 40\un{THz}$ ($\Delta P\approx 0.9\%$) does not change the estimated $\kappa$; choosing $f_\mathrm{Ny}\approx 35\un{THz}$, instead, cuts a tail of the spectrum ($\Delta P\approx 4\%$) and introduces important aliasing effects that ultimately change its value at zero-frequency, so it should not be used. 
+After some trials, we verified that sampling rates leading to a decrease of spectral power $\Delta\mathsf{P}$ (the integral of the power spectrum) of less than $1\%$ do not sensibly introduce aliasing effects that may alter the low-frequencies of the spectrum, hence the value of thermal conductivity. A value $f_\mathrm{Ny} \approx 40\un{THz}$ ($\Delta\mathsf{P} \approx 0.9\%$) does not change the estimated $\kappa$; choosing $f_\mathrm{Ny} \approx 35\un{THz}$, instead, cuts a tail of the spectrum ($\Delta\mathsf{P} \approx 4\%$) and introduces important aliasing effects that ultimately change its value at zero-frequency, so it should not be used. 
 
 Notwithstanding these considerations, past experience with other systems suggests us that the \abinitio heat current often possess a larger variance than the classical one, \LEnote{**see sezione renormalizz**} hence a larger spectral power, that may invalidate the empirical tests just performed. 
-To verify that this was not the case, we decided to compute the \abinitio heat current of a short trajectory every $20$ CP time steps ($\epsilon_\mathrm{HC} = 20 \epsilon_\mathrm{CP} \approx 7.26\un{fs}$), and compare the results obtainable from different sampling periods: $\epsilon_\mathrm{HC} = 20\epsilon_\mathrm{CP}$, $30\epsilon_\mathrm{CP}$, $40\epsilon_\mathrm{CP}$, and $60\epsilon_\mathrm{CP}$. 
-The corresponding periodograms are plotted in Fig.~\ref{fig:results-quantum-dt-choice}. The two largest sampling periods, $40\epsilon_\mathrm{CP}$ and $60\epsilon_\mathrm{CP}$, clearly display remarkable aliasing effects, that affect the low- and middle-frequency region of the spectrum, and effect not present if we choose $30\epsilon_\mathrm{CP}$. 
+To verify that this was not the case, we decided to compute the \abinitio heat current of a short trajectory at every $20$ CP time steps ($\epsilon_\mathrm{HC} = 20 \epsilon_\mathrm{CP} \approx 7.26\un{fs}$), and compare the results obtainable from different sampling periods: $\epsilon_\mathrm{HC} = 20\epsilon_\mathrm{CP}$, $30\epsilon_\mathrm{CP}$, $40\epsilon_\mathrm{CP}$, and $60\epsilon_\mathrm{CP}$. 
+The corresponding periodograms are plotted in Fig.~\ref{fig:results-quantum-dt-choice}. The two largest sampling periods, $40\epsilon_\mathrm{CP}$ and $60\epsilon_\mathrm{CP}$, clearly display remarkable aliasing effects, that affect the low- and middle-frequency region of the spectrum, an effect not present if we choose $30\epsilon_\mathrm{CP}$. 
 Therefore, we decided to set $\epsilon_\mathrm{HC} = 30\epsilon_\mathrm{CP}$. For a trajectory of $100\un{ps}$, we need to perform about $9500$ heat current calculations, with a total estimated cost of the order of $560\un{k}$ CPU hours. 
 
 \begin{figure}[!tb]
@@ -407,7 +413,6 @@ Therefore, we decided to set $\epsilon_\mathrm{HC} = 30\epsilon_\mathrm{CP}$. Fo
 
 
 \paragraph{Heat current power spectrum}
-
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=10cm]{chapters/chapter6/figures/silica_cl-q_psd_cfr.pdf}
@@ -417,18 +422,17 @@ Therefore, we decided to set $\epsilon_\mathrm{HC} = 30\epsilon_\mathrm{CP}$. Fo
 
 As we just mentioned, the \abinitio heat current time series has a variance much larger than the classical one, thus making the peaks of its power spectrum much higher, and its analysis possibly more difficult. 
 This effect is due to the different definition of the microscopic energy density in the classical and DFT approach, and its different ripartition between atoms. 
-Similarly to what happens in a molecular system like water (see Sec.~\ref{sec:MolecularFluids}), the average distance between atoms in a solid is a bounded vector if atomic diffusion does not occur, so we can expect a flux $\mathbf{J}^\mathrm{SiO}=\mathbf{J}^\mathrm{Si}-\mathbf{J}^\mathrm{O}$, where $\mathbf{J}^\mathrm{Si}$ and $\mathbf{J}^\mathrm{O}$ are the number flux defined in Eq.~\eqref{eq:JX}, to be a total time derivative of a bounded vector field. By the gauge invariance theorem, we conclude that this flux does not contribute to the thermal conductivity and can therefore be removed with one of the techniques \LE{mentioned in Sec.***DECOR**}. 
+Similarly to what happens in a molecular system like water (see Sec.~\ref{sec:MolecularFluids}), the average distance between atoms in a solid is a bounded vector if atomic diffusion does not occur, so we can expect a flux $\mathbf{J}^\mathrm{SiO}=\mathbf{J}^\mathrm{Si}-\mathbf{J}^\mathrm{O}$, where $\mathbf{J}^\mathrm{Si}$ and $\mathbf{J}^\mathrm{O}$ are the number fluxes defined in Eq.~\eqref{eq:JX}, to be a total time derivative of a bounded vector field. By the gauge invariance theorem, we conclude that this flux does not contribute to the thermal conductivity and can therefore be removed with one of the techniques \LE{presented in Sec.***DECOR**}. 
 
-We decided to apply the velocity-renormalization (VR) decorrelation technique before computing the heat current: the value of velocity of each atom (extracted from the CPMD trajectory) was renormalized by subtracting the value of the center of mass of its species. 
-For example, at each time $t$ the velocity of a silicon atom $\mathbf{V}_n(t)$ was substituted with $\mathbf{V}_n(t)-\frac{1}{N_\mathrm{Si}}\sum_{m\in \mathrm{Si}}\mathbf{V}_m(t)$, where $N_\mathrm{Si}$ is the number of silicon atoms. 
-Furthermore, as discussed in Sec.~\ref{sec:dft-electronic-curr}, the electronic current (EC) $\mathbf{J}^{el}$ is non-diffusive and can therefore be removed, for example by a simple decorrelation procedure. 
+We decided to apply the velocity-renormalization (VR) decorrelation technique before computing the heat current: the value of each atom's velocity (extracted from the CPMD trajectory) was renormalized by subtracting the velocity of the center of mass of its species from it. 
+For example, at each time $t$ the velocity of a silicon atom $\mathbf{V}_n(t)$ was substituted with $\mathbf{V}_n(t)-\frac{1}{N_\mathrm{Si}}\sum_{m\in \mathrm{Si}}\mathbf{V}_m(t)$, where $N_\mathrm{Si}$ is the total number of silicon atoms. 
+Furthermore, as discussed in Sec.~\ref{sec:dft-electronic-curr}, the electronic current (EC) $\mathbf{J}^{el}$ is also non-diffusive and can therefore be removed, for example by a simple decorrelation procedure applied after the heat current computation. 
 
-The power spectra of the classical and the \abinitio heat currents are displayed in Fig.~\ref{fig:results-quantum-psd-cfr}. One can immediately notice the large difference in power of the classical and \abinitio spectra (see units), and the effects of VR and EC-decorrelation, that make the spectrum flatter. This effect does not change much the low-frequency region, in the classical case, but it does in the quantum case, even though the convergence at zero-frequency is maintained. 
-The positions of the peaks of the \abinitio power spectrum are shifted with respect to the classical case, a probable consequence of the different VDOS of these two systems. 
+The power spectra of the classical and the \abinitio heat currents are displayed in Fig.~\ref{fig:results-quantum-psd-cfr}. One can immediately notice the large difference in power of the classical and \abinitio spectra (see units), and the effects of the VR and EC-decorrelation, that make the spectrum flatter. This effect does not change much the low-frequency region, in the classical case, but it does in the quantum case, even though the convergence at zero-frequency is maintained. 
+We also notice that the positions of the peaks of the \abinitio power spectrum are shifted with respect to the classical case, a consequence of the different VDOS of these two systems. 
 
 
 \subsection{Results}  \label{sec:results-quantum-results}
-
 
 
 \begin{figure}
@@ -444,3 +448,5 @@ The positions of the peaks of the \abinitio power spectrum are shifted with resp
     \label{fig:results-quantum-kappa-temp}
 \end{figure}
 
+TEMPERATURE DEPENDENCE
+AND THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, X)
