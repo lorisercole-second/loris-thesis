@@ -57,8 +57,8 @@ To cite an example, borosilicate glasses (BSG) are broadly used to vitrify and i
 Predicting the thermal conductivity of silica also represents the first step towards the prediction of the thermal conductivity of more complicated glasses such as BSG, whose components are characterized by a complex chemistry that more is difficult to model. 
 
 Silica glass has been the subject of many classical MD studies in the last twenty years, that showed that classical force fields can reproduce reasonably well all the structural properties of a-SiO$_2$, but do not describe very well its vibrational spectrum, that instead requires first-principles simulations. 
-Thermal conductivity depends on both these properties and thus calls for an \abinitio study to finally close this lack.\LEnote{*****come si dice??*******}
-Besides, silica still lacks a proper study determining dependence of $\kappa$ on some simulation factors, such as the cooling protocol used to prepare the glass sample, that influences remarkably its structural properties, and the size of system. 
+Its thermal conductivity, that depends on both these properties, still lacks satisfactory and reliable calculations and thus calls for a rigorous study to finally settle the issue. 
+Besides, silica also lacks a proper study determining dependence of $\kappa$ on some simulation factors, such as the cooling protocol used to prepare the glass sample, that influences remarkably its structural properties, and the size of system. 
 
 
 \paragraph{Computing thermal conductivity}
@@ -112,20 +112,15 @@ This thesis is organized as follows.
 
 Chapter~\ref{ch:green-kubo} introduces the Green-Kubo theory of heat transport. 
 Starting from a light review of the theory of hydrodynamic variables and linear response theory, we derive the GK equation for one-component and multi-component systems, and we obtain an expression for the energy current for classical force fields. 
-
 In Chapter~\ref{ch:gauge-invariance} we present the problem of defining atomic energies and energy densities in interacting systems. We show that there is no unique way to define the heat current, nevertheless the resulting thermal conductivity is well-defined. We prove this statement by numerical simulations and by theory, introducing the principle of gauge invariance of thermal transport coefficients. 
-
 In Chapter~\ref{ch:dft-heat}, after briefly reviewing some of the most recent first-principles simulation techniques of thermal transport, we show how one can derive and compute an \abinitio expression for the energy current in the framework of density functional theory. 
-
 Chapter~\ref{ch:data-analysis} is entirely devoted to the practical evaluation of the thermal conductivity from the GK equation. We briefly review all the analysis methods found in the literature, and comment upon their weak points. 
 We thus introduce a new technique to evaluate transport coefficients, based on the so-called \emph{cepstral analysis} of time series, and we benchmark it with classical MD simulations for different classes of materials.
 \LEnote{**discorsi rinormalizzazione**}
-
 In chapter~\ref{ch:silica} we study the thermal conductivity of a-SiO$_2$ using the \abinitio GK theory. 
 We discuss the aspects involved in the atomistic simulation of glass and we simulate silica with classical MD using a popular force field. In particular, we study the dependence of $\kappa$ on the size of the system and the quenching rate used in the virtual vitrification process. 
 We then select an optimal system size and simulate one sample with AIMD. 
 We compute its thermal conductivity at four different temperatures, and we finally compare the simulation results with experiments. 
-
 Chapter~\ref{ch:conclusions} finally contains our conclusions.
 
 \smallskip
