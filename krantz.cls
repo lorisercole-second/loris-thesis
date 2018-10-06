@@ -96,7 +96,8 @@
 \newif\if@ChapterResetsPage
 \DeclareOption{ChapterResetsPage}{\@ChapterResetsPagetrue}
 \newif\if@ChapterTOCs
-\DeclareOption{ChapterTOCs}{\@ChapterTOCstrue}
+\newif\ifthischaptertoc  % LORIS HACK
+\DeclareOption{ChapterTOCs}{\@ChapterTOCstrue \thischaptertoctrue}    % LORIS HACK
 \newif\if@EOCRefs
 \DeclareOption{EOCRefs}{\@EOCRefstrue}%
 \newif\if@SuperscriptCites
@@ -109,6 +110,7 @@
 \newif\if@krantza
 \DeclareOption{krantz2}{\@krantzbtrue}
 \newif\if@krantzb
+\newcommand{\inappendix}{TT\fi\expandafter\ifx\@chapapp\appendixname}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -704,12 +706,14 @@
     {\baselineskip 20\p@\lineskip 20\p@\ChapTitleFont #1\par\vskip-15pt}%
     \noindent\hbox{\vrule height.5pt width84pt}
     \vskip28\p@}
-            \if@ChapterTOCs
-            \ifnum\c@chapter >1  % LORIS HACK to remove TOC from CHAPTER 1
-      \make@chaptoc
-      \fi  % HACK
+    \if@ChapterTOCs
+        \ifthischaptertoc  % LORIS HACK
+            \make@chaptoc
+        \else
+        
+        \fi
     \else
-\fi
+    \fi
     \vskip 19.3\p@}
     \def\theequation{\thechapter.\arabic{equation}}}%
 

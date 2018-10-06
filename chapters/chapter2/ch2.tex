@@ -1,7 +1,6 @@
 \chapter{Green-Kubo theory of heat transport}  \label{ch:green-kubo}
 
 Our microscopic understanding of heat and mass transport in extended systems is rooted in the Green-Kubo (GK) theory of linear response \cite{Green1954,Kubo1957a}, as applied to the Navier-Stokes equations for the densities of the conserved extensive variables \cite{Kadanoff1963,Forster1975}, which include energy, momentum, and the particle numbers for each molecular species. 
-\begin{LEtext}
 
 This work was initiated by Onsager in the thirties \cite{Onsager1931a,Onsager1931b} and carried on by Green and Kubo in the fifties with the theory of linear response \cite{Green1952,Green1954,Kubo1957a,Kubo1957b}. The theory is built on the concept of adiabatic decoupling of the slow long-wavelength components of the densities of conserved extensive quantities (which include energy, momentum, and particle number) \cite{Kadanoff1963}, the so-called \emph{hydrodynamic variables}, from the other atomically fast degrees of freedom. Their work resulted in the celebrated \emph{Green-Kubo equations}, a consequence of the fluctuation-dissipation theorem, that establish a relation between a (non-equilibrium) transport coefficient $\kappa$ and the spontaneous fluctuations of the relevant currents $J$ at equilibrium. Transport coefficients are in fact proportional to their autocorrelation times:
 \begin{equation}
@@ -10,7 +9,6 @@ This work was initiated by Onsager in the thirties \cite{Onsager1931a,Onsager193
 where the brackets indicate ensemble averages over trajectories, and are accessible to equilibrium MD simulations.
 
 In this chapter we briefly walk through the theory that allows the derivation of the Green-Kubo equations for transport coefficients, starting from the definition of the hydrodynamic variables of a system, in Section~\ref{sec:hydrodyn_var}, and the use of linear response theory to connect equilibrium properties to non-equilibrium ones, presented in Section~\ref{sec:linear-response}. In Section~\ref{sec:heat-transport}, we specialize to heat transport in solids and one component fluids, and the general case of multi-component fluids, and we derive the expression of the energy flux for systems described by classical force fields.
-\end{LEtext}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,7 +233,7 @@ Their contributions to thermal conductivity were computed by \citet{McGaughey200
 The relative contributions of the convective and cross terms are expected to increase as the temperature goes up and anharmonic effects inhibit phononic conduction. 
 %The absolute values of the convective contribution remains the same with increasing temperature, whereas the virial and cross term contributions decrease. \LEnote{<-- check this**}
 While the convective term may not be as important for materials with higher thermal conductivity, in general, its contribution and that of the cross term should be checked before assuming they are negligible. 
-\LEcancel{Some further comments on this issue in Sec.~\ref{sec:carbogno}.}\LEnote{Forse in appendice.}
+Some further comments on this issue are reported in Appendix~\ref{ch:appendix-carbogno}. 
 
 In the literature the nomenclature is often confusing, and the relative contributions of each term not very well established. 
 For example, \citet{Vogelsang1987} divide the energy flux in two terms \cite{McQuarrie2000}: a ``\emph{kinetic}'' part, defined as
@@ -262,8 +260,7 @@ Finally, an alternative definition of the heat flux can be used when dealing wit
     \mathbf{J}^\smallE(\rGamma) =
        \frac{1}{\rOmega} \sum_{n,m} (\mathbf{R}_n^0 -\mathbf{R}_m^0) \mathbf{F}_{n m} \cdot \mathbf{V}_n , \label{eq:J-leyla}
 \end{equation}
-where $\mathbf{R}_n^0$ denotes the average atomic position of atom $n$. One should not confuse this expression with neglecting the convection part of the heat current. For a solid, Eq.~\eqref{eq:J-leyla} will give the same thermal conductivity as Eq.~\eqref{eq:J-classical-2body}. 
-\\\LEnote{*** as demonstrated in Appendix~\ref{sec:carbogno}.***}
+where $\mathbf{R}_n^0$ denotes the average atomic position of atom $n$. One should not confuse this expression with neglecting the convection part of the heat current. For a solid, Eq.~\eqref{eq:J-leyla} will give the same thermal conductivity as Eq.~\eqref{eq:J-classical-2body}. In Appendix~\ref{ch:appendix-carbogno} we present a simple demonstration of this statement, by exploiting the gauge invariance principle that will be introduced in Ch.~\ref{ch:gauge-invariance}. 
 
 
 \paragraph{Many-body potentials}

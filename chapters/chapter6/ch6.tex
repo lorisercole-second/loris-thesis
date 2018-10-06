@@ -71,7 +71,7 @@ Nevertheless, the quenching process largely influences the macroscopic and micro
     (b) Effective VDOS of an a-SiO$_2$ sample of $72$ atoms at experimental density $2.20\un{g/cm^3}$, computed from AI-CPMD simulations within the local density approximation (solid line) and compared to neutron scattering data (circles). Reproduced from Ref.~\cite{Sarnthein1997}.}
 \end{figure}
 
-Besides the structure of the generated sample, what determine the thermal conductivity of the system are its vibrational properties, that are determined by the interaction potential and can be analyzed by the vibrational density of states (VDOS).
+Besides the structure of the generated sample, what determine the thermal conductivity of the system are its vibrational properties, that are determined by the interaction potential and can be analysed by the vibrational density of states (VDOS).
 Experimentally, the VDOS obtained from neutron scattering shows three significant peaks at about $400$, $800$, and $1100\un{cm^{-1}}$, that represent the rocking, bending, and stretching modes respectively \cite{Galeener1983}, as shown in Fig.~\ref{fig:silica-vdos-abinitio}.
 
 Classical force fields struggle to correctly reproduce the features of the VDOS of a-SiO$_2$. In Fig.~\ref{fig:silica-vdos-classical} we report the VDOS obtained for the BKS and ReaxFF potentials \cite{Tian2017}, compared to \abinitio calculations \cite{Bhattarai2016}. 
@@ -87,6 +87,7 @@ Therefore we can expect that ReaxFF would provide more realistic predictions of 
 
 
 \paragraph{Thermal conductivity}
+% NEMD studies
 Many studies of the thermal conductivity of a-SiO$_2$ are based on NEMD simulations, that are strongly size dependent due to scattering of phonons with the heat sink, and thus require the study of its convergence at large cell sizes. 
 For example, \citet{Tian2017} simulated a-SiO$_2$ with the BKS potential at $T=300\un{K}$, $\rho=2.2\un{g/cm^3}$, and obtained a value of thermal conductivity of $\kappa=(2.27 \pm 0.06)\un{W/mK}$ at the maximum size simulated, whereas \citet{Coquil2011} obtained $\kappa= (2.10 \pm 0.10)\un{W/mK}$, to be compared with an experimental value of $\kappa_\mathrm{exp}\approx 1.3 - 1.4 \un{W/mK}$
 
@@ -94,15 +95,14 @@ An extrapolation technique is needed to estimate the convergence of $\kappa$ as 
 Despite being broadly applied in the literature, this method has to be used with extreme care. Indeed, if the distribution of phonon mean-free paths cannot be approximated by its average value, the linear dependence of $1/\kappa$ on $1/L_z$ is no longer valid, as higher-order terms are not negligible, as \citet{Sellan2010} ascertained studying Ar and Si crystals. If the considered system sizes are smaller than the largest bulk mean-free paths that dominate the thermal transport, then the linear relationship may not work and the thermal conductivity can be severely underestimated. 
 In the case of amorphous silica, the maximum phonon mean-free path is quite short (between $\sim 20$ and $\sim 6\un{\angstrom}$, depending on temperature \cite{Yu2006}), a fact that may explain why \citet{Tian2017} find the linear fit to work well in this case, allowing them to extrapolate a value of $\kappa=2.5\un{W/mK}$ for the BKS and Teter potentials, and of $1.28\un{W/mK}$ for the ReaxFF potential, at $300\un{K}$. Therefore, the ReaxFF potential seems to best reproduce the experimental value at this temperature. 
 
-%\paragraph{Equilibrium MD studies}
-\LEnote{**PARAGRAFO DA RIVEDERE. Devo guardare questo articolo**}
-Few studies have been performed using EMD, probably due to the difficulty in estimating the thermal conductivity from the GK equation, as we already described in Sec.~\ref{sec:data-analysis-methods}.
-\citet{McGaughey2004b} was estimated the thermal conductivity of a system of $576$ atoms (\LE{$\rho=***$ at $T\sim \un{K}$}), obtaining a thermal conductivity of $1.96\un{W/mK}$. 
-The GK method is much less affected by finite-size effets, and can simulate the bulk with much smaller systems, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
-\LE{**celle usate da McGaughey??**}
-Tests for the convergence of $\kappa$ with the cell size should always be performed, and will be carried out for a-SiO$_2$ in Sec.~\ref{sec:results-class-quench}.
+% EMD studies
+To the best of our knowledge, only one numerical study has ever been performed using EMD, likely due to high difficulty in estimating the thermal conductivity from the GK equation, as we discussed in Sec.~\ref{sec:data-analysis-methods}.
+\citet{McGaughey2004b} estimated the thermal conductivity of a system of $576$ atoms ($\rho=2.35\un{g/cm^3}$ at $T = 50-400 \un{K}$), obtaining a thermal conductivity of $\approx 2\un{W/mK}$ at $300\un{K}$. 
+The GK method is much less affected by finite-size effets, and can simulate the bulk from much smaller systems with respect to NEMD. However, tests for the convergence of $\kappa$ with the cell size should always be performed, as discussed in the following. 
 
-\LEnote{******Kinetic theory methods???? ***??}
+%, actually much smaller than the estimated phonon mean-free path \cite{Schelling2002}. As already mentioned in Sec.~\ref{sec:spectral-methods}, the potential finite-size effects of the GK method may be attributed to memory effects, \emph{i.e.} to phonons that, thanks to PBC, reenter the simulation box several times without scattering and hence may introduce artificial correlations. In this case, the heat flux autocorrelation function may not be reliable for times longer than the time required for the passage of the phonon across the simulation cell. 
+
+%\LEnote{******Kinetic theory methods???? ***??}
 
 
 
@@ -162,8 +162,8 @@ The low- and mid-frequency bands obtained with the BKS, are quite featureless an
 To our knowledge, a study of the dependence of the thermal conductivity of a-SiO$_2$ on the quenching rate has never been performed, and should be completed before attempting a first-principles calculation. In Sec.~\ref{sec:results-class-quench} we will present this study. 
 
 In conclusion, even though these studies have been performed using the BKS potential and not with DFT (for obvious computational reasons), it is very reasonable to assume their results will also hold for AIMD simulations of amorphous silica. 
-The demonstrated structure predictions capabilities of the BKS potential and the very large range of time scales analyzed leads us to conclude that a reliable a-SiO$_2$ structure can only be obtained by a ``slow'' quenching protocol with classical MD. 
-AIMD simulations can be then used to optimize the structure, generate a trajectory and finally a heat current ready to be analyzed. 
+The demonstrated structure predictions capabilities of the BKS potential and the very large range of time scales analysed leads us to conclude that a reliable a-SiO$_2$ structure can only be obtained by a ``slow'' quenching protocol with classical MD. 
+AIMD simulations can be then used to optimize the structure, generate a trajectory and finally a heat current ready to be analysed. 
 
 
 
