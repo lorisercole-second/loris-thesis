@@ -9,7 +9,9 @@ In this chapter, we confute this prejudice thanks to the discovery of a \emph{ga
 Energy densities and fluxes are indeed ill-defined, in classical no less than in quantum mechanics, however the transport coefficients derived from them do not depend on their microscopic definition, as long as the last complies with energy \emph{extensivity} and \emph{conservation}. 
 In Section~\ref{sec:micro-illdef}, we show the nature of this indeterminacy and we demonstrate it in the case of classical MD simulations, providing a numerical example. 
 In Section~\ref{sec:gauge-invariance}, we introduce the concept of gauge invariance of thermal transport coefficients and prove it both theoretically and numerically. 
-In Section~\ref{sec:MolecularFluids}, we treat the specific case of molecular fluids and give a perspective on how the gauge invariance property may be exploited to define equivalent formulations for the heat currents. \LE{*** These ideas may reveal to be very handy in optimising the statistical properties of the heat currents: a task especially useful in view of the \emph{ab initio} calculation of thermal conductivity, and that can be carried out using some techniques sketched in Section~\ref{sec:gauge-renormalization}.}
+In Section~\ref{sec:MolecularFluids}, we treat the specific case of molecular fluids and give a perspective on how the gauge invariance property may be exploited to define equivalent formulations for the heat currents. 
+These ideas may reveal to be very handy in optimising the statistical properties of the heat currents: a task especially useful in view of the \emph{ab initio} calculation of thermal conductivity, and that we will exploit later on. 
+%can be carried out using some techniques sketched in Section~\ref{sec:gauge-renormalization}.
 %In Section~\ref{sec:carbogno} \LEnote{**SPOSTO IN APPENDICE (o elimino)**} we comment on some of the classical definitions of the energy flux, using the gauge invariance principle. 
 Finally, Section~\ref{sec:gauge-outlook} concludes this chapter by giving some future perspectives. 
 
@@ -137,7 +139,7 @@ Two energy fluxes that differ by a total time derivative of a bounded function r
 \end{theorem}
 
 
-\subsection{Alternative proof}
+\subsection{Alternative proof}  \label{sec:gauge-proof}
 An alternative proof of the gauge invariance principle of the Onsager coefficients can be obtained using the Lemma described by \citet{Marcolongo2016}.
 
 \begin{lemma}[\citeauthor{Marcolongo2016}] \label{th:aris-theorem}
@@ -204,12 +206,7 @@ Let us consider a molecule of chemical formula $A_{N_A} B_{N_B}\cdots$, where $A
 If we indicate by $M_X$ the atomic mass of species $X$, momentum conservation requires that $\sum_X M_X N_X \mathbf{J}^X = 0$ in the center-of-mass reference frame. The flux $\mathbf{J}^{XY} = \mathbf{J}^{X}-\mathbf{J}^{Y}$ is the total time derivative of a bounded vector, because its integral is the sum over all the molecules of the difference between the average atomic positions of either species within a same molecule, which is obviously bounded if molecules do not dissociate. As any number flux $\mathbf{J}^X$ can be expressed as a linear combination of the total momentum and of several $\mathbf{J}^{XY}$ fluxes, each of them is the total time derivative of a bounded vector. Therefore, by the gauge invariance theorem, the Onsager coefficient coupling any of these atomic fluxes with any other or with the energy flux vanishes. We conclude that energy is the only relevant conserved quantity relevant for heat transport in a molecular fluid, and that the energy-flux autocorrelation function directly yields the thermal conductivity, as in Eq.~\eqref{eq:GK}.
 
 
-\section{Formation and self-energy contributions in heat currents}  \label{sec:gauge-renormalization}
-\LEnote{*** Spiegazione dei metodi di scorrelazione / rinormalizzazione di Aris, per rimuovere i contributi delle self-energie. (se riesco... non se ha senso parlare anche dei metodi multi-componente ***}
-\LEnote{** Ma forse questa sezione va spostata nel cap.5 (data analysis) ?***}
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Outlook}  \label{sec:gauge-outlook}
 The discovery of the gauge invariance principle provides the theoretical foundation for the formulation of a microscopic theory of adiabatic heat transport in the framework of density functional theory (DFT). The first such formulation is presented in Chapter~\ref{ch:dft-heat}. 
 

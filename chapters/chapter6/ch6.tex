@@ -1,6 +1,6 @@
 \chapter{Thermal conductivity simulations of Silica glass}  \label{ch:silica}
 
-\LEnote{Thermal conductivity simulations for Silica glasses??}
+%\LEnote{Thermal conductivity simulations for Silica glasses??}
 
 The calculation of the lattice thermal conductivity of a material using equilibrium MD simulations requires an accurate knowledge of the interatomic interactions, a sample of adequate \emph{size}, and a sufficient \emph{simulation length}. 
 A good interatomic force field should faithfully reproduce the structural and dynamical properties of the material, as both will be important to correctly predict the thermal conductivity. 
@@ -374,6 +374,7 @@ We used the PBE-GGA exchange-correlation functional \cite{Perdew1996}, wave func
 The system contained $432$ atoms ($144\,$Si, $288\,$O) and $2304$ electrons. A time step of $\epsilon_\textrm{CP} = 15\un{a.u.} \approx 0.36\un{fs}$ and a fictitious electron mass of $400\un{a.u.}$ were used to integrate the equations of motion. 
 We verified that the kinetic energy of the fictitious electronic degrees of freedom and the total energies were not drifting during the whole length of the simulation. 
 The system was thermalised for about $5\un{ps}$ at temperature $T_\mathrm{eq}$ in the NVT ensemble using the Nos\'e-Hoover thermostat \cite{Nose1984,Hoover1985}, then it was let evolved in the microcanonical ensemble for about $t_\mathrm{run}\approx 52\un{ps}$. 
+No atomic diffusion or significant structural modifications were observed during the whole \abinitio MD runs.
 
 Four different equilibrium temperatures $T_\mathrm{eq}$ were simulated: $300$, $500$, $1000$, and $1500\un{K}$. For each temperature we actually ran two independent simultaneous simulations with different initial conditions, thus obtaining a total of $\approx 105\un{ps}$ worth of data at each temperature, in half the wall time. 
 Each of the CPMD calculations costed about $140\un{k}$ CPU hours.
@@ -474,10 +475,10 @@ In Table~\ref{tab:results-quantum-wkappa} we report the weighted averages of the
     \begin{tabular}{c|c}
         $\mathbf{T}\un{(K)}$ & $\mathbf{\kappa}\un{\left(\frac{W}{m\,K}\right)}$ \\
         \hline
-        $300**$ & $111 \pm 111$ \\
-        $500**$ & $111 \pm 111$ \\
-        $1000**$ & $111 \pm 111$ \\
-        $1500**$ & $111 \pm 111$ \\
+        $303$ & $1.71 \pm 0.16$ \\
+        $485$ & $1.47 \pm 0.12$ \\
+        $985$ & $1.49 \pm 0.11$ \\
+        $1460$ & $1.88 \pm 0.12$ \\
     \end{tabular}
     \caption{Average thermal conductivities of a-SiO$_2$ computed from AIMD simulations of the $\S1$ sample. Each value is a weighted average of the values obtained from two independent $\approx 52\un{ps}$ MD simulations.}
     \label{tab:results-quantum-wkappa}

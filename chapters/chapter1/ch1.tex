@@ -15,6 +15,7 @@
 %\end{LEtext}
 
 \vspace{1cm}
+\nocite{Ercole2016,Ercole2017,Baroni2018,Bertossa2018}
 
 Heat flow is ubiquitous in nature, it governs a multitude of complex processes, from the evolution of stars and planets to the dynamical stability of biological systems, all the way down to the maintenance of optimal operating conditions in many (nano)technological applications. 
 Heat flow determines the internal temperature distribution of out-of-equilibrium systems and the rate of cooling or heating of bodies. 
@@ -115,9 +116,9 @@ Chapter~\ref{ch:green-kubo} introduces the Green-Kubo theory of heat transport.
 Starting from a light review of the theory of hydrodynamic variables and linear response theory, we derive the GK equation for one-component and multi-component systems, and we obtain an expression for the energy current for classical force fields. 
 In Chapter~\ref{ch:gauge-invariance} we address the definition of atomic energies and energy densities in interacting systems. We show that there is no unique way to define the heat current, nevertheless the resulting thermal conductivity is well-defined. We prove this statement by numerical simulations and by theory, introducing the principle of gauge invariance of thermal transport coefficients. 
 In Chapter~\ref{ch:dft-heat}, after briefly reviewing some of the most recent first-principles simulation techniques of thermal transport, we show how one can derive and compute an \abinitio expression for the energy current in the framework of density functional theory. 
+%\LEnote{**discorsi rinormalizzazione**}
 Chapter~\ref{ch:data-analysis} is entirely devoted to the practical evaluation of the thermal conductivity from the GK equation. We briefly review all the analysis methods found in the literature, and comment upon their weak points. 
 We thus introduce a new technique to evaluate transport coefficients, based on the so-called \emph{cepstral analysis} of time series, and we benchmark it with classical MD simulations for different classes of materials.
-\LEnote{**discorsi rinormalizzazione**}
 In Chapter~\ref{ch:silica} we study the thermal conductivity of a-SiO$_2$ using the \abinitio GK theory. 
 We discuss the aspects involved in the atomistic simulation of glass and we simulate silica with classical MD using a popular force field. In particular, we study the dependence of $\kappa$ on the size of the system and the quenching rate used in the virtual vitrification process. 
 We then select an optimal system size and simulate one sample with AIMD. 
@@ -127,13 +128,15 @@ Chapter~\ref{ch:conclusions} finally contains our conclusions.
 \smallskip
 Some parts of Chapter~\ref{ch:green-kubo}, \ref{ch:gauge-invariance}, and \ref{ch:data-analysis} were adapted from the following papers that I have (co-)authored:
 
-\LEnote{***LISTA ARTICOLI***}
-%\begin{list}
-%    \item \fullcite{Ercole2016}
-%    \item \fullcite{Ercole2017}
-%    \item \fullcite{Baroni2018}
-%    \item \fullcite{Bertossa2018}
-%\end{list}
+\begin{itemize}
+    \setlength{\itemsep}{-10pt}
+    \item[\textbf{\cite{Ercole2016}}] \citeauthor*{Ercole2016}, Gauge invariance
+of thermal transport coefficients. \emph{J. Low Temp. Phys.}, 185:79–86, 2016. \\ 
+    \item[\textbf{\cite{Ercole2017}}] \citeauthor*{Ercole2017}, Accurate thermal conductivities
+from optimally short molecular dynamics simulations. \emph{Sci. Rep.}, 7:15835, 2017. \\
+    \item[\textbf{\cite{Baroni2018}}] \citeauthor*{Baroni2018}, Heat Transport in Insulators from Ab Initio Green-Kubo Theory. In \emph{Handbook of Materials Modeling: Applications: Current and Emerging Materials}, p. 1--36, edited by Andreoni and Yip, Springer,  2018. \\
+    \item[\textbf{\cite{Bertossa2018}}] \citeauthor*{Bertossa2018}, Transport coefficients in multi-component fluids from equilibrium molecular dynamics. \emph{arXiv}:1808.03341, 2018. \\
+\end{itemize}
 
 
 

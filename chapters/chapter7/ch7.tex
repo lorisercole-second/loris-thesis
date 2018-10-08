@@ -4,34 +4,35 @@ In this thesis we applied for the first time the \abinitio Green-Kubo theory to 
 To undertake this goal, we first needed to overcome two main hurdles that have hindered a first-principles application of the GK theory in the past. 
 
 The first was a conceptual problem due to the microscopic indeterminacy of the energy density, that makes the heat current ill-defined at the atomic level. 
-We revealed the spurious nature of this matter by discovering a gauge invariance principle for heat transport coefficients, which ensures that the thermal conductivity, that is the actual measurable quantity, is well-defined and can be computed by classical and \abinitio MD simulations. 
-As a plus, this principle also offers us some freedom in the definition of the energy flux, enabling one to choose an expression that can optimize its statistical properties without affecting the computed value of thermal conductivity. We presented this idea and showed how it can be applied to molecular fluids and solids, where it is possible to identify non-diffusive fluxes that do not contribute to $\kappa$ and can therefore be removed by a decorrelation technique.
-
-The second problem concerned the practical computation of the thermal conductivity from the GK equation, which was known to require impractically long MD simulations and lacked a solid technique for its estimation. 
-We were able to devise a new data-analysis method based on the cepstral analysis of time-series and on sound statistical basis, that is able to provide an asymptotically consistent and unbiased estimator of $\kappa$ from a single MD trajectory of limited length. 
-We benchmarked this method on different classes of materials and found it especially suitable to study disordered systems, such as liquids and glasses, where any other traditional method fails. 
-
-Equipped with these tools, we tackled the challenge of simulating silica glass. 
-The simulation of amorphous materials requires additional care compared to crystalline solids. Their structure is a non-equilibrium state that sensibly depends on the preparation history. 
-By means of classical MD simulations, we studied the effects that the sample preparation and its size have on the computed thermal conductivity. We found that very ``slow'' quenching rates and a few hundred atoms are needed to ensure a convergence of $\kappa$ within $5\%$. 
-The widely used BKS force field is able to predict the structural properties of a-SiO$_2$ remarkably well, but lacks a proper accounting for its vibrational properties, thus rendering a $\kappa$ that is too high at low and intermediate temperatures. 
-Finally, we chose one classical sample of a-SiO$_2$ of $432$ atoms and we simulated it with AIMD to compute its thermal conductivity by first-principles. 
-The results are fairly in agreement with the available experimental data, that however are very imprecise at $T \gtrsim 600\un{K}$, a regime where radiative effects become very strong and are difficult to be accounted for. 
-
-\medskip
-We believe that the final outcomes of this work will be particularly important to model the damage processes of laser pulses in optical glasses, and will also represent a starting point to the simulation of more complex glasses for a variety of applications. 
-Although our results look encouraging, an \abinitio study of heat transport of silica glass and amorphous materials in general will require some further refinement work. 
-
-Data analysis of \abinitio heat currents revealed to be much harder than one would expect from classical simulations. The larger statistical fluctuations, due to the different energy density definitions, make the power spectra harder to analyse. 
-We believe that further development should be pursued in understanding the effects of the basis set, filters and window functions used in the cepstral analysis technique, especially when a low sampling rate is used to keep the computational cost as low as possible. 
-Multi-resolution methods, aimed to achieve a proportional accuracy from low to high frequencies, may also bring good improvements. 
+We revealed the spurious nature of this problem by discovering a gauge invariance principle for heat transport coefficients, which ensures that the thermal conductivity, that is the actual measurable quantity, is well-defined and can be computed from classical and \abinitio MD simulations. 
+As a plus, this principle also offers us some freedom in the definition of the energy flux, enabling one to choose an expression that can optimize its statistical properties without affecting the computed value of thermal conductivity. We presented this idea and showed how it can be applied to molecular fluids and solids, where it is possible to identify fluxes that do not contribute to $\kappa$ and can therefore be removed by a decorrelation technique.
 
 The great potential of the gauge invariance principle is currently being further investigated, trying to understand in what measure the heat flux time series can be manipulated to obtain better statistical properties. If a minimum variance limit exists and can be determined, one may wonder if a physical interpretation can be inferred out of it. 
 As we already mentioned, the GK method is able to estimate the thermal conductivity of any material in a straightforward way and without approximations, but it comes at the price of a more difficult physical interpretation. 
 Methods based on a normal-modes decomposition \cite{AllenFeldman1989} may reveal to be a better approach if one wishes to identify the most relevant vibrational modes contributing to $\kappa$ and to understand their atomistic nature. 
 Of course, to be effective such approaches should be able to describe non-periodic systems. 
-On these lines, it would be very interesting to study more deeply the dependence of the thermal conductivity of a-SiO$_2$ and silicate glasses on suitably defined structural indicators, in order to identify its potential dependence on \emph{e.g.} the fraction of defects, the statistics of rings, the chemical composition, etc.
 
+The second problem concerned the practical computation of the thermal conductivity from the GK equation, which was known to require impractically long MD simulations and lacked a solid technique for its estimation. 
+We were able to devise a new data-analysis method based on the cepstral analysis of time-series and on sound statistical basis, that is able to provide an asymptotically consistent and unbiased estimator of $\kappa$ from a single MD trajectory of limited length. 
+We benchmarked this method on different classes of materials and found it especially suitable to study disordered systems, such as liquids and glasses, where any other traditional method fails. 
+
+Data analysis of \abinitio heat currents revealed to be much tougher than one would expect from classical simulations. The larger statistical fluctuations, due to the different energy density definitions, make the power spectra harder to analyse. 
+We believe that further development should be pursued in understanding the effects of the basis set, filters and window functions used in the cepstral analysis technique, especially when a low sampling rate is used to keep the computational cost as low as possible. 
+Multi-resolution methods, aimed to achieve a proportional accuracy from low to high frequencies, may also bring good improvements. 
+
+\smallskip
+Equipped with these tools, we tackled the challenge of simulating silica glass (a-SiO$_2$). 
+The simulation of amorphous materials requires additional care compared to crystalline solids. Their structure is a non-equilibrium state that sensibly depends on the preparation history. 
+By means of classical MD simulations, we studied the effects that the sample preparation and its size have on the computed thermal conductivity. We found that quenching rates as slow as $10^{13}\un{K/s}$ and a few hundred atoms are needed to ensure a convergence of $\kappa$ within $5\%$. 
+The widely used two-body BKS force field is able to predict the structural properties of a-SiO$_2$ remarkably well, but lacks a proper accounting for its vibrational properties, thus rendering a $\kappa$ that is too high at low and intermediate temperatures. 
+Finally, we chose one classical sample of a-SiO$_2$ of $432$ atoms and we simulated it with AIMD to compute its thermal conductivity by first-principles. 
+The results are fairly in agreement with the available experimental data, that however are very imprecise at $T \gtrsim 600\un{K}$, a regime where radiative effects become very strong and are difficult to be accounted for. 
+
+We believe that the final outcomes of this study will be particularly important to model the damage processes of laser pulses in optical glasses, and will also represent a starting point to simulating more complex glasses for a variety of applications. 
+Although our results look encouraging, an \abinitio study of heat transport of silica glass and amorphous materials in general will require some further refinement work. 
+In addition, it would be particularly interesting to study more deeply the dependence of the thermal conductivity of a-SiO$_2$ and silicate glasses on suitably defined structural indicators, in order to identify its potential dependence on \emph{e.g.} the fraction of defects, the statistics of rings, the chemical composition, etc.
+
+\smallskip
 In spite of the accuracy of AIMD methods, we believe that a significant boost in our future prediction capabilities will come from the design of advanced force fields, possibly based on fits of first-principles data or on modern neural networks. Recent developments in this field give us hope that designing neural-networks force fields that render accurate structural and vibrational properties will soon be possible, thus reducing the cost of simulations and giving us the tools to tackle more complex systems, for a wide range of fundamental and technological applications. 
 
 

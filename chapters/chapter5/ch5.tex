@@ -12,9 +12,9 @@ While motivated by heat transport applications, our approach naturally applies t
 In Section~\ref{sec:data-analysis-methods} of this chapter we review some of the techniques found in the literature to estimate the Green-Kubo integral and we illustrate some of their criticalities, along with some physical interpretations that have been proposed. 
 In Section~\ref{sec:cepstral-analysis}, we reformulate the problem in the light of the statistical theory of time series and show how to obtain an estimator of the thermal conductivity from cepstral analysis in solids and one-component fluids. We validate this method with extensive benchmarks on the calculation of the thermal conductivity of different classes of materials. 
 In Section~\ref{sec:data-analysis-multicomponent} we show how to extend the theory to the case of multi-component fluids. 
+In Section~\ref{sec:gauge-renormalization} we introduce a couple of techniques useful to optimise the statistical properties of the heat currents by making use of the gauge invariance principle, a procedure that we found particularly useful when dealing with \abinitio heat currents. 
 Section~\ref{sec:data-analysis-outlook} closes this chapter with an outlook of possible future prospects. 
 
-\LEnote{***RENORMALIZATION / DECORRELATION METHODS ?? ***}
 
 
 %\newpage
@@ -184,8 +184,8 @@ Besides, let us notice that the size-dependence problem in the estimation of $\k
 %In Sec.~\ref{sec:cepstral-analysis} we will start from Eq.~\eqref{eq:kappa-S0} to introduce a more rigorous estimate of the thermal conductivity based on a power spectral analysis with a solid statistical basis.
 
 
-\subsection{\LE{Estimation from the Einstein relation}}
-\LEnote{***************}
+%\subsection{\LE{Estimation from the Einstein relation}}
+%\LEnote{***************}
 
 
 \subsection{Final remarks}  \label{sec:data-analysis-remarks}
@@ -641,7 +641,61 @@ and its statistical error as
 \end{equation}
 \end{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Optimization of heat currents}  \label{sec:gauge-renormalization}
+%\LEnote{*** Spiegazione dei metodi di scorrelazione / rinormalizzazione di Aris, per rimuovere i contributi delle self-energie. (se riesco... non se ha senso parlare anche dei metodi multi-componente ***}
+In this section we exploit the gauge invariance principle, presented in Sec.~\ref{sec:gauge-invariance}, to define alternative equivalent expressions for the energy current. 
+This procedure is particularly useful when dealing with multi-component systems where energy is the only relevant conversed quantity, such as solids where atoms do not diffuse or molecular liquids, as discussed in Sec.~\ref{sec:MolecularFluids}.
+These ideas reveal to be particularly useful in the analysis of \abinitio energy flux time series, that are typically characterised by a much larger variance than classical energy fluxes.
+In order to illustrate the origin of this phenomenon, we consider the case of liquid heavy water that was simulated by \citet{Marcolongo2016} from first-principles. 
 
+\paragraph{Formation energies contributions in heavy water simulations}
+\citet{Marcolongo2016} computed the thermal conductivity of heavy water at $400\un{K}$, a temperature that is know to predict qualitatively the self-diffusion coefficient of water at ambient conditions \citep{Sit-Marzari} using the PBE exchange-correlation energy functional \citep{Perdew1996}. 
+A system of 64 heavy-water molecules was considered and sampled for $90\un{ps}$ in the NVE ensemble at the experimental density of $1.11\un{g\,cm^{-3}}$.
+
+As commented in Sec.~\ref{sec:MolecularFluids}, the \emph{ab initio} energy fluxes of molecular fluids contain non-diffusive components that, while not contributing to the conductivity, do increase the noise of the flux time series to a level that may compromise its analysis. 
+To see where the problem comes from, let us split the potential energy of the system into the sum of non-interacting atomic energies plus an interaction energy, as: $V(\{\mathbf{R}_n\}) = \sum_n\epsilon^\circ_n + V_{int}(\{\mathbf{R}_n\})$, where $\epsilon_n^\circ$ is the energy of the $n$-th atom when it is isolated from the rest. In classical simulations the energy of isolated atoms never enters the description of the system, and the $\epsilon^\circ_n$'s can be simply set to zero. In quantum simulations, instead, atomic and interaction energies enter on a same footing and the former give a large and fluctuating contribution to the total energy flux, $\mathbf{J}^\circ =\sum_X\epsilon^\circ_X \mathbf{J}^X$, where $ \mathbf{J}^X $ is the number flux defined in Eq.~\eqref{eq:JX}. In a monoatomic fluid $ \mathbf{J}^X $ is constant because of momentum conservation and it is actually equal to zero in the center-of-mass reference frame. In molecular fluids the $ \mathbf{J}^X $ do not vanish but they are non-diffusive and hence do not contribute to the heat conductivity, while adding considerable noise to the energy-flux time series. 
+In order to remove them, instead of estimating $\mathbf{J}^\circ$ from the non-interacting atomic energies, one can apply one of the techniques described in the following, that exploit the gauge invariance principle 
+
+\paragraph{Decorrelation technique}
+Current decorrelation builds on the Lemma~\ref{th:aris-theorem} presented in Sec.~\ref{sec:gauge-proof}. 
+Let us now suppose that a set of fluxes $\lbrace\mathbf{Y}^u\rbrace$, $u=1,\dots U$ is known to exhibit a non-diffusive behavior. Lemma~\ref{th:aris-theorem} shows that the auxiliary flux defined as
+\begin{equation}
+ \mathbf{J}' \equiv \mathbf{J} - \sum_w \lambda^w \mathbf{Y}^w,
+\end{equation}
+will yield the same thermal conductivity as $\mathbf{J}$.
+Optimal values of the $\lbrace\lambda^u\rbrace$ coefficients can then be determined by imposing that the new time series $\mathbf{J}'$ is uncorrelated with respect to the non-diffusive ones, \emph{i.e.}:
+\begin{equation}
+\langle \mathbf{J} \mathbf{Y}^u \rangle-\sum_{w} \lambda^{w} \langle \mathbf{Y}^{w} \mathbf{Y}^u \rangle = 0, \quad u=1,\dots U.
+\end{equation}
+This procedure is particularly useful when the $\mathbf{Y}^u$ fluxes give a slowly converging contribution to the Green-Kubo integral, which is thus difficult to evaluate numerically.
+
+The decorrelation technique has been applied to heavy water considering two non-diffusive number fluxes: $\mathbf{Y}^1 = \mathbf{J}^H + \mathbf{J}^O$,  \emph{i.e.} the sum of hydrogen and oxygen average velocities,\footnote{Note that the two time series $\mathbf{J}^H$ and $\mathbf{J}^O$ are trivially related, because of momentum conservation. Therefore $\mathbf{J}^H$, $\mathbf{J}^O$, or $\mathbf{J}^H+\mathbf{J}^O$ would all be equivalent choices.} and $\mathbf{Y}^2 = \mathbf{J}^{el}$, the adiabatic electronic current defined in Eq.~\eqref{eq:DFT-electronic}, that is also non-diffusive. 
+We denote by $\left( \mathbf{J}^1\right)'$ and $\left (\mathbf{J}^{12} \right )'$ the currents decorrelated with respect to $\mathbf{Y}^1$ alone, and with respect to both $\mathbf{Y}^1$ and $\mathbf{Y}^2$, respectively. The power spectra of the two currents are plotted in Fig.~\ref{fig:water-psd-decor} and feature a total spectral power that is some order of magnitude smaller than that of $\mathbf{J}$ (not shown). 
+The low-frequency region of the spectra (up to $\sim 9.0 \un{THz} $) was used to estimate $\kappa$ from cepstral analysis. The resulting thermal conductivities are $\kappa^1 =  0.80 \pm 0.12 \un{W/mK}$ for the $\left( \mathbf{J}^1 \right)'$ flux, and $\kappa^{12} = 0.93 \pm 0.14 \un{W/mK}$ for $\left ( \mathbf{J}^{12} \right )'$, compatible with each other. By comparison, experiments give a value $\kappa\approx 0.6\un{W/mK}$ \citep{Matsunaga,Ramires}.
+Let us remark that in this case, data analysis would not have yielded any meaningful results failing a proper decorrelation of the heat flux time series.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1.0]{chapters/chapter5/figures/handbook_water_psd_decorr.pdf}
+    \caption{Periodogram of the $\left ( \mathbf{J}^1 \right )'$ and $\left ( \mathbf{J}^{12} \right ) '$ currents, filtered with a moving average window in order to reveal the prominent features. The vertical dashed line delimits the low-frequency region used for cepstral analysis. Adapted from Ref.~\cite{Baroni2018}. }
+    \label{fig:water-psd-decor}
+\end{figure}
+
+\paragraph{Velocity-Renormalization}
+An alternative ``velocity-renormalization'' (VR) can be applied \emph{before} the energy flux computation by redefining the particle velocities entering the definition of the flux. Each velocity is renormalized by subtracting the velocity of the center of mass of its species from it, that is
+\begin{equation}
+    \mathbf{V}_n^\mathcal{R}(t) = \mathbf{V}_n(t) - \frac{1}{N_{X}}\sum_{m\in X} \mathbf{V}_m(t) ,
+\end{equation}
+where $X$ is the species of atom $n$, and the sum is performed over all atoms of that species. 
+The ``renormalized'' energy flux is thus defined by using the renormalized velocities and keeping the positions unchanged, \emph{i.e.}
+\begin{equation}
+    \mathbf{J^\mathcal{R}}\left(\{\mathbf{R}_n,\mathbf{V}_n\}; t\right) = \mathbf{J}\left(\{\mathbf{R}_n,\mathbf{V}_n^\mathcal{R}\}; t\right) .
+\end{equation}
+It is possible to prove that each species' center of mass velocity gives a vanishing particle current that do not contribute to the thermal conductivity in the thermodynamic limit. This techniques removes this spurious signal without affecting the thermal conductivity and possibly making the convergence faster, by decreasing the magnitude of statistical fluctuations. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Outlook}  \label{sec:data-analysis-outlook}
 Although a large variety of methods has been formulated in the literature, none of them seems to provide a sufficiently rigorous and accurate estimator of the thermal conductivity that can be applied to different classes of materials and especially to disordered systems. 
 The cepstral analysis method introduced in this chapter promises to be a very powerful tool to estimate the thermal conductivity from relatively short MD runs, in a more rigorous way than done so far by other methods. 
