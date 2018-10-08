@@ -136,7 +136,7 @@ The time scales reachable by computer simulations are many orders of magnitude s
     \hfill
     \subfigure[\label{fig:silica-bks-density-temp}]{\includegraphics[height=4.6cm]{chapters/chapter6/figures/Lane_density2.pdf}}
     \caption{
-    (a) Density vs temperature of a-SiO$_2$, modelled with the BKS potential, for seven quenches completed with linear cooling rates $\gamma$ from $8000\un{K}$ to $300\un{K}$. Silica's density anomaly is visible at high temperatures; density becomes independent of $\gamma$ at $T \gtrsim 4500\un{K}$. 
+    (a) Density vs temperature of a-SiO$_2$, modeled with the BKS potential, for seven quenches completed with linear cooling rates $\gamma$ from $8000\un{K}$ to $300\un{K}$. Silica's density anomaly is visible at high temperatures; density becomes independent of $\gamma$ at $T \gtrsim 4500\un{K}$. 
     (b) Density at $300\un{K}$ as a function of the quench cooling rate $\gamma$. The horizontal dashed line is the experimental value. The red dashed line is a linear extrapolation fit to data above $3\times 10^{12}\un{K/s}$. 
     Reproduced from Ref.~\cite{Lane2015}}
     \label{fig:silica-bks-density}
@@ -240,20 +240,20 @@ The thermal conductivity was estimated from $t_{\mathrm{run}} = 1\un{ns}$ of tra
 %\end{itemize}
 
 
-\subsection{Sample preparation: size and quenching rate dependence of $\kappa$}  \label{sec:results-class-quench}
+\subsection{Sample preparation: size and quenching rate dependence of \texorpdfstring{$\kappa$}{thermal conductivity}}  \label{sec:results-class-quench}
 In order to study the convergence of lattice thermal conductivity with the size of the system and the quenching rate, we considered cells containing $72$, $144$, $288$, $432$, $576$, $864$, $1152$, $2304$, $5184$, and $10800$ atoms. For each cell size we analyzed the data obtained from $10$ independent replicas with different initial conditions. 
 For each replica, we considered $10$ different quenching times: $t_{\mathrm{quench}} = 5$, $10$, $25$, $50$, $100$, $250$, $500\un{ps}$, $1$, $5$, and $10\un{ns}$, that correspond to quenching rates $\gamma$ ranging from $1.3\times 10^{15}$ to $6.5\times 10^{11}\un{K/s}$.
 We computed the thermal conductivity $\kappa$ of each of these systems, from a trajectory of $t_\mathrm{run}=1\un{ns}$, using \emph{cepstral analysis}. More technical details on this procedures are reported in Sec.~\ref{sec:cepstral-analysis}. 
 
 \begin{figure}[!tb]
     \centering
-    \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_NATconv.pdf}
+    \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_NATconv_tesi.pdf}
     \caption{Study of convergence of the thermal conductivity of a-SiO$_2$ at $500\un{K}$ with the size of the system, estimated from classical simulations, as described in Sec.~\ref{sec:results-class-quench}. 
-    The abscissa indicate the number of atoms of the system, each panel corresponds to a different quenching rate $\gamma$ (the relative quenching time $t_\mathrm{quench}$ is indicated in brackets). 
+    The abscissa indicates the number of atoms of the system, each panel corresponds to a different quenching rate $\gamma$ (the relative quenching time $t_\mathrm{quench}$ is indicated in brackets). 
     Circles are the results of $10$ independent replicas simulated with the same quenching protocol. The solid line is a weighted average computed over the replicas and weighted using the errors estimated from cepstral analysis. Three different error limits are indicated. 
     Dashed area: standard deviation of the weighted mean. 
-    Dashed lines: statistical error estimated for a \emph{single} trajectory of $1\un{ns}$. 
-    \LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
+    Dashed lines: statistical error estimated for a \emph{single} $1\un{ns}$-trajectory. 
+    %\LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
     }
     \label{fig:results-class-kappa-vs-size}
 \end{figure}
@@ -269,13 +269,13 @@ We should however point out that this value is remarkably lower (approximately t
 
 \begin{figure}[!tb]
     \centering
-    \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_QTIMEconv.pdf}
+    \includegraphics[width=\textwidth]{chapters/chapter6/figures/Silica_NVT_kappa_QTIMEconv_tesi.pdf}
     \caption{Study of convergence of the thermal conductivity of a-SiO$_2$ at $500\un{K}$ with the cooling quenching rate $\gamma$, estimated from classical simulations, as described in Sec.~\ref{sec:results-class-quench}. 
     Each panel corresponds to a different system size with $N_{at}$ atoms.
     Circles are the results of $10$ independent replicas simulated with the same quenching protocol. The solid line is a weighted average computed over the replicas and weighted using the errors estimated from cepstral analysis. Three different error limits are indicated. 
     Dashed area: standard deviation of the weighted mean. 
     Dashed lines: statistical error estimated for a \emph{single} trajectory of $1\un{ns}$. 
-    \LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
+    %\LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
     }
     \label{fig:results-class-kappa-vs-quench}
 \end{figure}
@@ -287,7 +287,7 @@ Therefore, a quenching rate $\gamma \lesssim 10^{13}\un{K/s}$ seems to be the re
 
 In Fig.~\ref{fig:results-class-kappa-vs-size} and \ref{fig:results-class-kappa-vs-quench} the error on the weighted average is indicated as a thin shaded area surrounding the solid line. Two other lines are reported. The dashed lines delimit the average error that we expect to obtain from a single trajectory sample of $t_{\mathrm{run}}=1\un{ns}$ (it is about the error on the weighted averaged times $\sqrt{10}$). 
 We observe that in general the single calculations of $\kappa$ ($10$ replicas for each abscissa, represented by single circles), fall mostly inside this error bars, for the medium and large systems. For the smaller systems, the fluctuations of the single values become bigger, probably due to larger differences in their structures, in addition to the intrinsically larger fluctuations due to the smaller size. 
-\LEcancel{The fluctuations of $\kappa$ can also be quantified by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed (even though this value, estimated from a very small sample, should be taken as indicative).}
+%\LEcancel{The fluctuations of $\kappa$ can also be quantified by the standard deviation of $\kappa$ computed over the replicas, indicated with thin dotted lines, that becomes visibly larger than the expected error bars for the two or three smallest systems analyzed (even though this value, estimated from a very small sample, should be taken as indicative).}
 The trend of the relative error estimated for a $1\un{ns}$ trajectory as a function of the number of atoms is shown in Fig.~\ref{fig:results-class-kappaerror-vs-size}, for $4$ selected quenching rates, and seems to decrease as $\sim 1/\sqrt{N_\mathrm{nat}}$. 
 The quenching rate, instead, does not appear to affect the error on $\kappa$, as shown in Fig.~\ref{fig:results-class-kappaerror-vs-quench}. 
 
@@ -297,7 +297,7 @@ The quenching rate, instead, does not appear to affect the error on $\kappa$, as
     \hfill
     \subfigure[\label{fig:results-class-kappaerror-vs-quench}]{\includegraphics[width=0.49\textwidth]{chapters/chapter6/figures/silica_NVT_kappa_relerror_QTIME.pdf}}
     \caption{Estimated relative error on the thermal conductivity of a-SiO$_2$ for a $1\un{ns}$ trajectory (dashed lines) as a function of (a) the number of atoms, (b) the cooling quenching rate. 
-    \LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
+    %\LEcancel{Dotted lines: sample standard deviation of the single values of $\kappa$.}\LEnote{**RIMUOVERE LINEE PUNTINI**}
     }
     \label{fig:results-class-kappaerror}
 \end{figure}
@@ -354,7 +354,7 @@ The number of cepstral coefficients $P^*$ is reduced as the spectrum is smoother
 
 
 
-\subsection{Pressure-Volume dependence of $\kappa$}
+\subsection{Pressure-Volume dependence of \texorpdfstring{$\kappa$}{thermal conductivity}}
 \LEnote{**VA BENE IL TITOLO? OPPURE Density dependence of $\kappa$ **}\\
 The dependence of $\kappa$ of a-SiO$_2$ on the pressure can be safely neglected for the range of temperatures considered later ($300-1500\un{K}$). 
 Silica glass has a anomalously low thermal expansion coefficient, with an experimental value of $\alpha = \frac{1}{V}\left(\frac{\partial V}{\partial T}\right)_T \approx 5.5\times 10^{-7} \un{K^{-1}}$ at $300\un{K}$, about $20$ times smaller than that of crystalline forms of silica. 
@@ -384,11 +384,10 @@ The system was thermalised for about $5\un{ps}$ at temperature $T_\mathrm{eq}$ i
 Four different equilibrium temperatures $T_\mathrm{eq}$ were simulated: $300$, $500$, $1000$, and $1500\un{K}$. For each temperature we actually ran two independent simulations with different initial conditions, thus obtaining a total of $\approx 105\un{ps}$ worth of data at each temperature, in half the time. 
 Each of the CPMD calculations costed about $140\un{k}$ CPU hours.
 
-\LE{**tabella dati??*}
+%\LE{**tabella dati??*}
 
 
-%\subsection{Heat current calculation}  \label{sec:results-quantum-current}
-\medskip
+\subsection{Heat current calculation}  \label{sec:results-quantum-current}
 For each AIMD trajectory generated, we proceeded to the computation of the \abinitio heat current, following the procedure described in Sec.~\ref{sec:dft-hc-computation}. 
 The first important parameter to decide is the frequency at which we want to compute the heat current. For this system, we estimated that one single-step calculation of the current costs roughly $60$ CPU hours, so one can easily estimate the potential cost of a $100\un{ps}$ trajectory. 
 
@@ -408,8 +407,7 @@ Therefore, we decided to set $\epsilon_\mathrm{HC} = 30\epsilon_\mathrm{CP}$. Fo
 \begin{figure}[!tb]
     \centering
     \includegraphics[width=10cm]{chapters/chapter6/figures/qsilica_432_1500K_dt_choice.pdf}
-    \caption{Power spectral density of the \abinitio heat current of sample $\S1$ (upper panel) and its logarithm (lower panel), computed from a short trajectory at $1500\un{K}$ at different sampling periods (the resulting $f_\mathrm{Ny}$ are reported in parenthesis). Inset: zoom of the low-frequency region of the spectrum. 
-    \LEnote{**AGGIUNGI FSTAR**}}
+    \caption{Power spectral density of the \abinitio heat current of sample $\S1$ (upper panel) and its logarithm (lower panel), computed from a short trajectory at $1500\un{K}$ at different sampling periods (the resulting $f_\mathrm{Ny}$ are reported in parenthesis). Inset: zoom of the low-frequency region of the spectrum.}
     \label{fig:results-quantum-dt-choice}
 \end{figure}
 
@@ -435,27 +433,77 @@ We also notice that the positions of the peaks of the \abinitio power spectrum a
 
 
 
-\subsection{Temperature dependence of $\kappa$}  \label{sec:results-quantum-results}
+\subsection{Temperature dependence of \texorpdfstring{$\kappa$}{thermal conductivity}} \label{sec:results-quantum-results}
+We now study the thermal conductivity of silica as a function of the temperature and compare it with experimental data.
 
-\begin{itemize}
-    \item TEMPERATURE DEPENDENCE: experimental values (con spiegazione incertezza misure per fenomeno radiativo)
-    \item TEMPERATURE DEPENDENCE: classical and quantum results
-    \item problemi di analisi difficile...
-    \item CLASSICAL THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, CROSS)??
-\end{itemize}
+\paragraph{Experimental data}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{chapters/chapter6/figures/silica_expkappa.pdf}
+    \caption{Experimental measurements of the thermal conductivity of a-SiO$_2$ as a function of the temperature. Data from \citet{Touloukian1971}, \citet{Cahill1990}, \citet{Sugawara1969}, \citet{Kingery1955}, \citet{Wray1959}, \citet{Yang2009}, and data from a glass manufacturer \cite{Heraeus2010}. 
+    }
+    \label{fig:silica-exp-kappa}
+\end{figure}
+The first experimental measurements of the thermal conductivity of a-SiO$_2$ as a function of temperature were carried out between the 50's and 70's by \citet{Kingery1955}, \citet{Wray1959}, \citet{Sugawara1969}, and \citet{Touloukian1971}; a few more recent studies are the ones of \citet{Cahill1990} and \citet{Yang2009}. 
+We report all these experimental results in Fig.~\ref{fig:silica-exp-kappa}, which shows substantial agreement between all of them at low temperatures, but two different trends at temperatures larger than $600\un{K}$. 
+Above $600\un{K}$ radiative heat transport becomes very intense (scaling roughly as $\sim T^{3\div 4}$) and can alter the measured value of $\kappa$, that can be overestimated. This problem is of special importance in vitreous silica because this substance is highly transparent \cite{Carwile1966, Cahill1990, Gardon1961}. \citet{Cahill1990} and \citet{Wray1959} accounted empirically for the radiative effects, thus resulting in a $\kappa$ approaching the value $\kappa\approx 2\un{K/mK}$ for temperatures up to $2000\un{K}$. The recent measures of \citet{Yang2009} performed with CO$_2$ laser heating, instead, did not appear to feature significant radiative contributions. 
+Nevertheless, the matter is still under active debate \cite{Bouchut2004}, so at this time no clear experimental values of $\kappa$ are available in this regime. This state of affairs motivates even more an accurate atomistic study to determine the thermal conductivity of a-SiO$_2$ at high temperatures. 
 
+\paragraph{Computational results}
 \begin{figure}[!tb]
     \centering
-    %\includegraphics{}
-    \caption{Thermal conductivity of a-SiO$_2$ as function of temperature. 
-    Red dots: classical MD simulations of the $\S1$ sample ($432$ atoms). 
-    Blue stars: AIMD simulations of the same sample. 
-    Green squares: classical MD simulations of a $10800$-atoms sample. 
-    XXXX: experimental results of bulk a-SiO$_2$ **REF**
-    YYYY: experimental results **REF**
+    \includegraphics[width=\textwidth]{chapters/chapter6/figures/silica_expkappa_qkappa.pdf}
+    \caption{Thermal conductivity of a-SiO$_2$ as function of temperature: comparison between experiments and simulations. 
+    Only the experimental studies that accounted for radiative heat transport have been reported. 
+    Classical simulations were carried out using the BKS potential for the $\S1$ sample ($432$ atoms), and a larger sample ($10800$ atoms).
+    \emph{Ab initio} results were computed using the $\S1$ sample, as described in Sec.~\ref{sec:results-quantum}, by analysing the VR-EC decorrelated energy flux. 
+    \LE{CHANGE IN classical (432), ab initio (432), AND CHANGE LABEL ORDER}
     }
     \label{fig:results-quantum-kappa-temp}
 \end{figure}
+In Fig.~\ref{fig:results-quantum-kappa-temp} we display the results of our \abinitio thermal conductivity simulations, compared with the results of classical simulations for the same $432$-atoms sample $\S1$ and a larger sample with $10800$ atoms, and with experimental data. 
+
+The \abinitio thermal conductivities for the eight independent simulations were obtained by analysing the VR-EC decorrelated energy fluxes, with $f^*=f_\mathrm{Ny}$. 
+No preliminary filtering and resampling were performed on the time series, because the estimated thermal conductivity manifested unusual oscillations by its choice. We attribute this difficulty to two possible causes. 
+The first is the relatively large spectral power of the \abinitio energy flux, compared to the classical one, that makes the spectrum increase very quickly at low-frequencies. 
+The second and likely most important effect is ascribable to the small Nyqvist frequency of the \abinitio spectra. Even if no sampling (aliasing) errors are present, as verified in Sec.~\ref{sec:results-quantum-current}, it is likely that the filtering-resampling procedure performed in these conditions will introduce much more spurious (aliasing) effects than it would for larger $f_\mathrm{Ny}$. It is possible that the employment of a different type of low-pass filter would attenuate this side effects. 
+This would require additional in-depth studies that shall be performed in the future. 
+
+Nevertheless, the values obtained seem in fairly good agreement with the available experimental data, at all the temperatures analysed. 
+The thermal conductivities at $\sim 300\un{K}$ are slightly larger than the experimental value of $\approx 1.3-1.4\un{W/mK}$. 
+%% POSSIBLY DO TO ALIASING
+The values between $500$ and $1500\un{W/mK}$ roughly follow the experimental curve of \citet{Cahill1990}, with slightly lower values at $1000$ and $1500\un{W/mK}$, even though our statistical error and that of experiments is not high enough to make very accurate conclusions. 
+We report the weighted averages of the \abinitio results in Table~\ref{tab:results-quantum-wkappa}.
+
+\begin{table}[!tb]
+    \centering
+    \begin{tabular}{c|c}
+        $\mathbf{T}\un{(K)}$ & $\mathbf{\kappa}\un{\left(\frac{W}{m\,K}\right)}$ \\
+        \hline
+        $300**$ & $111 \pm 111$ \\
+        $500**$ & $111 \pm 111$ \\
+        $1000**$ & $111 \pm 111$ \\
+        $1500**$ & $111 \pm 111$ \\
+    \end{tabular}
+    \caption{Average thermal conductivities of a-SiO$_2$ computed from AIMD simulations of the $\S1$ sample. Each value is a weighted average of the values obtained from two independent $\approx 52\un{ps}$ MD simulations.}
+    \label{tab:results-quantum-wkappa}
+\end{table}
+
+The classical results, obtained using the BKS potential, show a substantially constant value $\kappa\approx 2.1-2.2\un{W/mK}$, that becomes compatible with experiments only at high temperatures. 
+We can attribute this behaviour to the altered vibrational properties described by the BKS potential, as we discussed in Sec.~\ref{sec:silica-force-field}. 
+Furthermore, we notice that a system of $432$ atoms seems to underestimate the thermal conductivity of $\sim 5\%$ with respect a sample with $10800$ atoms, as we estimated in Sec.~\ref{sec:results-class-quench}. 
+It is possible that these finite-size effects have affected the results of the \abinitio simulations as well, even though we cannot verify this hypothesis without simulating larger cells. 
+
+\smallskip
+\LEnote{In conclusion, .....................}
+
+%% VALORI PIU' BASSI DI CLASSICAL 432 A T BASSE --> FORSE DOVUTO A FINITE-SIZE EFFECTS, CHE TAGLIANO I MODI A LAMBDA LUNGHE (FREQ BASSE) E QUINDI SOTTOSTIMANO KAPPA? ANCHE SE VA PIU' VICINO AGLI EXP
+
+%% NELLA SILICA KAPPA DOVREBBE AUMENTARE PER CALORE SPECIFICO CHE AUMENTA. QUESTO E' UN QUANTUM EFFECT... NELLE SIMULAZIONI SI VEDE COMUNQUE UN AUMENTO... PERCHE'? VEDI Cahill & Pohl
+
+
+%    \item CLASSICAL THERMAL CURRENT CONTRIBUTIONS (CONV, VIR, CROSS)??
+
 
 
 

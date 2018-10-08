@@ -1080,7 +1080,7 @@
     \bfseries
     \leavevmode
     \advance\leftskip\@tempdima
-    \hskip-\leftskip
+    \hskip-\leftskiphttps://v2.overleaf.com/project/5b7001b2d249be30e1b5dec5
     {#1\hfil}\nobreak
       \if@pdf
       \else

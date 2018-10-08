@@ -1,3 +1,10 @@
+%% TO DO:
+%% FIRST PAGE
+%% TABLE OF CONTENTS
+%% BIBLIOGRAPHY STYLE
+%% GRAFICI ACF E GK INTEGRAL
+%% GRAFICO RISULTATI FINALE
+
 \documentclass[krantz2,a4paper,11pt,ChapterTOCs,twoside,openright]{krantz}
 %\usepackage{fixltx2e,fix-cm}   
 \usepackage{amssymb}
@@ -7,6 +14,7 @@
 \usepackage{subfigure}
 \usepackage{makeidx}
 \usepackage{multicol}
+\usepackage{textgreek}
 %\usepackage{longtable}
 %\usepackage{booktabs}
 \usepackage{array}
@@ -19,10 +27,12 @@
 \usepackage[numbers,sort&compress]{natbib}
 %\usepackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}  % bibliography
 %\addbibresource{bibliography.bib}
+\renewcommand{\bibfont}{\small}  % customized bibliography style
+%\setlength{\bibsep}{0pt}
 %\usepackage{showframe}
 
-\widowpenalty=300  % penalties for widow lines
-\clubpenalty=300
+%\widowpenalty=300  % penalties for widow lines
+%\clubpenalty=300
 \usepackage[]{caption}
 \renewcommand{\captionfont}{\fontsize{10}{12}\selectfont}
 \renewcommand{\captionlabelfont}{\bfseries\fontsize{10}{12}\selectfont}
@@ -33,11 +43,10 @@
 %\usepackage{subcaption}
 %\usepackage{colortbl}
 %\usepackage[margin=10pt,font=small,labelfont=rm,labelsep=endash]{caption}
-%\usepackage{hyperref}
+\usepackage{hyperref}
 \usepackage[inner,right]{showlabels}
 
-\renewcommand{\bibfont}{\small}  % customized bibliography style
-%\setlength{\bibsep}{0pt}
+
 
 \frenchspacing
 \tolerance=5000
@@ -99,9 +108,7 @@
 
 \frontmatter
 
-\title{ab initio Green-Kubo Simulations of Silica Glass\\
-%{\Large(Sottotitolo)}
-}
+\title{ab initio Green-Kubo Simulations of Silica Glass}
 \author{Loris Ercole}
 
 \maketitle
@@ -109,7 +116,9 @@
 %\include{frontmatter/dedication}
 %\cleardoublepage
 %\setcounter{page}{7} %previous pages will be reserved for frontmatter to be added in later.
-\tableofcontents
+
+%\tableofcontents
+
 %\include{frontmatter/foreword}
 %\include{frontmatter/preface}
 %\listoffigures
