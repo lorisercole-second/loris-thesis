@@ -451,23 +451,23 @@ Nevertheless, the matter is still under active debate \cite{Bouchut2004}, so at 
     Only the experimental studies that accounted for radiative heat transport have been reported. 
     Classical simulations were carried out using the BKS potential for the $\S1$ sample ($432$ atoms), and a larger sample ($10800$ atoms).
     \emph{Ab initio} results were computed using the $\S1$ sample, as described in Sec.~\ref{sec:results-quantum}, by analysing the VR-EC decorrelated energy flux. 
-    \LEnote{CHANGE IN classical (432), ab initio (432), AND CHANGE LABEL ORDER}
     }
     \label{fig:results-quantum-kappa-temp}
 \end{figure}
 In Fig.~\ref{fig:results-quantum-kappa-temp} we display the results of our \abinitio thermal conductivity simulations, compared with the results of classical simulations for the same $432$-atoms sample $\S1$ and a larger sample with $10800$ atoms, and with experimental data. 
 
-The \abinitio thermal conductivities for the eight independent simulations were obtained by analysing the VR-EC decorrelated energy fluxes, with $f^*=f_\mathrm{Ny}$. 
-No preliminary filtering and resampling were performed on the time series before cepstral analysis, because the estimated thermal conductivity manifested unusual oscillations by its choice. We attribute this difficulty to two possible causes. 
-The first is the relatively large spectral power of the \abinitio energy flux, compared to the classical one, that makes the spectrum raise very quickly at low-frequencies. 
-The second and likely most important is ascribable to the small Nyqvist frequency of the \abinitio spectra. Even if no sampling (aliasing) errors are present, as verified in Sec.~\ref{sec:results-quantum-current}, it is likely that the filtering-resampling procedure performed in these conditions will introduce much more spurious (aliasing) effects than it would do for larger $f_\mathrm{Ny}$. 
-It is possible that the employment of a different type of low-pass filter would attenuate these side effects. 
-Additional in-depth studies on this matter should be performed in the future. 
+The \abinitio thermal conductivities for the eight independent simulations were obtained by analysing the VR-EC decorrelated energy fluxes defined in Sec.~\ref{sec:results-quantum-current}, with $f^*=f_\mathrm{Ny}$. 
+No preliminary filtering and resampling were performed on the time series before cepstral analysis, because the estimated thermal conductivity displayed an unusual dependence on the details of the filtering procedure. We attribute this difficulty to the relatively large spectral power of the \abinitio energy flux, compared to the classical one. 
+%two possible causes. 
+%The first is the relatively large spectral power of the \abinitio energy flux, compared to the classical one, that makes the spectrum raise very quickly at low-frequencies. 
+%The second and likely most important is ascribable to the small Nyqvist frequency of the \abinitio spectra. Even if no sampling (aliasing) errors are present, as verified in Sec.~\ref{sec:results-quantum-current}, it is likely that the filtering-resampling procedure performed in these conditions will introduce much more spurious (aliasing) effects than it would do for larger $f_\mathrm{Ny}$. 
+%It is possible that the employment of a different type of low-pass filter would attenuate these side effects. 
+Additional in-depth studies on this matter should be performed. 
 
 Nevertheless, the values obtained seem in fairly good agreement with the available experimental data, at all the temperatures analysed. 
-The thermal conductivities at $\sim 300\un{K}$ are slightly larger than the experimental value of $\approx 1.3-1.4\un{W/mK}$. 
+The thermal conductivities at $\sim 300\un{K}$ are larger than the experimental value $\kappa_{\mathrm{exp}}\approx 1.3-1.4\un{W/mK}$ of about $0.3\un{K/mK}$. 
 %% POSSIBLY DO TO ALIASING
-The values between $500$ and $1500\un{W/mK}$ roughly follow the experimental curve of \citet{Cahill1990}, with slightly lower values at $1000$ and $1500\un{W/mK}$, even though our statistical error and that of experiments does not allow for very accurate conclusions. 
+The values between $500$ and $1500\un{K}$ roughly follow the experimental trent of \citet{Cahill1990}, with slightly lower values at $1000$ and $1500\un{K}$, even though the magnitude of the theoretical and experimental errors do not allow us to draw definitive conclusions. 
 In Table~\ref{tab:results-quantum-wkappa} we report the weighted averages of the \abinitio results performed at the same target temperature.
 
 \begin{table}[!tb]
@@ -485,11 +485,11 @@ In Table~\ref{tab:results-quantum-wkappa} we report the weighted averages of the
 \end{table}
 
 The classical results, obtained using the BKS potential, show a substantially constant value $\kappa\approx 2.1-2.2\un{W/mK}$, that becomes compatible with experiments only at high temperatures. 
-We can attribute this behaviour to the altered vibrational properties described by the BKS potential, as we discussed in Sec.~\ref{sec:silica-force-field}. 
+We can attribute the poor agreement at low temperatures to the altered vibrational properties described by the BKS potential, as we discussed in Sec.~\ref{sec:silica-force-field}. 
 Furthermore, we notice that a system of $432$ atoms seems to underestimate the thermal conductivity of $\sim 5\%$ with respect to a sample with $10800$ atoms, as we estimated in Sec.~\ref{sec:results-class-quench}. 
 It is possible that similar finite-size effects have affected the results of the \abinitio simulations as well, even though we cannot verify this hypothesis without simulating larger cells. 
 
-In conclusion, although our \abinitio results still require some technical investigation, the results seems very promising and should be extended to other thermodynamic conditions. 
+In conclusion, our \abinitio results, while requiring some further analysis and validation, are very promising and call for a systematic extension to other thermodynamic conditions. 
 
 %% VALORI PIU' BASSI DI CLASSICAL 432 A T BASSE --> FORSE DOVUTO A FINITE-SIZE EFFECTS, CHE TAGLIANO I MODI A LAMBDA LUNGHE (FREQ BASSE) E QUINDI SOTTOSTIMANO KAPPA? ANCHE SE VA PIU' VICINO AGLI EXP
 

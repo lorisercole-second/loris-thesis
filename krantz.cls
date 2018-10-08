@@ -11,6 +11,7 @@
 \newif\if@restonecol
 \newif\if@titlepage
 \@titlepagetrue
+\newif\ifdrawcornermarks
 \newif\if@openright
 \newif\if@mainmatter \@mainmattertrue
 \if@compatibility\else
@@ -276,7 +277,8 @@
   \htrim.75in
   \vtrimtop.8607in
   \vtrimbot1.027in
-  \hoffset-.1in
+  %\hoffset-.1in
+  \hoffset-3.0mm
   \voffset-.15in%.04in
 \let\normaltextheight\textheight
 \else
@@ -335,10 +337,13 @@
   \vbox to 0\p@{\vskip\textheight\vskip\vtrimbot\rlap{\hskip\textwidth\hskip2\htrim\copy\lr@box}\vss}%
   \hskip\htrim}
 \def\make@cornermarks{%
+\ifdrawcornermarks
   \sbox\ul@box{\rule{18\p@}{.25\p@}\hskip8\p@\hbox to.25\p@{\vbox to26\p@{\noindent\rule{.25\p@}{18\p@}}}}%
   \sbox\ur@box{\hbox to.25\p@{\vbox to26\p@{\noindent\rule{.25\p@}{18\p@}}}\hskip8\p@\rule{18\p@}{.25\p@}}%
   \sbox\ll@box{\rule{18\p@}{.25\p@}\hskip8\p@\lower34\p@\hbox to.25\p@{\vbox to26\p@{\noindent\rule{.25\p@}{18\p@}}}}%
-  \sbox\lr@box{\lower34\p@\hbox to.25\p@{\vbox to26\p@{\noindent\rule{.25\p@}{18\p@}}}\hskip8\p@\rule{18\p@}{.25\p@}}}
+  \sbox\lr@box{\lower34\p@\hbox to.25\p@{\vbox to26\p@{\noindent\rule{.25\p@}{18\p@}}}\hskip8\p@\rule{18\p@}{.25\p@}}
+\fi
+}
 
 %%%%%%%%%%%%%%%%%%%%  End Trim Marks %%%%%%%%%%%%
 
@@ -1038,7 +1043,9 @@
 \newcounter{numauthors}
 \newif\if@break
 \newif\if@firstauthor
-\newcommand\tableofcontents{\cleardoublepage\markboth{Contents}{Contents}%
+\newcommand\tableofcontents{
+  \cleardoublepage
+  \markboth{Contents}{Contents}%
   \make@cornermarks
     \gdef\chapterauthor{\@caplusone}%
   \gdef\endchapterauthors{\end@casplusone}%
@@ -1064,11 +1071,10 @@
     \reset@authors
     \let\toc@draw\relax
     \@starttoc{toc}
-    \toc@draw
+%    \toc@draw
     }
     \if@restonecol\twocolumn\fi
     }
-
 
 \def\draw@part#1#2{%
   \addpenalty{-\@highpenalty}%

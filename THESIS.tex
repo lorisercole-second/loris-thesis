@@ -45,7 +45,7 @@
 %\usepackage{colortbl}
 %\usepackage[margin=10pt,font=small,labelfont=rm,labelsep=endash]{caption}
 \usepackage{hyperref}
-\usepackage[inner,right]{showlabels}
+%\usepackage[inner,right]{showlabels}
 
 
 
@@ -85,31 +85,31 @@
 \def\abinitio{\emph{ab initio} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EDITOR COMMANDS
-\usepackage[usenames,dvipsnames]{color}
-\newcommand{\editor}[2]{%
-  \expandafter\newcommand\csname #1note\endcsname[1]{%
-    \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%
-  \expandafter\newcommand\csname #1\endcsname[1]{%
-    \textcolor{#2}{##1}}%
-  \expandafter\newcommand\csname #1cancel\endcsname[1]{%
-    \textcolor{#2}{\sout{##1}}}%
-  \expandafter\newcommand\csname #1change\endcsname[2]{%
-    \textcolor{#2}{\sout{##1} ##2}}%
-  \newenvironment{#1text}{\color{#2}}{\color{black}}
-}
-\definecolor{blue}{rgb}{0,0.4,0.7}
-\definecolor{tangerine}{rgb}{0.944,0.522,0}
-\definecolor{verde}{rgb}{0,0.5,0}
-\editor{LE}{blue}
-\editor{SB}{tangerine}
-
+%\usepackage[usenames,dvipsnames]{color}
+%\newcommand{\editor}[2]{%
+%  \expandafter\newcommand\csname #1note\endcsname[1]{%
+%    \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%
+%  \expandafter\newcommand\csname #1\endcsname[1]{%
+%    \textcolor{#2}{##1}}%
+%  \expandafter\newcommand\csname #1cancel\endcsname[1]{%
+%    \textcolor{#2}{\sout{##1}}}%
+%  \expandafter\newcommand\csname #1change\endcsname[2]{%
+%    \textcolor{#2}{\sout{##1} ##2}}%
+%  \newenvironment{#1text}{\color{#2}}{\color{black}}
+%}
+%\definecolor{blue}{rgb}{0,0.4,0.7}
+%\definecolor{tangerine}{rgb}{0.944,0.522,0}
+%\definecolor{verde}{rgb}{0,0.5,0}
+%\editor{LE}{blue}
+%\editor{SB}{tangerine}
+\setcounter{tocdepth}{2}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 \frontmatter
 
-\title{ab initio simulation of heat transport in silica glass}
+\title{ab initio simulation of heat transport of silica glass}
 \author{Loris Ercole}
 
 %\maketitle
@@ -118,7 +118,7 @@
 \cleardoublepage
 %\setcounter{page}{7} %previous pages will be reserved for frontmatter to be added in later.
 
-%\tableofcontents
+\tableofcontents
 
 %\include{frontmatter/foreword}
 %\include{frontmatter/preface}
