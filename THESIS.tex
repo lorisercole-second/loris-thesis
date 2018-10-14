@@ -3,64 +3,88 @@
 %% TABLE OF CONTENTS
 %% BIBLIOGRAPHY STYLE
 %% GRAFICO CONVERGENCE DT hartris
-%% GRAFICI ACF E GK INTEGRAL
-%% GRAFICO RISULTATI FINALE
 
 \documentclass[krantz2,a4paper,11pt,ChapterTOCs,twoside,openright]{krantz}
-%\usepackage{fixltx2e,fix-cm}   
+%\usepackage{fixltx2e,fix-cm}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{csquotes}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{subfigure}
-\usepackage{makeidx}
-\usepackage{multicol}
-\usepackage{textgreek}
+%\usepackage{makeidx}
+\usepackage[bottom]{footmisc} % places footnotes at page bottom
+\usepackage{bm}
+%\usepackage{multicol}
+%\usepackage{textgreek}
+%\usepackage[normalem]{ulem}	  % for strike-through of text with \sout{}
+
+%% PAGE LAYOUT
+%\usepackage{showframe}
+%\widowpenalty=300  % penalties for widow lines
+%\clubpenalty=300
+\frenchspacing
+\tolerance=5000
+
+%% TABLES
 %\usepackage{longtable}
 %\usepackage{booktabs}
 \usepackage{array}
 \renewcommand{\arraystretch}{1.2}
-\usepackage[bottom]{footmisc} % places footnotes at page bottom
-\usepackage[normalem]{ulem}	  % for strike-through of text with \sout{}
-% \usepackage[bottom]{footmisc} % places footnotes at page bottom
-% \usepackage[normalem]{ulem}	  % for strike-through of text with \sout{}
-\usepackage[section]{placeins}  % place floats within section
-\usepackage[numbers,sort&compress]{natbib}
-%\usepackage[backend=biber,style=numeric-comp,sorting=none]{biblatex}  % bibliography
-%\addbibresource{bibliography.bib}
-\renewcommand{\bibfont}{\small}  % customized bibliography style
-\setlength{\bibsep}{3pt}
-%\usepackage{showframe}
 
-%\widowpenalty=300  % penalties for widow lines
-%\clubpenalty=300
+%% FIGURES
+\usepackage[section]{placeins}  % place floats within section
 \usepackage[]{caption}
+%\usepackage[labelfont={small,bf},textfont=small]{caption}
 \renewcommand{\captionfont}{\fontsize{10}{12}\selectfont}
 \renewcommand{\captionlabelfont}{\bfseries\fontsize{10}{12}\selectfont}
 \captionsetup{width=0.9\textwidth}
-\usepackage{bm}
-\usepackage{url}
-%\usepackage[labelfont={small,bf},textfont=small]{caption}
 %\usepackage{subcaption}
+
+%% BIBLIOGRAPHY
+%\usepackage[numbers,sort&compress]{natbib}
+
+\usepackage[backend=biber,style=phys,sorting=none,hyperref=true,articletitle=true,doi=true,biblabel=brackets,chaptertitle=true,pageranges=false]{biblatex}
+%\renewcommand{\bibfont}{\small}  % customized bibliography style
+%\setlength{\bibitemsep}{5pt}
+\newcommand{\printpublication}[1]{\AtNextCite{\defcounter{maxnames}{99}}\fullcite{#1}}
+\addbibresource{bibliography.bib}
+
+
+%% PDF STUFF
+\usepackage{url}
 %\usepackage{colortbl}
-%\usepackage[margin=10pt,font=small,labelfont=rm,labelsep=endash]{caption}
 \usepackage{hyperref}
 %\usepackage[inner,right]{showlabels}
 
+%% EDITOR COMMANDS
+%\usepackage[usenames,dvipsnames]{color}
+%\newcommand{\editor}[2]{%
+%  \expandafter\newcommand\csname #1note\endcsname[1]{%
+%    \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%
+%  \expandafter\newcommand\csname #1\endcsname[1]{%
+%    \textcolor{#2}{##1}}%
+%  \expandafter\newcommand\csname #1cancel\endcsname[1]{%
+%    \textcolor{#2}{\sout{##1}}}%
+%  \expandafter\newcommand\csname #1change\endcsname[2]{%
+%    \textcolor{#2}{\sout{##1} ##2}}%
+%  \newenvironment{#1text}{\color{#2}}{\color{black}}
+%}
+%\definecolor{blue}{rgb}{0,0.4,0.7}
+%\definecolor{tangerine}{rgb}{0.944,0.522,0}
+%\definecolor{verde}{rgb}{0,0.5,0}
+%\editor{LE}{blue}
+%\editor{SB}{tangerine}
 
+%% TABLE OF CONTENTS
+%\makeindex
+\setcounter{tocdepth}{2}
 
-\frenchspacing
-\tolerance=5000
-
-\makeindex
-
+%% DEFINITIONS
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
-%\newtheorem{exercise}{Exercise}[chapter]
-%\newtheorem{example}{Example}
-%\newtheorem{definition}{Definition}
-%\newtheorem{proof}{Proof}
-
 \DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}  % bold mathcal letters
 \newcommand{\hbindex}[1]{\hl{#1}\index{#1}}  %highlights index entries
 \def\smallgamma{{\scriptscriptstyle \gamma}}
@@ -83,48 +107,20 @@
 \def\rLambda{{\mathrm\Lambda}}
 \def\rOmega{{\mathrm\Omega}}
 \def\abinitio{\emph{ab initio} }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% EDITOR COMMANDS
-%\usepackage[usenames,dvipsnames]{color}
-%\newcommand{\editor}[2]{%
-%  \expandafter\newcommand\csname #1note\endcsname[1]{%
-%    \textcolor{#2}{(\textbf{#1:} \emph{\textsf{##1}})}}%
-%  \expandafter\newcommand\csname #1\endcsname[1]{%
-%    \textcolor{#2}{##1}}%
-%  \expandafter\newcommand\csname #1cancel\endcsname[1]{%
-%    \textcolor{#2}{\sout{##1}}}%
-%  \expandafter\newcommand\csname #1change\endcsname[2]{%
-%    \textcolor{#2}{\sout{##1} ##2}}%
-%  \newenvironment{#1text}{\color{#2}}{\color{black}}
-%}
-%\definecolor{blue}{rgb}{0,0.4,0.7}
-%\definecolor{tangerine}{rgb}{0.944,0.522,0}
-%\definecolor{verde}{rgb}{0,0.5,0}
-%\editor{LE}{blue}
-%\editor{SB}{tangerine}
-\setcounter{tocdepth}{2}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
 \frontmatter
-
-\title{ab initio simulation of heat transport of silica glass}
+\title{ab initio simulation of heat transport in silica glass}
 \author{Loris Ercole}
-
 %\maketitle
 \include{frontmatter/cover}
-%\include{frontmatter/dedication}
+\include{frontmatter/dedication}
 \cleardoublepage
 %\setcounter{page}{7} %previous pages will be reserved for frontmatter to be added in later.
 
 \tableofcontents
-
-%\include{frontmatter/foreword}
-%\include{frontmatter/preface}
-%\listoffigures
-%\listoftables
-%\include{frontmatter/contributor}
 % \include{frontmatter/symbollist}
 
 \mainmatter
@@ -142,10 +138,8 @@
 \appendix
 \include{chapters/appendix/appendix}   % Appendix
 
-\bibliographystyle{unsrtnat}
-\bibliography{bibliography}
-%\printbibliography[heading=bibintoc]
-
-%\printindex
+%\bibliographystyle{unsrtnat}
+%\bibliography{bibliography}
+\printbibliography %[heading=bibintoc]
 
 \end{document}

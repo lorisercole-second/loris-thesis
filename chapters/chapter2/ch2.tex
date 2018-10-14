@@ -30,7 +30,7 @@ The long-wavelength Fourier components of conserved densities are called \emph{h
 
 For small enough deviations from equilibrium, the time derivatives of conserved densities are linear combinations of the densities themselves. In the frequency/wavevector domains this condition can be expressed as
 \begin{equation}
-  -i\omega\tilde a^i(\mathbf{q},\omega) = \sum_j \tilde\rLambda^{ij}(\mathbf{q},\omega) \tilde a^j(\mathbf{q},\omega), \label{eq:Fourier-continuity}
+  -i \omega \tilde a^i(\mathbf{q},\omega) = \sum_j \tilde{\rLambda}^{ij}(\mathbf{q},\omega) \,\tilde{a}^j(\mathbf{q},\omega), \label{eq:Fourier-continuity}
 \end{equation}
 where the tilde indicates now a space-time Fourier transform: $\tilde a(\mathbf{q},\omega) = \int \mathrm{e}^{-i(\mathbf{q}\cdot \mathbf{r}-\omega t)} a(\mathbf{r},t)d\mathbf{r}dt $. By combining Eq.~\eqref{eq:Fourier-continuity} with the time Fourier transform of Eq.~\eqref{eq:kontinuity}, we obtain the so-called constitutive equations for the (longitudinal components of the) conserved currents:
 \begin{equation}
@@ -79,7 +79,7 @@ $\mathcal{P}^\circ(\rGamma) \propto \mathrm{e}^{-\frac{H^\circ(\rGamma)}{k_BT}}$
 \end{equation}
 In Eq.~\eqref{eq:a(r,t)} the notation $\rGamma'_t$ denotes somewhat pedantically that the time evolution in phase space is driven by the perturbed Hamiltonian, $H^\circ+V'$. If it were driven by $H^\circ$, evidently the value of $a$ would be time-independent. In the following, the notation $\rGamma_t$ will indicate an unperturbed time evolution. As an example, the phase-space sample of the particle density can be assumed to be $n(\mathbf{r};\rGamma) = \sum_n \delta (\mathbf{r}-\mathbf{R}_n)$, the corresponding current is $\bm{j} (\mathbf{r}, \rGamma) = \sum_n \delta(\mathbf{r}-\mathbf{R}_n) \mathbf{P}_n / M_n $, and a local external potential is described by: $V'(\rGamma,t)=\sum_n v(\mathbf{R}_n,t)=\int v'(\mathbf{r},t) n(\mathbf{r};\rGamma) d \mathbf{r}$. Note that sample functions are not necessarily univocally defined. Different functions whose phase-space averages coincide in the long-wavelength limit sample the same hydrodynamical variable. More on this in Chapter~\ref{ch:gauge-invariance}.
 
-According to Ref.~\citenum{Green1954}, \citenum{Kubo1957a}, and \citenum{Kubo1957b}, the linear response of the $i$-th conserved current to the perturbation is:
+According to Ref.~\cite{Green1954,Kubo1957a,Kubo1957b}, the linear response of the $i$-th conserved current to the perturbation is:
 \begin{align}
   j_\alpha^i(\mathbf{r},t) & = \frac{1}{k_B T} \sum_j \int_{-\infty}^t dt' \int d\mathbf{r}' \Bigl \langle j_\alpha^i(\mathbf{r},\rGamma_t)\dot a^j(\mathbf{r}',\rGamma_{t'})\Bigr \rangle_0 v^j(\mathbf{r}',t') \\
   &= \frac{-1}{k_B T} \sum_{j,\beta} \int_{-\infty}^t dt' \int d\mathbf{r}' \Bigl \langle j_\alpha^i(\mathbf{r},\rGamma_t) \partial'_\beta j_\beta^j(\mathbf{r}',\rGamma_{t'})\Bigr \rangle_0 v^j(\mathbf{r}',t') \\
@@ -97,7 +97,7 @@ This completes the derivation of the Green-Kubo formula for transport coefficien
 
 
 \subsection{Einstein-Helfand expression for transport coefficients and the Wiener-Khintchine theorem}  \label{sec:Einstein}
-The celebrated Einstein's relation between the mean-square displacement of a diffusing particle and its velocity auto-correlation function is easily generalized to an arbitrary stochastic process and has in fact been utilized by \citet{Helfand1960} to provide an ``Einstein-like'' expression for transport coefficients.
+The celebrated Einstein's relation between the mean-square displacement of a diffusing particle and its velocity auto-correlation function is easily generalized to an arbitrary stochastic process and has in fact been utilized by \textcite{Helfand1960} to provide an ``Einstein-like'' expression for transport coefficients.
 
 Let $X_t$ be a stationary stochastic process. One has:
 \begin{equation}
@@ -221,7 +221,7 @@ is often called \emph{convective} (or \emph{kinetic}) and the second term,
     \mathbf{J}^\smallE_v = \frac{1}{\rOmega} \left[ \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right], \label{eq:J-virial}
 \end{equation}
 is often called \emph{virial} (or \emph{potential}).
-\citet{Fan2015} and \citet{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}^\smallE_c$ ``\emph{gives no contributions to the conductivity tensor in solids, as mass transport is negligible}''.
+\textcite{Fan2015} and \textcite{Carbogno:2017gc}, for example, adopt this nomenclature and state that the convective term $\mathbf{J}^\smallE_c$ ``\emph{gives no contributions to the conductivity tensor in solids, as mass transport is negligible}''.
 We feel that the wording ``convective'' is somewhat misleading in this context, as the contribution of the convective flux $\mathbf{J}^\smallE_c$ to the heat conductivity may not vanish even in the absence of convection, especially in softer solid materials. 
 Using Eqs.~\eqref{eq:J-convective} and \eqref{eq:J-virial}, the energy flux autocorrelation function can be split into 3 terms:
 \begin{equation}
@@ -229,14 +229,14 @@ Using Eqs.~\eqref{eq:J-convective} and \eqref{eq:J-virial}, the energy flux auto
     2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle + 
     \langle\mathbf{J}_v^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle . \label{eq:JtJ0-components}
 \end{equation}
-Their contributions to thermal conductivity were computed by \citet{McGaughey2006} for a LJ fcc argon crystal at $50\un{K}$ (the breakdown of $\langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(0)\rangle$ into the three terms of Eq.~\eqref{eq:JtJ0-components} is shown in Fig.~\ref{fig:argon-convective}). They found that while the convection contribution $\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(0)\rangle$ was indeed small ($\sim 1\%$), the contribution of the cross term $2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle$ is not insignificant ($\sim 10\%$). 
+Their contributions to thermal conductivity were computed by \textcite{McGaughey2006} for a LJ fcc argon crystal at $50\un{K}$ (the breakdown of $\langle\mathbf{J}^\smallE(t)\cdot\mathbf{J}^\smallE(0)\rangle$ into the three terms of Eq.~\eqref{eq:JtJ0-components} is shown in Fig.~\ref{fig:argon-convective}). They found that while the convection contribution $\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_c^\smallE(0)\rangle$ was indeed small ($\sim 1\%$), the contribution of the cross term $2\langle\mathbf{J}_c^\smallE(t)\cdot\mathbf{J}_v^\smallE(0)\rangle$ is not insignificant ($\sim 10\%$). 
 The relative contributions of the convective and cross terms are expected to increase as the temperature goes up and anharmonic effects inhibit phononic conduction. 
 %The absolute values of the convective contribution remains the same with increasing temperature, whereas the virial and cross term contributions decrease. \LEnote{<-- check this**}
 While the convective term may not be as important for materials with higher thermal conductivity, in general, its contribution and that of the cross term should be checked before assuming they are negligible. 
 Some further comments on this issue are reported in Appendix~\ref{ch:appendix-carbogno}. 
 
 In the literature the nomenclature is often confusing, and the relative contributions of each term not very well established. 
-For example, \citet{Vogelsang1987} divide the energy flux in two terms \cite{McQuarrie2000}: a ``\emph{kinetic}'' part, defined as
+For example, \textcite{Vogelsang1987} divide the energy flux in two terms \cite{McQuarrie2000}: a ``\emph{kinetic}'' part, defined as
 \begin{equation}
     {\mathbf{J}^\smallE_k}' = \frac{1}{\rOmega} \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n ,
 \end{equation}
@@ -245,7 +245,7 @@ and a ``\emph{potential}'' part, defined as
     {\mathbf{J}^\smallE_p}' = \frac{1}{\rOmega} \left[ \sum_n  v_n(\{\mathbf{R}\}) \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right] .
 \end{equation}
 They find that ${\mathbf{J}^\smallE_k}'$ is negligible in solids, where atomic diffusion does not occur.
-\citet{Kinaci2012}, instead, use the Einstein formulation and define a ``\emph{kinetic}'' term
+\textcite{Kinaci2012}, instead, use the Einstein formulation and define a ``\emph{kinetic}'' term
 \begin{equation}
     {\mathbf{J}^\smallE_k}'' = \frac{1}{\rOmega} \left[ \frac{(\mathbf{P}_n)^2}{2M_n} \mathbf{V}_n + \sum_{n,m} (\mathbf{R}_n-\mathbf{R}_m) \mathbf{F}_{n m} \cdot \mathbf{V}_n \right],
 \end{equation}
@@ -270,11 +270,11 @@ In the case of a many-body potential interaction, if the atomic potential energy
         &= \sum_m \sum_{p\neq n} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \delta_{pm} + \frac{\partial v_m}{\partial \mathbf{R}_{pn}} \delta_{mn} \right) \nonumber\\
         &= -\sum_{m\neq n} \left( \frac{\partial v_n}{\partial \mathbf{R}_{nm}} - \frac{\partial v_m}{\partial \mathbf{R}_{mn}} \right).
 \end{align}
-For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \citet{Fan2015} obtain the following definition for the virial energy flux:
+For example, for the Tersoff \cite{Tersoff1989} and Swillinger-Weber \cite{Stillinger1985} potentials, \textcite{Fan2015} obtain the following definition for the virial energy flux:
 \begin{equation}
     \mathbf{J}^\smallE_v = \sum_n \sum_{n\neq m} \mathbf{R}_{nm} \left(\frac{\partial v_m}{\partial \mathbf{R}_{mn}} \cdot \mathbf{V}_n \right) ,
 \end{equation}
-equivalent to the one obtained by \citet{Hardy1963}, and they show that other two-body like formulations widely reported in the literature may give wrong results, especially in low-dimensional systems.
+equivalent to the one obtained by \textcite{Hardy1963}, and they show that other two-body like formulations widely reported in the literature may give wrong results, especially in low-dimensional systems.
 
 
 
