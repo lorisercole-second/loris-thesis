@@ -681,13 +681,19 @@
       \typeout{\@chapapp\space\thechapter.}%
       \addcontentsline{toc}{chapter}{\protect\numberline{\thechapter}#1}%
     \else
-      \addcontentsline{toc}{chapter}{#1}\fi
+      %\addcontentsline{toc}{chapter}{#1}
+      \fi
   \else
-    \addcontentsline{toc}{chapter}{#1}\fi
+    \if@mainmatter
+      \addcontentsline{toc}{chapter}{#1}
+    \else\fi    
+    \fi
   \chaptermark{%
     #2}%
-  \addtocontents{lof}{\protect\addvspace{10\p@}}%
-  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@mainmatter
+    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \fi
   \if@twocolumn
     \@topnewpage[\@makechapterhead{#2}]%
   \else
@@ -726,10 +732,12 @@
 \def\@schapter#1{\if@twocolumn
                    \@topnewpage[\@makeschapterhead{#1}]%
                  \else
-                   \@makeschapterhead{#1}%
-                   \addcontentsline{toc}{fm}{#1}
-                   \markboth{#1}{#1}
-                   \@afterheading
+                     \@makeschapterhead{#1}%
+                     \if@mainmatter
+                       \addcontentsline{toc}{fm}{#1}
+                     \else\fi
+                     \markboth{#1}{#1}
+                     \@afterheading
                  \fi}
 
 \def\@makeschapterhead#1{%

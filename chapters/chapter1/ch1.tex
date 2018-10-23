@@ -33,7 +33,7 @@ The ratio between the heat flux and the temperature gradient defines the \emph{t
 \medskip
 
 \paragraph{Glass, a quintessential nanotech man-made material}
-Although being known and used for more than two thousand years, the last century experienced extraordinary advances in the definition, fabrication, characterisation, and application of glass \cite{Mauro2014}. 
+Although being known and used for more than three thousand years, the last century experienced extraordinary advances in the definition, fabrication, characterisation, and application of glass \cite{Mauro2014}. 
 Methods and theory analogous to those employed in the study of crystalline solids have been used to study the electronic, atomic, and micro-structural properties of glass, trying to describe the basic nature of the glassy state, that still represents one of the most difficult open problems in science \cite{MauroFM14}. 
 An increased understanding and control of the structure of glass, with both fundamental and fabrication advances, has led to remarkable applications in a variety of fields such as civil engineering, transportation, electronics, photonics, communication, and medicine, many of which are today accepted as the norm. 
 Glass is more and more demanded as a high-tech material for consumer electronic devices, and it is going to play a critical role in solving several of the global energy and healthcare challenges of today. 
@@ -92,7 +92,7 @@ However, the problem of univocally defining the atomic energies exists also in c
 
 On the other hand, despite these important discoveries, experience from classical MD simulations indicates that the practical implementation of the GK theory usually requires very long trajectories to estimate $\kappa$, thus making expensive quantum simulations unfeasible. 
 Several expedients have been used in the last twenty years to determine the convergence of the integral in Eq.~\eqref{eq:GK-intro} from trajectories of finite-length, yet it is very surprising that none of these is able to estimate the statistical error of $\kappa$ in an efficient and reliable way. Most of these methods are designed and tested on specific classes of systems, such as crystalline solids (for which, besides, the BTE is the preferable method), but do not work for liquids, disordered or strongly anharmonic systems, or they require extremely long MD simulations. 
-We addressed this problem using an innovative data-analysis method based on the \emph{spectral analysis} of stationary time series \cite{Ercole2017}, that provides a rigorous estimation of $\kappa$ with good statistical accuracy from optimally short MD trajectories, for different classes of materials. 
+We addressed this problem using an innovative data-analysis method based on the \emph{cepstral analysis} of stationary time series \cite{Ercole2017}, that provides a rigorous estimation of $\kappa$ with good statistical accuracy from optimally short MD trajectories, for different classes of materials. 
 %it is possible to obtain an asymptotically unbiased and consistent estimator for $\kappa$ (\emph{i.e.} the bias and statistical error go to zero in the limit of long simulations). We benchmark it numerically on four different classes of materials and we find that relatively short MD simulations, of the order of one to a few hundreds of picoseconds, are sufficient to obtain a very good statistical error on $\kappa$, of about $\sim 10\%$. 
 
 These two achievements finally demonstrate the feasibility of \abinitio GK simulations of thermal transport and pave the way to their application to previously intractable materials, such as fluids, crystals under extreme conditions, and glasses. 
@@ -103,7 +103,7 @@ These two achievements finally demonstrate the feasibility of \abinitio GK simul
 \paragraph{Purpose of this Thesis}
 In this thesis we aim to calculate for the first time the thermal conductivity of silica glass at different temperatures, by applying the \abinitio Green-Kubo theory of thermal transport. 
 We first show how it is possible to overcome the conceptual and methodological problems mentioned above, that involve the bottom-up definition of a heat current and the estimation of the thermal conductivity from optimally short MD trajectories. 
-For this scope, we present the gauge invariance principle for thermal transport coefficients and an innovative data-analysis protocol for transport coefficients. 
+For this scope, we present the gauge invariance principle for thermal transport coefficients and an innovative data-analysis protocol. 
 We then introduce the problem of simulating an amorphous system with MD, and by means of classical MD simulations we study the effects of sample preparation on the value of thermal conductivity of a-SiO$_2$. 
 We use these results as a starting point to run a few first-principles simulations aimed to compute the thermal conductivity of silica at different temperatures using DFT. 
 
