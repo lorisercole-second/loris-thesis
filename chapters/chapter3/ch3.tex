@@ -160,11 +160,11 @@ where $\mathbfcal{D}^X(\mathcal{T})=\int_0^{\mathcal{T}} \mathbf{J}^X(t) dt$ is 
 \begin{equation}
     L^{C} = L^{A} + L^{B} + \lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\mathcal{T}}.
 \end{equation}
-Canonical averages of products of phase-space functions can be seen as scalar products \cite{Koopman1931,vNeumann1932}:\footnote{A simple idea is the following. Let us consider two random variables, $X$ and $Y$, and $Z=(X+aY)^2$, where $a\in \mathbb{R}$ is a constant. By definition $Z$ is not negative, and $0\leq \langle Z \rangle = \langle X^2 \rangle + a^2 \langle Y^2 \rangle + 2a \langle XY \rangle$. If we take $a = -\frac{\langle XY \rangle}{\langle Y^2 \rangle}$, we obtain the Schwartz inequality
+Canonical averages of products of phase-space functions can be seen as scalar products \cite{Koopman1931,vNeumann1932}:\footnote{A simple idea is the following. Let us consider two random variables, $X$ and $Y$, and $Z=(X+aY)^2$, where $a\in \mathbb{R}$ is a constant. By definition $Z$ is not negative, and $0\leq \langle Z \rangle = \langle X^2 \rangle + a^2 \langle Y^2 \rangle + 2a \langle XY \rangle$. If we take $a = -\frac{\langle XY \rangle}{\langle Y^2 \rangle}$, we obtain the Schwarz inequality
 \begin{equation} \label{eq:schwartz-ineq}
     |\langle XY \rangle| \leq \sqrt{\langle X^2 \rangle} \sqrt{\langle Y^2 \rangle}.
 \end{equation}}
-therefore, thanks to the Cauchy-Schwartz inequality, we have that $\lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\mathcal{T}} \leq 2\sqrt{L^{A} L^{B}}$, that proves the theorem. 
+therefore, thanks to the Cauchy-Schwarz inequality, we have that $\lim_{\mathcal{T}\rightarrow\infty} \frac{2\left\langle \mathbfcal{D}^A(\mathcal{T}) \cdot \mathbfcal{D}^B(\mathcal{T})\right\rangle}{\mathcal{T}} \leq 2\sqrt{L^{A} L^{B}}$, that proves the theorem. 
 \end{proof}
 
 \smallskip
@@ -179,7 +179,7 @@ where we used the fact the $\langle J^A(t) J^B(0) \rangle = \langle J^B(t) J^A(0
 \begin{equation}
     S^{AB}(\omega=0) = \left\langle \frac{\int_0^\mathcal{T} J^A(t) dt}{\sqrt{\mathcal{T}}} \frac{\int_0^\mathcal{T} J^B(t) dt}{\sqrt{\mathcal{T}}} \right\rangle + \mathcal{O}(\mathcal{T}^{-1}) .
 \end{equation}
-Thanks to the Schwartz inequality (Eq.~\eqref{eq:schwartz-ineq}), we must have that
+Thanks to the Schwarz inequality (Eq.~\eqref{eq:schwartz-ineq}), we must have that
 \begin{equation}
 \begin{aligned}
     0 \leq \left|S^{AB}(\omega=0)\right| &\leq \sqrt{\left\langle\frac{1}{\mathcal{T}}\left(\int_0^\mathcal{T} J^A(t) dt\right)^2\right\rangle} \sqrt{\left\langle\frac{1}{\mathcal{T}}\left(\int_0^\mathcal{T} J^B(t) dt\right)^2\right\rangle} \\
@@ -193,7 +193,7 @@ for any $\mathcal{T}>0$. By letting $\mathcal{T}\rightarrow\infty$, Eq.~\eqref{e
 Thanks this theorem, if we define $\mathbf{J}'(t)$ as in Eq.~\eqref{eq:macroscopic_flux_gauge}, we shall have that $\left| \kappa' - \kappa - \kappa_{\dot{\mathbf{P}}} \right| \leq 2 \sqrt{\kappa \kappa_{\dot{\mathbf{P}}}}$. Since $\mathbf{\dot{P}}$ is a bounded function and using the Einstein-Helfand relation (Eq.~\ref{eq:Einstein-Helfand-Lij}), we have that $\kappa_{\dot{\mathbf{P}}} = \lim_{\mathcal{T}\rightarrow\infty} \frac{\left\langle |\dot{\mathbf{P}}| \right\rangle}{\mathcal{T}} = 0$, hence $\kappa = \kappa'$. 
 
 \medskip
-An simple example of application of the gauge invariance theorem is presented in Appendix~\ref{ch:appendix-carbogno}, where we show a way to prove the equivalence of two definitions of the energy currents in solids, Eq.~\eqref{eq:J-classical} and \eqref{eq:J-leyla}.
+A simple example of application of the gauge invariance theorem is presented in Appendix~\ref{ch:appendix-carbogno}, where we show a way to prove the equivalence of two definitions of the energy currents in solids, Eq.~\eqref{eq:J-classical} and \eqref{eq:J-leyla}.
 
 
 \section{Molecular fluids}  \label{sec:MolecularFluids}
